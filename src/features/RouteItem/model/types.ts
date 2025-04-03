@@ -1,8 +1,8 @@
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { ReactNode } from "react";
 
 export interface IRouteItem {
   visible: boolean;
-  setVisible: Dispatch<SetStateAction<boolean>>;
+  handleVisible?: () => void;
   routeName: string;
   routeFrom: string;
   routeBefore: string;
@@ -10,7 +10,7 @@ export interface IRouteItem {
 }
 export type TRouteButton = Pick<
   IRouteItem,
-  "visible" | "setVisible" | "routeName"
+  "visible" | "handleVisible" | "routeName"
 >;
 export type TRouteMain = Pick<
   IRouteItem,

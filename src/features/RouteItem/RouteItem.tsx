@@ -11,6 +11,7 @@ export default function RouteItem({
   travelTime,
 }: Omit<IRouteItem, "visible" | "setVisible">) {
   const [visible, setVisible] = useState(false);
+  const handleVisible = () => setVisible((visib) => !visib);
 
   return (
     <RouteItemLayout
@@ -18,7 +19,7 @@ export default function RouteItem({
       routeButton={
         <RouteItemButton
           visible={visible}
-          setVisible={setVisible}
+          handleVisible={handleVisible}
           routeName={routeName}
         />
       }

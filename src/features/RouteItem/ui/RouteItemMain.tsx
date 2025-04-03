@@ -8,11 +8,25 @@ export default function RouteItemMain({
 }: TRouteMain) {
   return (
     <>
-      <div className="mb-[20px] text-[18px]">
-        <h2>Точка от: {routeFrom}</h2>
-        <h2>Точка до: {routeBefore}</h2>
-        <h2>Расчётное время поездки: {travelTime}</h2>
-        <h2>Расстояние: {travelTime} км</h2>
+      <div className="flex justify-between items-center mb-[30px]">
+        <div className="text-[18px] font-semibold [&>h2>span]:font-normal">
+          <h2>
+            Точка от: <span>{routeFrom}</span>
+          </h2>
+          <h2>
+            Точка до: <span>{routeBefore}</span>
+          </h2>
+          <h2>
+            Расчётное время поездки: <span>{travelTime}</span>
+          </h2>
+          <h2>
+            Расстояние: <span>{travelTime} км</span>
+          </h2>
+        </div>
+
+        <button className="px-[20px] h-[45px] mr-[50px] rounded-[16px] flex justify-center items-center font-medium bg-button-grey text-white transition hover:bg-[#464646]">
+          Взять заказ
+        </button>
       </div>
 
       <Map

@@ -13,6 +13,15 @@ body {
   width: 75%;
   margin: 0 auto;
   background-color: #F5F4F2;
+  font-family: var(--font-dmsans), sans-serif;
+}
+
+a {
+  font-family: var(--font-roboto);
+}
+
+button {
+  font-family: var(--font-roboto);
 }
 
 input::-webkit-outer-spin-button,

@@ -8,7 +8,6 @@ export default function RouteItem({
   routeName,
   routeBefore,
   routeFrom,
-  travelTime,
 }: Omit<IRouteItem, "visible" | "setVisible">) {
   const [visible, setVisible] = useState(false);
   const handleVisible = () => setVisible((visib) => !visib);
@@ -24,11 +23,7 @@ export default function RouteItem({
         />
       }
       routeMain={
-        <RouteItemMain
-          routeBefore={routeBefore}
-          routeFrom={routeFrom}
-          travelTime={travelTime}
-        />
+        <RouteItemMain routeBefore={routeBefore} routeFrom={routeFrom} />
       }
     />
   );

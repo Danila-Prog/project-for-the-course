@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { DM_Sans, Roboto_Mono } from "next/font/google";
 import clsx from "clsx";
+
 export const metadata: Metadata = {
   title: "Курсач",
 

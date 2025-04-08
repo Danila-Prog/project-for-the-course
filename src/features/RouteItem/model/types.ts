@@ -6,16 +6,12 @@ export interface IRouteItem {
   routeName: string;
   routeFrom: string;
   routeBefore: string;
-  travelTime: string;
 }
 export type TRouteButton = Pick<
   IRouteItem,
   "visible" | "handleVisible" | "routeName"
 >;
-export type TRouteMain = Pick<
-  IRouteItem,
-  "routeFrom" | "routeBefore" | "travelTime"
->;
+export type TRouteMain = Pick<IRouteItem, "routeFrom" | "routeBefore">;
 
 export interface IRouteItemLayout extends Pick<IRouteItem, "visible"> {
   routeButton: ReactNode;

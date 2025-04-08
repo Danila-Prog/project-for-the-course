@@ -1,7 +1,7 @@
 "use client";
 import { RouteItem } from "@/features/RouteItem";
 import { mockRoute } from "../lib/mock";
-import { YMaps } from "@pbe/react-yandex-maps";
+import { YMaps } from "react-yandex-maps";
 
 export default function UserDriver() {
   return (

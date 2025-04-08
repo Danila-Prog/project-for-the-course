@@ -7,35 +7,30 @@ export const mockRoute = [
     routeName: "Самара-Казань",
     routeFrom: "55.75",
     routeBefore: "Казань",
-    travelTime: "300",
   },
   {
     id: 2,
     routeName: "Самара-Екатеринбург",
     routeFrom: "Самара",
     routeBefore: "Екатеринбург",
-    travelTime: "300",
   },
   {
     id: 3,
     routeName: "Самара-Москва",
     routeFrom: "Самара",
     routeBefore: "Москва",
-    travelTime: "300",
   },
   {
     id: 4,
     routeName: "Самара-Питер",
     routeFrom: "Самара",
     routeBefore: "Питер",
-    travelTime: "300",
   },
   {
     id: 5,
     routeName: "Самара-Сахалин",
     routeFrom: "Самара",
     routeBefore: "Сахалин",
-    travelTime: "300",
   },
 ];
 

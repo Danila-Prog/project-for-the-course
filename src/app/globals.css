@@ -10,8 +10,6 @@
 }
 
 body {
-  width: 75%;
-  margin: 0 auto;
   background-color: #F5F4F2;
   font-family: var(--font-dmsans), sans-serif;
 }
@@ -28,4 +26,12 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.ymaps-2-1-79-gototech {
+  display: none !important;
+}
+
+.ymaps-2-1-79-copyright__content-cell {
+  display: none !important;
 }

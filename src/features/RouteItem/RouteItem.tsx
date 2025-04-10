@@ -5,7 +5,6 @@ import RouteItemMain from "./ui/RouteItemMain";
 import { IRouteItem } from "./model/types";
 
 export default function RouteItem({
-  routeName,
   routeBefore,
   routeFrom,
 }: Omit<IRouteItem, "visible" | "setVisible">) {
@@ -19,7 +18,8 @@ export default function RouteItem({
         <RouteItemButton
           visible={visible}
           handleVisible={handleVisible}
-          routeName={routeName}
+          routeFrom={routeFrom}
+          routeBefore={routeBefore}
         />
       }
       routeMain={

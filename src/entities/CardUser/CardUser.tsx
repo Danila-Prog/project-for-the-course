@@ -3,7 +3,7 @@ import Image, { StaticImageData } from "next/image";
 export interface ICardUser {
   id?: number;
   imageSrc: StaticImageData;
-  name: string;
+  nameDriver: string;
   status: "Доступен" | "Занят";
   typeCar: "Легковой" | "Грузовой";
   loadCapacity: string;
@@ -14,7 +14,7 @@ export interface ICardUser {
 
 export default function CardUser({
   imageSrc,
-  name,
+  nameDriver,
   status,
   typeCar,
   loadCapacity,
@@ -31,24 +31,31 @@ export default function CardUser({
           className="w-[120px] h-[120px] mr-[25px] rounded-[8px]"
         />
         <div>
-          <h1 className="text-[24px] font-bold mb-[4px]"> {name}</h1>{" "}
+          <h1 className="text-[24px] font-bold mb-[4px]"> {nameDriver}</h1>
           <p className="text-[15px] text-[#7b92a4]">
             Статуc водителя: {status}
           </p>
           <button
-            className="w-[117px] h-[43px] px-[16px] rounded-[25px] bg-button-grey transition hover:bg-[#464646] text-white text-[17px] font-medium mt-[12px]"
+            className="h-[43px] px-[16px] rounded-[25px] bg-button-grey transition hover:bg-[#464646] text-white text-[17px] font-medium mt-[12px]"
             onClick={handleCloseOpen}
           >
             Дать заказ
           </button>
         </div>
       </article>
-      <p className="font-bold text-[15px]">
-        Тип автомобиля: {typeCar} автомобиль
+      <p className="font-bold text-[16px]">
+        Тип автомобиля:{" "}
+        <span className="font-medium">{typeCar} автомобиль</span>
       </p>
-      <p className="font-bold text-[15px]">Грузоподъёмность: {loadCapacity}</p>
-      <p className="font-bold text-[15px]">Стаж: {experience}</p>
-      <p className="font-bold text-[15px]">Номерной знак: {numberCar}</p>
+      <p className="font-bold text-[16px]">
+        Грузоподъёмность: <span className="font-medium">{loadCapacity}</span>
+      </p>
+      <p className="font-bold text-[16px]">
+        Стаж: <span className="font-medium">{experience}</span>
+      </p>
+      <p className="font-bold text-[16px]">
+        Номерной знак: <span className="font-medium">{numberCar}</span>
+      </p>
     </div>
   );
 }

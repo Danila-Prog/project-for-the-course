@@ -43,9 +43,9 @@ export default function Registration() {
         />
 
         <LabeledInput
-          idInput="number_phone"
-          label="Номер телефона"
-          placeholder="Введите Номер телефона"
+          idInput="company"
+          label="Компания"
+          placeholder="Введите название компании"
         />
 
         <LabeledInput idInput="password" label="Пароль" placeholder="Пароль" />

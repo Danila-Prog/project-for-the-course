@@ -2,11 +2,15 @@ import { TRouteButton } from "../model/types";
 
 export default function RouteItemButton({
   handleVisible,
-  routeName,
+  routeFrom,
+  routeBefore,
 }: TRouteButton) {
   return (
-    <button onClick={handleVisible} className={"h-[45px] font-medium"}>
-      {routeName}
+    <button
+      onClick={handleVisible}
+      className={"h-[50px] font-medium text-[21px]"}
+    >
+      {`${routeFrom}—${routeBefore}`}
     </button>
   );
 }

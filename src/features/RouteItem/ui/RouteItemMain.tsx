@@ -1,11 +1,14 @@
 import { TRouteMain } from "../model/types";
-import { Ref, useRef } from "react";
+import { Ref, useRef, useState } from "react";
 import { Map, YMapsApi, YMapsProps } from "react-yandex-maps";
 export default function RouteItemMain({ routeFrom, routeBefore }: TRouteMain) {
+  const [distance, setDistance] = useState("");
+  const [duration, setDuration] = useState("");
+
   const map = useRef<YMapsApi | null>(null);
 
   const mapState = {
-    center: [55.739625, 37.5412],
+    center: [53.196013, 50.099892],
     zoom: 12,
   };
 
@@ -17,14 +20,28 @@ export default function RouteItemMain({ routeFrom, routeBefore }: TRouteMain) {
       {
         referencePoints: [pointA, pointB],
         params: {
-          routingMode: "auto",
+          routingMode: "truck",
           avoidTrafficJams: true,
+          results: 1,
         },
       },
       {
         boundsAutoApply: true,
+        routeActiveStrokeWidth: 5,
+        routeActiveStrokeStyle: "solid",
+        routeActiveStrokeColor: "#212123",
+
+        wayPointStartIconFillColor: "#212123",
+        wayPointFinishIconFillColor: "#212123",
       }
     );
+
+    multiRoute.model.events.add("requestsuccess", () => {
+      const activeRoute = multiRoute.getActiveRoute();
+      setDistance(activeRoute.properties.get("distance").text);
+      setDuration(activeRoute.properties.get("durationInTraffic").text);
+    });
+
     map.current?.geoObjects.add(multiRoute);
   };
 
@@ -39,10 +56,10 @@ export default function RouteItemMain({ routeFrom, routeBefore }: TRouteMain) {
             Точка до: <span>{routeBefore}</span>
           </h2>
           <h2>
-            Расчётное время поездки: <span></span>
+            Расчётное время поездки: <span>{duration}</span>
           </h2>
           <h2>
-            Расстояние: <span> км</span>
+            Расстояние: <span>{distance}</span>
           </h2>
         </div>
 

@@ -4,31 +4,26 @@ import mockImage from "/public/icons/mockImage.webp";
 export const mockRoute = [
   {
     id: 1,
-    routeName: "Самара-Казань",
-    routeFrom: "55.75",
-    routeBefore: "Казань",
+    routeFrom: "Самара 3 проезд 44",
+    routeBefore: "Самара Советской Армии, 134",
   },
   {
     id: 2,
-    routeName: "Самара-Екатеринбург",
     routeFrom: "Самара",
     routeBefore: "Екатеринбург",
   },
   {
     id: 3,
-    routeName: "Самара-Москва",
     routeFrom: "Самара",
     routeBefore: "Москва",
   },
   {
     id: 4,
-    routeName: "Самара-Питер",
     routeFrom: "Самара",
     routeBefore: "Питер",
   },
   {
     id: 5,
-    routeName: "Самара-Сахалин",
     routeFrom: "Самара",
     routeBefore: "Сахалин",
   },
@@ -38,7 +33,7 @@ export const mockUsers: ICardUser[] = [
   {
     id: 1,
     imageSrc: mockImage,
-    name: "Александр",
+    nameDriver: "Александр",
     status: "Доступен",
     typeCar: "Легковой",
     loadCapacity: "1 тонна",
@@ -48,7 +43,7 @@ export const mockUsers: ICardUser[] = [
   {
     id: 2,
     imageSrc: mockImage,
-    name: "Сергей",
+    nameDriver: "Сергей",
     status: "Занят",
     typeCar: "Грузовой",
     loadCapacity: "1 тонна",

@@ -6,6 +6,7 @@ import { UiInput, UiModal } from "@/shared";
 import { LabeledInput } from "@/features/LabeledInput";
 import { filterUsers } from "./ui/FilterUsers";
 import { mockUsers } from "../../lib/mock";
+
 export default function UserLogistician() {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -32,7 +33,7 @@ export default function UserLogistician() {
 
   return (
     <div className="flex mt-[20px] mb-[30px]">
-      <aside className="bg-white mr-[30px] rounded-[10px] px-[23px] pt-[15px] pb-[40px] grid gap-[25px] h-[425px]">
+      <aside className="bg-white mr-[30px] rounded-[10px] px-[23px] pt-[15px] pb-[40px] grid gap-[25px] h-full">
         <h1 className="text-center mx-auto font-bold">
           Фильтры поиска сотрудника
         </h1>
@@ -64,6 +65,36 @@ export default function UserLogistician() {
             <option value="truck">Грузовой</option>
           </select>
         </div>
+
+        <div>
+          <p className="font-bold text-[15px] mb-[12px]">Грузоподъёмность</p>
+
+          <UiInput
+            type="number"
+            placeholder="От"
+            sizeInput="sm"
+            isPadding={true}
+            borderColor="lightGrey"
+            isRounded={true}
+            className="mr-[10px]"
+            value={filters.experienceFrom}
+            name="experienceFrom"
+            onChange={handleFiltersChange}
+          />
+
+          <UiInput
+            type="number"
+            placeholder="До"
+            sizeInput="sm"
+            isPadding={true}
+            borderColor="lightGrey"
+            isRounded={true}
+            value={filters.experienceBefore}
+            name="experienceBefore"
+            onChange={handleFiltersChange}
+          />
+        </div>
+
         <div>
           <p className="font-bold text-[15px] mb-[12px]">Стаж водителя</p>
 
@@ -109,7 +140,7 @@ export default function UserLogistician() {
           />
         </div>
 
-        <div className="grid gap-[20px]">
+        <div className="grid gap-[25px]">
           {filterUser.map((user) => (
             <CardUser
               key={user.id}
@@ -137,21 +168,6 @@ export default function UserLogistician() {
               placeholder="Введите адрес выгрузки"
               sizeLabel="md"
             />
-            <div className="flex gap-[20px]">
-              <LabeledInput
-                idInput="estimated_time"
-                label="Время поездки"
-                placeholder="Расчетное время поездки"
-                sizeLabel="md"
-              />
-              <LabeledInput
-                typeInput="number"
-                idInput="distance_km"
-                label="Дистанция в км"
-                placeholder="Дистанция в км"
-                sizeLabel="md"
-              />
-            </div>
           </UiModal.Main>
 
           <UiModal.Footer className="flex justify-center mt-[30px]">

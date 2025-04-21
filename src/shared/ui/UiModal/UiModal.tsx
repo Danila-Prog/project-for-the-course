@@ -48,7 +48,7 @@ UiModal.Header = function UiModalHeader({
   className,
 }: Pick<IUiModal, "children" | "className">) {
   return (
-    <header className={clsx(className, "text-[35px] text-center font-bold")}>
+    <header className={clsx(className, "text-[30px] text-center font-bold")}>
       {children}
     </header>
   );

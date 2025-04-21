@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { DM_Sans, Roboto_Mono } from "next/font/google";
+import { DM_Sans, Montserrat } from "next/font/google";
 import clsx from "clsx";
 
 export const metadata: Metadata = {
@@ -15,11 +15,12 @@ const dmSans = DM_Sans({
   variable: "--font-dmsans",
 });
 
-const inter = Roboto_Mono({
+const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-roboto",
+  variable: "--font-montserrat",
 });
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -27,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body className={clsx(dmSans.variable, inter.variable)}>
+      <body className={clsx(dmSans.variable, montserrat.variable)}>
         {children}
         <div id="modals"></div>
       </body>

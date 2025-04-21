@@ -1,35 +1,24 @@
 "use client";
 import { CardUser } from "@/entities/CardUser";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { ChangeEvent, useState } from "react";
-import { UiInput, UiModal } from "@/shared";
-import { LabeledInput } from "@/features/LabeledInput";
-import { filterUsers } from "./ui/FilterUsers";
-import { mockUsers } from "../../lib/mock";
+import { UiInput } from "@/shared";
+import useUserLogistician from "./model/useUserLogistician";
 
 export default function UserLogistician() {
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const [filters, setFilters] = useState({
-    search: "",
-    experienceFrom: "",
-    experienceBefore: "",
-    status: "",
-    typeCar: "",
-  });
-
-  const handleFiltersChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFilters((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen((modal) => !modal);
-  };
-
-  const filterUser = filterUsers(mockUsers, filters);
+  const {
+    filters,
+    handleFiltersChange,
+    handleActiveDriver,
+    activeDrive,
+    allDriverFilter,
+    activeDriverFilter,
+    handleCloseModalFormOrder,
+    handleCloseModalFormEditingOrder,
+    handleCloseModalDeleteOrder,
+    formOrder,
+    formEditingOrder,
+    deleteOrder,
+  } = useUserLogistician();
 
   return (
     <div className="flex mt-[20px] mb-[30px]">
@@ -37,19 +26,6 @@ export default function UserLogistician() {
         <h1 className="text-center mx-auto font-bold">
           Фильтры поиска сотрудника
         </h1>
-        <div>
-          <p className="font-bold text-[15px] mb-[12px]">Статус водителя</p>
-          <select
-            className="w-full h-[40px] px-[8px] text-[15px] rounded-[10px] border-2 border-[#d6d6d6] appearance-none"
-            value={filters.status}
-            name="status"
-            onChange={handleFiltersChange}
-          >
-            <option value="">Статус</option>
-            <option value="available">Доступен</option>
-            <option value="busy">Занят</option>
-          </select>
-        </div>
 
         <div>
           <p className="font-bold text-[15px] mb-[12px]">Тип автомобиля</p>
@@ -77,8 +53,8 @@ export default function UserLogistician() {
             borderColor="lightGrey"
             isRounded={true}
             className="mr-[10px]"
-            value={filters.experienceFrom}
-            name="experienceFrom"
+            value={filters.capacityFrom}
+            name="capacityFrom"
             onChange={handleFiltersChange}
           />
 
@@ -89,8 +65,8 @@ export default function UserLogistician() {
             isPadding={true}
             borderColor="lightGrey"
             isRounded={true}
-            value={filters.experienceBefore}
-            name="experienceBefore"
+            value={filters.capacityBefore}
+            name="capacityBefore"
             onChange={handleFiltersChange}
           />
         </div>
@@ -125,7 +101,23 @@ export default function UserLogistician() {
         </div>
       </aside>
 
-      <main className="bg-white w-[71%] px-[40px] pt-[20px] pb-[40px] rounded-[10px]">
+      <main className="bg-white w-[71%] px-[40px] pb-[40px] rounded-[10px]">
+        <div className="flex gap-[25px] justify-center mb-[20px]">
+          <button
+            onClick={() => handleActiveDriver("notActive")}
+            className="border-x-2 border-b-2 rounded-b-[19px] px-[15px] py-[5px]"
+          >
+            Все водители
+          </button>
+
+          <button
+            onClick={() => handleActiveDriver("active")}
+            className="border-x-2 border-b-2 rounded-b-[19px] px-[15px] py-[5px]"
+          >
+            Активные водители
+          </button>
+        </div>
+
         <div className="flex mx-auto items-center border-2 border-[#d6d6d6] rounded-[10px] w-[75%] px-[15px] py-[8px] mb-[16px]">
           <UiInput
             type="text"
@@ -141,42 +133,66 @@ export default function UserLogistician() {
         </div>
 
         <div className="grid gap-[25px]">
-          {filterUser.map((user) => (
-            <CardUser
-              key={user.id}
-              {...user}
-              handleCloseOpen={handleCloseModal}
-            />
-          ))}
+          {!activeDrive
+            ? allDriverFilter.map((user) => (
+                <CardUser
+                  key={user.id}
+                  {...user}
+                  buttons={
+                    <button
+                      className="h-[43px] px-[16px] rounded-[25px] bg-button-grey transition hover:bg-[#464646] text-white text-[17px] font-medium mt-[12px]"
+                      onClick={handleCloseModalFormOrder}
+                    >
+                      Дать заказ
+                    </button>
+                  }
+                />
+              ))
+            : activeDriverFilter.map((user) => (
+                <CardUser
+                  key={user.id}
+                  {...user}
+                  buttons={
+                    <div className="flex gap-[12px]">
+                      <button
+                        className="h-[43px] px-[16px] rounded-[25px] bg-orange-700 transition hover:bg-orange-800 text-white text-[17px] font-medium mt-[12px] disabled:opacity-50 disabled:hover:bg-orange-700"
+                        disabled={user.status !== "Назначенный"}
+                        onClick={handleCloseModalFormEditingOrder}
+                      >
+                        Редактировать заказ
+                      </button>
+
+                      <button
+                        className="h-[43px] px-[16px] rounded-[25px] bg-red-700 transition hover:bg-red-800 text-white text-[17px] font-medium mt-[12px] disabled:opacity-50 disabled:hover:bg-red-700"
+                        disabled={user.status !== "Назначенный"}
+                        onClick={handleCloseModalDeleteOrder}
+                      >
+                        Удалить заказ
+                      </button>
+                    </div>
+                  }
+                  pathRoute={
+                    <>
+                      <p className="font-bold text-[16px]">
+                        Адресс погрузки:{" "}
+                        <span className="font-medium">3123</span>
+                      </p>
+                      <p className="font-bold text-[16px]">
+                        Адресс выгрузки:{" "}
+                        <span className="font-medium">1233123</span>
+                      </p>
+                    </>
+                  }
+                />
+              ))}
         </div>
       </main>
 
-      <UiModal isOpen={modalOpen} onClose={handleCloseModal}>
-        <form action="">
-          <UiModal.Header className="mb-[10px]">Форма заказов</UiModal.Header>
+      {formOrder}
 
-          <UiModal.Main className="grid gap-[15px]">
-            <LabeledInput
-              idInput="start_location"
-              label="Адрес погрузки: город, улица, дом, квартира"
-              placeholder="Введите адрес подачи"
-              sizeLabel="md"
-            />
-            <LabeledInput
-              idInput="end_location"
-              label="Адрес выгрузки: город, улица, дом, квартира"
-              placeholder="Введите адрес выгрузки"
-              sizeLabel="md"
-            />
-          </UiModal.Main>
+      {formEditingOrder}
 
-          <UiModal.Footer className="flex justify-center mt-[30px]">
-            <button className="w-[250px] h-[50px] px-[16px] rounded-[25px] bg-button-grey transition hover:bg-[#464646] text-white text-[20px] font-medium mt-[12px]">
-              Отдать заказ
-            </button>
-          </UiModal.Footer>
-        </form>
-      </UiModal>
+      {deleteOrder}
     </div>
   );
 }

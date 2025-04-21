@@ -21,7 +21,7 @@ const config: Config = {
       },
       fontFamily: {
         dmsans: ["var(--font-dmsans)", "sans-serif"],
-        roboto: ["var(--font-roboto)", "sans-serif"],
+        montserrat: ["var(--font-montserrat)", "sans-serif"],
       },
     },
   },

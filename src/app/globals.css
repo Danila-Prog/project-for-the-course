@@ -15,11 +15,11 @@ body {
 }
 
 a {
-  font-family: var(--font-roboto);
+  font-family: var(--font-montserrat), sans-serif;
 }
 
 button {
-  font-family: var(--font-roboto);
+  font-family: var(--font-montserrat), sans-serif;
 }
 
 input::-webkit-outer-spin-button,

@@ -17,7 +17,6 @@ export default function UserDriver({
   experience,
   numberCar,
   typeCar,
-  email,
   company,
 }: IUserDriver) {
   return (
@@ -31,7 +30,7 @@ export default function UserDriver({
 
         <div className="bg-white w-[49%] px-[20px] pt-[15px] pb-[20px] rounded-[16px] [&>h1]:text-[25px] [&>h1]:font-bold">
           <h1>Тип авто: {typeCar}</h1>
-          <h1>Email адрес: {email}</h1>
+          <h1>Ваш автомобиль: Автомобиль...</h1>
           <h1>Компания: {company}</h1>
         </div>
       </main>

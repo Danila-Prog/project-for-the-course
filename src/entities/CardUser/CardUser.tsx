@@ -1,15 +1,10 @@
-import Image, { StaticImageData } from "next/image";
+import { IUser } from "@/pages/AccountePage/model/types";
+import Image from "next/image";
+import { ReactElement } from "react";
 
-export interface ICardUser {
-  id?: number;
-  imageSrc: StaticImageData;
-  nameDriver: string;
-  status: "Доступен" | "Занят";
-  typeCar: "Легковой" | "Грузовой";
-  loadCapacity: string;
-  experience: string;
-  numberCar: string;
-  handleCloseOpen?: () => void;
+interface ICardUser extends IUser {
+  buttons?: ReactElement;
+  pathRoute?: ReactElement;
 }
 
 export default function CardUser({
@@ -17,10 +12,11 @@ export default function CardUser({
   nameDriver,
   status,
   typeCar,
-  loadCapacity,
+  capacity,
   experience,
   numberCar,
-  handleCloseOpen,
+  buttons,
+  pathRoute,
 }: ICardUser) {
   return (
     <div className="shadow-card rounded-[15px] p-[25px] grid gap-[12px]">
@@ -35,20 +31,18 @@ export default function CardUser({
           <p className="text-[15px] text-[#7b92a4]">
             Статуc водителя: {status}
           </p>
-          <button
-            className="h-[43px] px-[16px] rounded-[25px] bg-button-grey transition hover:bg-[#464646] text-white text-[17px] font-medium mt-[12px]"
-            onClick={handleCloseOpen}
-          >
-            Дать заказ
-          </button>
+          {buttons}
         </div>
       </article>
+
+      {pathRoute}
+
       <p className="font-bold text-[16px]">
         Тип автомобиля:{" "}
         <span className="font-medium">{typeCar} автомобиль</span>
       </p>
       <p className="font-bold text-[16px]">
-        Грузоподъёмность: <span className="font-medium">{loadCapacity}</span>
+        Грузоподъёмность: <span className="font-medium">{capacity}</span>
       </p>
       <p className="font-bold text-[16px]">
         Стаж: <span className="font-medium">{experience}</span>

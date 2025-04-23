@@ -14,7 +14,7 @@ export default function useFetchAddress(
     try {
       setSelectedOption(inputValue);
 
-      const fetchingData = await fetch(String(process.env.URL_ADDRESS), {
+      const fetchingData = await fetch(String(process.env.URL_API_ADDRESS), {
         method: "POST",
         mode: "cors",
         headers: {

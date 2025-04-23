@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: false,
   env: {
     TOKEN: process.env.TOKEN,
-    URL_ADDRESS: process.env.URL_ADDRESS,
+    URL_API_ADDRESS: process.env.URL_ADDRESS,
   },
 };
 

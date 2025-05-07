@@ -1,6 +1,6 @@
 import Image from "next/image";
 import trucking from "/public/icons/trucking.jpg";
-import { RouteButton } from "@/shared";
+import Link from "next/link";
 
 export function Main() {
   return (
@@ -18,12 +18,12 @@ export function Main() {
         Данный маршрутизатор эффективно подберёд наилучший маршрут для ваших
         заказов из точки А в точку Б
       </p>
-      <RouteButton
-        path="/auth"
-        sizeButton="lg"
-        textButton="Начать пользоваться"
-        className="mx-7"
-      />
+      <Link
+        href="/auth"
+        className="w-[320px] h-[60px] mx-7 flex justify-center items-center font-medium bg-button-grey text-white transition hover:bg-[#464646] rounded-[16px] text-[21px]"
+      >
+        Начать пользоваться
+      </Link>
     </main>
   );
 }

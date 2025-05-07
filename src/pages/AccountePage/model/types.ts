@@ -4,15 +4,15 @@ export interface IUser {
   id?: number;
   imageSrc: StaticImageData;
   nameDriver: string;
-  status:
+  status?:
     | "Доступен"
     | "Назначенный"
     | "Активный"
     | "Отменённый"
     | "Выполненный";
-  typeCar: "Легковой" | "Грузовой";
-  capacity: string;
-  experience: string;
-  car: string;
-  numberCar: string;
+  typeCar?: "Легковой" | "Грузовой";
+  capacity?: string;
+  experience?: string;
+  car?: string;
+  numberCar?: string;
 }

@@ -1,4 +1,4 @@
-import { InputDropDown } from "@/features/InputDropDown";
+import { InputDropDown } from "@/shared";
 import { UiModal } from "@/shared";
 import { useState } from "react";
 

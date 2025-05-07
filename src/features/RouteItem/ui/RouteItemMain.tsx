@@ -2,21 +2,48 @@ import clsx from "clsx";
 import { TRouteMain } from "../model/types";
 import { Ref, useRef, useState } from "react";
 import { Map, YMapsApi, YMapsProps } from "react-yandex-maps";
+import { useUpdate } from "@/shared/api/useUpdate";
 
-export default function RouteItemMain({ routeFrom, routeBefore }: TRouteMain) {
+export default function RouteItemMain({
+  routeId,
+  routeFrom,
+  setActiveRouteId,
+  routeBefore,
+  isDisabled,
+}: TRouteMain) {
   const [distance, setDistance] = useState<string>("");
   const [duration, setDuration] = useState<string>("");
-  const [statusButton, setStatusButton] = useState<boolean>(false);
-  const status = "complete";
+  const [status, setStatus] = useState(
+    localStorage.getItem(`driverStatusOrder${routeId}`) || "Взять заказ"
+  );
 
-  const toggleStatusButton = () => {
-    if (status.toLowerCase() === "complete") {
-      setStatusButton(true);
-    } else {
-      setStatusButton(false);
-    }
+  const { updateDriverStatus } = useUpdate();
+
+  const deleteRoutes = async () => {
+    const response = await fetch(
+      `http://localhost:8080/api/routes/${routeId}`,
+      {
+        method: "DELETE",
+      }
+    );
+    return response;
   };
 
+  const handleButtonClick = () => {
+    if (status === "Взять заказ") {
+      updateDriverStatus(3);
+      setStatus("Выполнил заказ");
+      localStorage.setItem(`driverStatusOrder${routeId}`, "Выполнил заказ");
+      setActiveRouteId?.(routeId ?? 0);
+      localStorage.setItem("activeRouteId", String(routeId));
+    } else {
+      updateDriverStatus(1);
+      deleteRoutes();
+      setActiveRouteId?.(null);
+      localStorage.removeItem(`driverStatusOrder${routeId}`);
+      localStorage.removeItem("activeRouteId");
+    }
+  };
   const map = useRef<YMapsApi | null>(null);
 
   const [mapState, setMapState] = useState({
@@ -68,7 +95,6 @@ export default function RouteItemMain({ routeFrom, routeBefore }: TRouteMain) {
 
     updateMapState();
   };
-
   return (
     <>
       <div className="flex justify-between items-center mb-[30px]">
@@ -88,14 +114,16 @@ export default function RouteItemMain({ routeFrom, routeBefore }: TRouteMain) {
         </div>
         <button
           className={clsx(
-            statusButton
-              ? "bg-green-700 hover:bg-green-800"
-              : "bg-button-grey hover:bg-[#464646]",
-            "px-[20px] h-[45px] mr-[50px] rounded-[16px] flex justify-center items-center font-medium  text-white transition"
+            status === "Взять заказ"
+              ? "bg-button-grey hover:bg-[#464646] disabled:opacity-70"
+              : "bg-green-700 hover:bg-green-800",
+            "px-[20px] h-[45px] mr-[50px] rounded-[16px]",
+            "flex justify-center items-center font-medium text-white transition"
           )}
-          onClick={toggleStatusButton}
+          disabled={isDisabled}
+          onClick={handleButtonClick}
         >
-          {statusButton ? "Выполнил заказ" : "Взять заказ"}
+          {status}
         </button>
       </div>
 

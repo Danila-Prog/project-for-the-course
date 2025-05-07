@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Login from "./ui/Login";
+import SignIn from "./ui/SignIn";
 import Registration from "./ui/Registration";
 
 export default function AuthPage() {
@@ -45,7 +45,7 @@ export default function AuthPage() {
           </button>
         </div>
 
-        {changeForm === "Войти" && <Login />}
+        {changeForm === "Войти" && <SignIn />}
         {changeForm === "Регистрация" && <Registration />}
       </form>
     </div>

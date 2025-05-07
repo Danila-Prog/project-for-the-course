@@ -3,21 +3,22 @@ import { CardUser } from "@/entities/CardUser";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { UiInput } from "@/shared";
 import useUserLogistician from "./model/useUserLogistician";
-
+import mockImage from "/public/icons/mockImage.webp";
 export default function UserLogistician() {
   const {
     filters,
     handleFiltersChange,
     handleActiveDriver,
-    activeDrive,
-    allDriverFilter,
-    activeDriverFilter,
-    handleCloseModalFormOrder,
-    handleCloseModalFormEditingOrder,
-    handleCloseModalDeleteOrder,
+    // activeDrive,
+    // allDriverFilter,
+    // activeDriverFilter,
+    // handleCloseModalFormOrder,
+    // handleCloseModalFormEditingOrder,
+    // handleCloseModalDeleteOrder,
     formOrder,
     formEditingOrder,
     deleteOrder,
+    companyDrivers,
   } = useUserLogistician();
 
   return (
@@ -44,60 +45,63 @@ export default function UserLogistician() {
 
         <div>
           <p className="font-bold text-[15px] mb-[12px]">Грузоподъёмность</p>
+          <div className="flex">
+            <UiInput
+              type="number"
+              placeholder="От"
+              sizeInput="sm"
+              isPadding
+              borderColor="lightGrey"
+              isRounded
+              additionalStyle="mr-[10px]"
+              value={filters.capacityFrom}
+              name="capacityFrom"
+              onChange={handleFiltersChange}
+            />
 
-          <UiInput
-            type="number"
-            placeholder="От"
-            sizeInput="sm"
-            isPadding={true}
-            borderColor="lightGrey"
-            isRounded={true}
-            className="mr-[10px]"
-            value={filters.capacityFrom}
-            name="capacityFrom"
-            onChange={handleFiltersChange}
-          />
-
-          <UiInput
-            type="number"
-            placeholder="До"
-            sizeInput="sm"
-            isPadding={true}
-            borderColor="lightGrey"
-            isRounded={true}
-            value={filters.capacityBefore}
-            name="capacityBefore"
-            onChange={handleFiltersChange}
-          />
+            <UiInput
+              type="number"
+              placeholder="До"
+              sizeInput="sm"
+              isPadding
+              borderColor="lightGrey"
+              isRounded
+              value={filters.capacityBefore}
+              name="capacityBefore"
+              onChange={handleFiltersChange}
+            />
+          </div>
         </div>
 
         <div>
           <p className="font-bold text-[15px] mb-[12px]">Стаж водителя</p>
 
-          <UiInput
-            type="number"
-            placeholder="От"
-            sizeInput="sm"
-            isPadding={true}
-            borderColor="lightGrey"
-            isRounded={true}
-            className="mr-[10px]"
-            value={filters.experienceFrom}
-            name="experienceFrom"
-            onChange={handleFiltersChange}
-          />
+          <div className="flex">
+            <UiInput
+              type="number"
+              placeholder="От"
+              sizeInput="sm"
+              isPadding={true}
+              borderColor="lightGrey"
+              isRounded={true}
+              additionalStyle="mr-[10px]"
+              value={filters.experienceFrom}
+              name="experienceFrom"
+              onChange={handleFiltersChange}
+            />
 
-          <UiInput
-            type="number"
-            placeholder="До"
-            sizeInput="sm"
-            isPadding={true}
-            borderColor="lightGrey"
-            isRounded={true}
-            value={filters.experienceBefore}
-            name="experienceBefore"
-            onChange={handleFiltersChange}
-          />
+            <UiInput
+              type="number"
+              placeholder="До"
+              sizeInput="sm"
+              isPadding={true}
+              borderColor="lightGrey"
+              isRounded={true}
+              value={filters.experienceBefore}
+              name="experienceBefore"
+              onChange={handleFiltersChange}
+            />
+          </div>
         </div>
       </aside>
 
@@ -118,26 +122,33 @@ export default function UserLogistician() {
           </button>
         </div>
 
-        <div className="flex mx-auto items-center border-2 border-[#d6d6d6] rounded-[10px] w-[75%] px-[15px] py-[8px] mb-[16px]">
-          <UiInput
-            type="text"
-            value={filters.search}
-            name="search"
-            onChange={handleFiltersChange}
-            isPadding={false}
-            isRounded={false}
-            sizeInput="lg"
-            leftIcon={<FaMagnifyingGlass className="mr-[8px]" />}
-            placeholder="Введите фио или номерной знак"
-          />
-        </div>
+        <UiInput
+          type="text"
+          value={filters.search}
+          name="search"
+          onChange={handleFiltersChange}
+          additionalStyle="mb-[16px] py-[9px] pl-[15px] pr-[23px]"
+          borderColor="lightGrey"
+          isRounded
+          isPadding={false}
+          sizeInput="lg"
+          leftIcon={<FaMagnifyingGlass className="mr-[12px]" />}
+          placeholder="Введите фио или номерной знак"
+        />
 
         <div className="grid gap-[25px]">
-          {!activeDrive
-            ? allDriverFilter.map((user) => (
+          {companyDrivers.map((user) => (
+            <CardUser
+              key={user.user_id}
+              nameDriver={`${user.name} ${user.surname}`}
+              imageSrc={mockImage}
+            />
+          ))}
+          {/* {!activeDrive
+            ? companyDrivers.map((user) => (
                 <CardUser
-                  key={user.id}
-                  {...user}
+                  key={user.user_id}
+                  nameDriver={`${user.name} ${user.surname}`}
                   buttons={
                     <button
                       className="h-[43px] px-[16px] rounded-[25px] bg-button-grey transition hover:bg-[#464646] text-white text-[17px] font-medium mt-[12px]"
@@ -184,7 +195,7 @@ export default function UserLogistician() {
                     </>
                   }
                 />
-              ))}
+              ))} */}
         </div>
       </main>
 

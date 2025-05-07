@@ -1,9 +1,10 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import FormOrder from "../ui/FormOrder";
 import FormEditingOrder from "../ui/FormEditingOrder";
 import ModalDeleteOrder from "../ui/ModalDeleteOrder";
-import { filterUsers } from "../ui/FilterUsers";
-import { mockUsers } from "@/pages/AccountePage/lib/mock";
+// import { filterUsers } from "../ui/FilterUsers";
+// import { mockUsers } from "@/pages/AccountePage/lib/mock";
+import { useFetch } from "@/shared/api/useFetch";
 
 export default function useUserLogistician() {
   const [modalFormOrder, setModaFormOrder] = useState<boolean>(false);
@@ -45,16 +46,29 @@ export default function useUserLogistician() {
       setActiveDriver(false);
     }
   };
+  const [companyId, setCompanyId] = useState<string | null>("");
 
-  const filterUser = filterUsers(mockUsers, filters);
+  useEffect(() => {
+    setCompanyId(localStorage.getItem("companyId"));
+  }, []);
+  const { dataUsers } = useFetch();
 
-  const allDriverFilter = filterUser.filter(
-    (user) => user.status === "Доступен"
+  const companyDrivers = dataUsers.data.filter(
+    (user) =>
+      Number(user.company_id) === Number(companyId) &&
+      Number(user.role_id) === 1
   );
+  console.log(companyDrivers);
 
-  const activeDriverFilter = filterUser.filter(
-    (user) => user.status !== "Доступен"
-  );
+  // const filterUser = filterUsers(companyDrivers, filters);
+
+  // const allDriverFilter = filterUser.filter(
+  //   (user) => user.status === "Доступен"
+  // );
+
+  // const activeDriverFilter = filterUser.filter(
+  //   (user) => user.status !== "Доступен"
+  // );
 
   const formOrder = (
     <FormOrder
@@ -76,10 +90,11 @@ export default function useUserLogistician() {
     />
   );
   return {
+    companyDrivers,
     activeDrive,
     filters,
-    allDriverFilter,
-    activeDriverFilter,
+    // allDriverFilter,
+    // activeDriverFilter,
     formOrder,
     formEditingOrder,
     deleteOrder,

@@ -5,8 +5,11 @@ import RouteItemMain from "./ui/RouteItemMain";
 import { IRouteItem } from "./model/types";
 
 export default function RouteItem({
+  routeId,
   routeBefore,
   routeFrom,
+  setActiveRouteId,
+  isDisabled,
 }: Omit<IRouteItem, "visible" | "setVisible">) {
   const [visible, setVisible] = useState(false);
   const handleVisible = () => setVisible((visib) => !visib);
@@ -23,7 +26,13 @@ export default function RouteItem({
         />
       }
       routeMain={
-        <RouteItemMain routeBefore={routeBefore} routeFrom={routeFrom} />
+        <RouteItemMain
+          routeId={routeId}
+          setActiveRouteId={setActiveRouteId}
+          routeBefore={routeBefore}
+          routeFrom={routeFrom}
+          isDisabled={isDisabled}
+        />
       }
     />
   );

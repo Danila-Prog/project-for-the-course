@@ -1,60 +1,116 @@
-import { LabeledInput } from "@/features/LabeledInput";
-import { RouteButton, UiCheckBox } from "@/shared";
-import { ChangeEvent, useState } from "react";
+"use client";
+
+import { PasswordInput, UiInput } from "@/shared";
+import { UiButton, UiCheckBox } from "@/shared";
+import { useRegistration } from "../model/useRegistation";
 
 export default function Registration() {
-  const [isChecked, setIsChecked] = useState({
-    driver: false,
-    logist: false,
-  });
+  const {
+    formData,
+    isError,
+    handleChangeRegistrationFormData,
+    dataCompany,
+    handleCheckedChange,
+    isChecked,
+    handleCreateUser,
+    isErrorPassword,
+    setIsErrorPassword,
+  } = useRegistration();
 
-  const handleCheckedChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { checked, value } = e.target;
-
-    if (value === "driver") {
-      setIsChecked({
-        driver: checked,
-        logist: false,
-      });
-    }
-
-    if (value === "logist") {
-      setIsChecked({
-        driver: false,
-        logist: checked,
-      });
-    }
-  };
   return (
-    <form>
+    <section>
       <div className="flex flex-col gap-[10px]">
-        <LabeledInput
-          idInput="lastname"
+        <UiInput
+          idInput="surname"
           label="Фамилия"
           placeholder="Введите фамилию"
+          borderColor="lightGrey"
+          name="surname"
+          value={formData.surname}
+          onChange={handleChangeRegistrationFormData}
         />
 
-        <LabeledInput idInput="surname" label="Имя" placeholder="Введите имя" />
-
-        <LabeledInput
-          idInput="email"
-          label="Email"
-          placeholder="E-mail адрес"
+        <UiInput
+          idInput="name"
+          label="Имя"
+          borderColor="lightGrey"
+          placeholder="Введите имя"
+          value={formData.name}
+          name="name"
+          onChange={handleChangeRegistrationFormData}
         />
 
-        <LabeledInput
-          idInput="company"
-          label="Компания"
-          placeholder="Введите название компании"
+        <UiInput
+          idInput="username"
+          label="Username"
+          borderColor="lightGrey"
+          placeholder="Введите username"
+          value={formData.userName}
+          name="userName"
+          onChange={handleChangeRegistrationFormData}
         />
 
-        <LabeledInput idInput="password" label="Пароль" placeholder="Пароль" />
+        <div>
+          <label htmlFor="company" className="font-medium mb-[5px] text-[15px]">
+            Выберите компанию
+          </label>
 
-        <LabeledInput
-          idInput="confirmation_password"
+          <select
+            id="company"
+            className="w-full h-[40px] px-[8px] text-[15px] rounded-[10px] border-2 border-[#d6d6d6] appearance-none"
+            value={formData.company}
+            name="company"
+            onChange={(e) => {
+              const selectedCompany = dataCompany.data.find(
+                (company) => company.company_name === e.target.value
+              );
+              handleChangeRegistrationFormData(e, selectedCompany);
+            }}
+          >
+            <option value="" disabled>
+              Выберите компанию
+            </option>
+
+            {dataCompany.data.map((company) => (
+              <option value={company.company_name} key={company.company_id}>
+                {company.company_name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <PasswordInput
+          idInput="password"
+          label="Пароль"
+          placeholder="Введите пароль"
+          value={formData.password}
+          name="password"
+          onChange={(e) => {
+            handleChangeRegistrationFormData(e);
+            setIsErrorPassword(false);
+          }}
+        />
+
+        <PasswordInput
+          idInput="confirmationPassword"
           label="Подтверждения пароля"
           placeholder="Подтверждения пароля"
+          value={formData.confirmationPassword}
+          name="confirmationPassword"
+          onChange={handleChangeRegistrationFormData}
         />
+
+        {isErrorPassword && (
+          <span className="text-[14px] text-rose-500 font-bold">
+            Не валидный пароль
+          </span>
+        )}
+
+        {isError && (
+          <span className="text-[14px] text-rose-500 font-bold">
+            Пароли не совпадают
+          </span>
+        )}
 
         <div className="flex flex-col gap-[5px]">
           <p className="text-[15px] font-medium">Ваша роль</p>
@@ -88,14 +144,24 @@ export default function Registration() {
         </div>
       </div>
 
-      <RouteButton
-        path=""
+      <UiButton
+        onClick={handleCreateUser}
+        disabled={
+          !formData.company ||
+          !formData.name ||
+          !formData.surname ||
+          !formData.userName ||
+          !formData.role_id ||
+          !formData.password ||
+          !formData.confirmationPassword
+        }
+        type="button"
         sizeButton="full"
         textButton="Зарегистрироваться"
         sizesText="text-[16px]"
         className="h-[43px]"
         rounded="rounded-[10px]"
       />
-    </form>
+    </section>
   );
 }

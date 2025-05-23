@@ -4,6 +4,7 @@ import {
   IDriverDto,
   IVehiclesDto,
   IRoutesDto,
+  IVehiclesTypeDto,
 } from "@/pages/AuthPage/model/types";
 import { useQuery } from "./useQuery";
 
@@ -16,7 +17,9 @@ export function useFetch(userId?: string | null, companyId?: string | null) {
 
   const dataVehicles = useQuery<IVehiclesDto>("api/vehicles");
 
-  const dataVehiclesType = useQuery<IVehiclesDto>("api/vehicles/vehiclesType");
+  const dataVehiclesType = useQuery<IVehiclesTypeDto>(
+    "api/vehicles/vehiclesType"
+  );
 
   const dataRoutes = useQuery<IRoutesDto>("api/routes");
 
@@ -43,11 +46,15 @@ export function useFetch(userId?: string | null, companyId?: string | null) {
 
   return {
     dataUsers,
+    dataDrivers,
     drivers,
     vehicles,
     vehiclesType,
     company,
     routes,
     dataCompany,
+    dataVehicles,
+    dataVehiclesType,
+    dataRoutes,
   };
 }

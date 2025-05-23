@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 
 export function useQuery<T>(url: string) {
@@ -11,22 +9,16 @@ export function useQuery<T>(url: string) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": "true",
-          "Access-Control-Allow-Headers": "",
-          "Access-Control-Allow-Methods": "POST,GET,PUT,DELETE,OPTIONS",
         },
+        credentials: "include",
         signal: signal,
       });
 
-      if (!res.ok) {
-        throw new Error("Ошибка запроса");
-      }
+      if (!res.ok) throw new Error("Ошибка запроса");
 
       const data = await res.json();
-
       setData(data);
-    } catch (error: unknown) {
+    } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
       }
@@ -35,12 +27,9 @@ export function useQuery<T>(url: string) {
 
   useEffect(() => {
     const abortController = new AbortController();
-    const signal = abortController.signal;
-
-    fetchingData(signal);
-
-    return () => abortController.abort("Abort controlled called");
-  }, []);
+    fetchingData(abortController.signal);
+    return () => abortController.abort();
+  }, [url]); // Добавьте url в зависимости
 
   return { data };
 }

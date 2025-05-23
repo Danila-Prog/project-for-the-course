@@ -4,7 +4,7 @@ import { ReactElement } from "react";
 
 interface ICardUser extends IUser {
   buttons?: ReactElement;
-  pathRoute?: ReactElement;
+  pathRoute?: ReactElement | boolean;
 }
 
 export default function CardUser({

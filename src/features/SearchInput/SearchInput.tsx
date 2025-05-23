@@ -2,7 +2,7 @@ import { UiInput } from "@/shared";
 import { ComponentProps } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
-type TSearchInput = {} & ComponentProps<"input">;
+type TSearchInput = ComponentProps<"input">;
 
 export default function SearchInput({ value, onChange }: TSearchInput) {
   return (

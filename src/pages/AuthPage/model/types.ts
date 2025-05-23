@@ -18,6 +18,10 @@ export interface IVehiclesDto {
   vehicles_type_id: number;
   vehicles_capacity: string;
   name_vehicles: string;
+}
+
+export interface IVehiclesTypeDto
+  extends Pick<IVehiclesDto, "vehicles_type_id"> {
   vehicles_type: string;
 }
 export interface IDriverDto

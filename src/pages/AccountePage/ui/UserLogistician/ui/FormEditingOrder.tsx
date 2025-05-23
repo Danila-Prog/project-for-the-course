@@ -1,11 +1,13 @@
 import { InputDropDown } from "@/shared";
 import { UiModal } from "@/shared";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 export default function FormEditingOrder({
+  driverId,
   modalFormEditingOrder,
   handleCloseModalFormEditingOrder,
 }: {
+  driverId: number;
   modalFormEditingOrder: boolean;
   handleCloseModalFormEditingOrder: () => void;
 }) {
@@ -16,16 +18,39 @@ export default function FormEditingOrder({
   const [selectedNewAddressDischarge, setSelectedNewAddressDischarge] =
     useState<string | null>("");
 
-  console.log(
-    `selectedNewAddressSupply: ${selectedNewAddressSupply}, selectedNewAddressDischarge: ${selectedNewAddressDischarge}`
-  );
+  const fetchingUpdateRoute = async (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:8080/api/routes", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          driver_id: Number(driverId),
+          start_point: selectedNewAddressSupply,
+          end_point: selectedNewAddressDischarge,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      await response.json();
+      window.location.reload();
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      }
+    }
+  };
 
   return (
     <UiModal
       isOpen={modalFormEditingOrder}
       onClose={handleCloseModalFormEditingOrder}
     >
-      <form action="">
+      <form method="PUT" onSubmit={fetchingUpdateRoute}>
         <UiModal.Header className="mb-[10px]">
           Форма редактирования заказов
         </UiModal.Header>

@@ -1,8 +1,18 @@
 import { UiInput } from "@/shared";
-import useUserLogistician from "../model/useUserLogistician";
+import { IFilters } from "../lib/types";
+import { ChangeEvent } from "react";
 
-export default function FiltersResearchUsers() {
-  const { filters, handleFiltersChange } = useUserLogistician();
+interface IFiltersResearchUsers {
+  filters: IFilters;
+  handleFiltersChange: (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+}
+
+export default function FiltersResearchUsers({
+  filters,
+  handleFiltersChange,
+}: IFiltersResearchUsers) {
   return (
     <aside className="bg-white mr-[30px] rounded-[10px] px-[23px] pt-[15px] pb-[40px] grid gap-[25px] h-full">
       <h1 className="text-center mx-auto font-bold">

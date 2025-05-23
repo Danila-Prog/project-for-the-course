@@ -14,16 +14,19 @@ export default function useFetchAddress(
     try {
       setSelectedOption(inputValue);
 
-      const fetchingData = await fetch(String(process.env.URL_API_ADDRESS), {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: "Token " + process.env.TOKEN,
-        },
-        body: JSON.stringify({ query: inputValue }),
-      });
+      const fetchingData = await fetch(
+        "http://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address",
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: "Token " + process.env.TOKEN,
+          },
+          body: JSON.stringify({ query: inputValue }),
+        }
+      );
 
       const res = await fetchingData.json();
 

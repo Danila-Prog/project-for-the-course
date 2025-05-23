@@ -1,7 +1,8 @@
-import useUserLogistician from "../model/useUserLogistician";
-
-export default function DriversFulterTabs() {
-  const { handleActiveDriver } = useUserLogistician();
+export default function DriversFilterTabs({
+  handleActiveDriver,
+}: {
+  handleActiveDriver: (typeButton: string) => void;
+}) {
   return (
     <header className="flex gap-[25px] justify-center mb-[20px]">
       <button

@@ -1,43 +1,51 @@
 "use client";
-import { CardUser } from "@/entities/CardUser";
+
 import useUserLogistician from "./model/useUserLogistician";
-import mockImage from "/public/icons/mockImage.webp";
 import { SearchInput } from "@/features/SearchInput";
 import FiltersResearchUsers from "./ui/FiltersResearchUsers";
-import DriversFulterTabs from "./ui/DriverFilterTabs";
+import DriversFilterTabs from "./ui/DriverFilterTabs";
+import useRenderForm from "./model/useRenderForm";
+import useRenderDriver from "./model/useRenderDriver";
 
 export default function UserLogistician() {
+  const { activeDriver, handleActiveDriver } = useUserLogistician();
+
   const {
-    filters,
-    handleFiltersChange,
-    // activeDrive,
-    // allDriverFilter,
-    // activeDriverFilter,
-    // handleCloseModalFormOrder,
-    // handleCloseModalFormEditingOrder,
-    // handleCloseModalDeleteOrder,
     formOrder,
     formEditingOrder,
     deleteOrder,
-    companyDrivers,
-  } = useUserLogistician();
+    setSelectedDriverId,
+    toggleFormOrder,
+    toggleFormEditingOrder,
+    toggleFormDeleteOrder,
+  } = useRenderForm();
+
+  const {
+    companyFilteredDrivers,
+    renderDriverCard,
+    handleFiltersChange,
+    filters,
+  } = useRenderDriver(
+    activeDriver,
+    setSelectedDriverId,
+    toggleFormOrder,
+    toggleFormEditingOrder,
+    toggleFormDeleteOrder
+  );
 
   return (
     <div className="flex mt-[20px] mb-[30px]">
-      <FiltersResearchUsers />
+      <FiltersResearchUsers
+        filters={filters}
+        handleFiltersChange={handleFiltersChange}
+      />
       <main className="bg-white w-[71%] px-[40px] pb-[40px] rounded-[10px]">
-        <DriversFulterTabs />
+        <DriversFilterTabs handleActiveDriver={handleActiveDriver} />
 
         <SearchInput value={filters.search} onChange={handleFiltersChange} />
 
         <div className="grid gap-[25px]">
-          {companyDrivers.map((user) => (
-            <CardUser
-              key={user.user_id}
-              nameDriver={`${user.name} ${user.surname}`}
-              imageSrc={mockImage}
-            />
-          ))}
+          {companyFilteredDrivers.map(renderDriverCard)}
         </div>
       </main>
 

@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 export function Header() {
   const [getUserName, setGetUserName] = useState<string | null>(null);
   const router = useRouter();
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       setGetUserName(localStorage.getItem("username"));
@@ -20,8 +21,13 @@ export function Header() {
     !!getUserName ? <div>{children}</div> : <Link href="/">{children}</Link>;
 
   const handleExit = () => {
+    if (window.location.href === "http://localhost:3000/") {
+      window.location.reload();
+    } else {
+      router.push("/");
+    }
+
     localStorage.clear();
-    router.push("/");
   };
 
   return (

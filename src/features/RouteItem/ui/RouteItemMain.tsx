@@ -1,25 +1,22 @@
 import clsx from "clsx";
 import { TRouteMain } from "../model/types";
-import { Ref, useRef, useState } from "react";
+import { Ref, useCallback, useRef, useState } from "react";
 import { Map, YMapsApi, YMapsProps } from "react-yandex-maps";
 import { useUpdate } from "@/shared/api/useUpdate";
 
 export default function RouteItemMain({
   routeId,
   routeFrom,
-  setActiveRouteId,
   routeBefore,
-  isDisabled,
+  localStatus,
+  setLocalStatus,
 }: TRouteMain) {
   const [distance, setDistance] = useState<string>("");
   const [duration, setDuration] = useState<string>("");
-  const [status, setStatus] = useState(
-    localStorage.getItem(`driverStatusOrder${routeId}`) || "Взять заказ"
-  );
 
   const { updateDriverStatus } = useUpdate();
 
-  const deleteRoutes = async () => {
+  const deleteRoutes = useCallback(async () => {
     const response = await fetch(
       `http://localhost:8080/api/routes/${routeId}`,
       {
@@ -27,23 +24,21 @@ export default function RouteItemMain({
       }
     );
     return response;
-  };
+  }, [routeId]);
 
   const handleButtonClick = () => {
-    if (status === "Взять заказ") {
+    if (localStatus !== 3) {
+      const newStatus = localStatus !== 3 ? 3 : 1;
+      setLocalStatus(newStatus);
+
       updateDriverStatus(3);
-      setStatus("Выполнил заказ");
-      localStorage.setItem(`driverStatusOrder${routeId}`, "Выполнил заказ");
-      setActiveRouteId?.(routeId ?? 0);
-      localStorage.setItem("activeRouteId", String(routeId));
     } else {
       updateDriverStatus(1);
       deleteRoutes();
-      setActiveRouteId?.(null);
-      localStorage.removeItem(`driverStatusOrder${routeId}`);
-      localStorage.removeItem("activeRouteId");
+      window.location.reload();
     }
   };
+
   const map = useRef<YMapsApi | null>(null);
 
   const [mapState, setMapState] = useState({
@@ -97,8 +92,8 @@ export default function RouteItemMain({
   };
   return (
     <>
-      <div className="flex justify-between items-center mb-[30px]">
-        <div className="text-[18px] font-semibold [&>h2>span]:font-normal">
+      <main className="flex justify-between items-center mt-[10px] mb-[30px]">
+        <section className="flex flex-col gap-[5px] w-[6%] text-[18px] font-semibold [&>h2>span]:font-normal">
           <h2>
             Точка от: <span>{routeFrom}</span>
           </h2>
@@ -111,21 +106,20 @@ export default function RouteItemMain({
           <h2>
             Расстояние: <span>{distance}</span>
           </h2>
-        </div>
+        </section>
         <button
           className={clsx(
-            status === "Взять заказ"
-              ? "bg-button-grey hover:bg-[#464646] disabled:opacity-70"
+            localStatus !== 3
+              ? "bg-button-grey hover:bg-[#464646]"
               : "bg-green-700 hover:bg-green-800",
             "px-[20px] h-[45px] mr-[50px] rounded-[16px]",
             "flex justify-center items-center font-medium text-white transition"
           )}
-          disabled={isDisabled}
           onClick={handleButtonClick}
         >
-          {status}
+          {localStatus !== 3 ? "Взять заказ" : "Выполнил заказ"}
         </button>
-      </div>
+      </main>
 
       <Map
         modules={["multiRouter.MultiRoute"]}

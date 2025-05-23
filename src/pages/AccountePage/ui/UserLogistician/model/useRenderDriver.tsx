@@ -12,7 +12,7 @@ import { CardUser } from "@/entities/CardUser";
 import { DRIVERS_STATUS } from "../lib/consts";
 import mockImage from "/public/icons/mockImage.webp";
 import { filterDrivers } from "./filterUsers";
-
+import { declensionWord } from "./declensionWord";
 export default function useRenderDriver(
   activeDriver: boolean,
   setSelectedDriverId: Dispatch<SetStateAction<number | null>>,
@@ -92,9 +92,15 @@ export default function useRenderDriver(
         status={
           DRIVERS_STATUS[driver.status_driver_id as keyof typeof DRIVERS_STATUS]
         }
-        experience={`${driver.experience_years} года`}
+        experience={`${driver.experience_years} ${declensionWord(
+          Number(driver.experience_years),
+          ["год", "года", "лет"]
+        )}`}
         numberCar={vehicles?.number_car}
-        capacity={`${vehicles?.vehicles_capacity} тонны`}
+        capacity={`${vehicles?.vehicles_capacity} ${declensionWord(
+          Number(vehicles?.vehicles_capacity),
+          ["тонна", "тонны", "тонн"]
+        )}`}
         typeCar={vehiclesType?.vehicles_type}
         buttons={
           !activeDriver ? (

@@ -1,6 +1,6 @@
 "use client";
 
-import useUserLogistician from "./model/useUserLogistician";
+import { useState } from "react";
 import { SearchInput } from "@/features/SearchInput";
 import FiltersResearchUsers from "./ui/FiltersResearchUsers";
 import DriversFilterTabs from "./ui/DriverFilterTabs";
@@ -8,7 +8,15 @@ import useRenderForm from "./model/useRenderForm";
 import useRenderDriver from "./model/useRenderDriver";
 
 export default function UserLogistician() {
-  const { activeDriver, handleActiveDriver } = useUserLogistician();
+  const [activeDriver, setActiveDriver] = useState<boolean>(false);
+
+  const handleActiveDriver = (typeButton: string) => {
+    if (typeButton === "active") {
+      setActiveDriver(true);
+    } else {
+      setActiveDriver(false);
+    }
+  };
 
   const {
     formOrder,

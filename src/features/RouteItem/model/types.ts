@@ -1,19 +1,17 @@
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
 export interface IRouteItem {
   routeId?: number;
   visible: boolean;
   handleVisible?: () => void;
-  isDisabled?: boolean;
-  setActiveRouteId?: (id: number | null) => void;
   routeFrom: string;
   routeBefore: string;
 }
 export type TRouteButton = IRouteItem;
-export type TRouteMain = Pick<
-  IRouteItem,
-  "routeId" | "routeFrom" | "routeBefore" | "setActiveRouteId" | "isDisabled"
->;
+export type TRouteMain = {
+  localStatus?: number;
+  setLocalStatus: Dispatch<SetStateAction<number>>;
+} & Pick<IRouteItem, "routeId" | "routeFrom" | "routeBefore">;
 
 export interface IRouteItemLayout extends Pick<IRouteItem, "visible"> {
   routeButton: ReactNode;

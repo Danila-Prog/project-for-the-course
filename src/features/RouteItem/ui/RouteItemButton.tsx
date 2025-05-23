@@ -8,7 +8,7 @@ export default function RouteItemButton({
   return (
     <button
       onClick={handleVisible}
-      className={"py-[5px] font-medium text-[21px]"}
+      className={"py-[5px] px-[15px] font-medium text-[21px]"}
     >
       {`${routeFrom} — ${routeBefore}`}
     </button>

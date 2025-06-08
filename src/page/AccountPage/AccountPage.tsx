@@ -1,9 +1,9 @@
 "use client";
 
-import { Header } from "../../widgets/Header";
 import UserLogistician from "./ui/UserLogistician/UserLogistician";
 import { useEffect, useState } from "react";
 import UserDriver from "./ui/UserDriver";
+import { Header } from "@/widgets/Header";
 
 export default function AccountPage() {
   const [roleId, setRoleId] = useState<string | null>(null);
@@ -11,6 +11,7 @@ export default function AccountPage() {
   useEffect(() => {
     setRoleId(localStorage.getItem("roleId") ?? "");
   }, []);
+
   return (
     <div className="w-[75%] mx-auto">
       <Header />

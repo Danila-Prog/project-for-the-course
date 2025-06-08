@@ -3,7 +3,7 @@
 import { FooterHome } from "@/page/HomePage/ui/Footer";
 import { ConnectionBlock } from "./ui/ConnectionBlock";
 import { Main } from "@/page/HomePage/ui/Main";
-import { Header } from "@/widgets/header";
+import { Header } from "@/widgets/Header";
 import { useEffect, useState } from "react";
 import { AccountPage } from "../AccountPage";
 

@@ -3,11 +3,11 @@
 import { FooterHome } from "@/page/HomePage/ui/Footer";
 import { ConnectionBlock } from "./ui/ConnectionBlock";
 import { Main } from "@/page/HomePage/ui/Main";
-import { Header } from "../../widgets/Header/ui/Header";
+import { Header } from "@/widgets/Header";
 import { useEffect, useState } from "react";
 import { AccountPage } from "../AccountPage";
 
-export function HomePage() {
+export default function HomePage() {
   const [userId, setUserId] = useState<string | null>("");
 
   useEffect(() => {

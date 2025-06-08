@@ -1,6 +1,7 @@
-const db = require("../db");
+import { db } from "../db.js";
+// const db = require("../db");
 
-class DriversController {
+export class DriversController {
   async getDrivers(req, res) {
     const drivers = await db.query("SELECT * FROM public.drivers");
 
@@ -17,4 +18,4 @@ class DriversController {
   }
 }
 
-module.exports = new DriversController();
+// module.exports = new DriversController();

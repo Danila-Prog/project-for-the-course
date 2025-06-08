@@ -5,7 +5,7 @@ import {
   IVehiclesDto,
   IRoutesDto,
   IVehiclesTypeDto,
-} from "@/pages/AuthPage/model/types";
+} from "@/page/AuthPage/model/types";
 import { useQuery } from "./useQuery";
 
 export function useFetch(userId?: string | null, companyId?: string | null) {

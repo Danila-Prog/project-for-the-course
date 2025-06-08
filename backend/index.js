@@ -1,11 +1,11 @@
-const express = require("express");
-const userRouter = require("./routes/users.routes");
-const companiesRouter = require("./routes/companies.router");
-const driversRouter = require("./routes/drivers.router");
-const vehiclesRouter = require("./routes/vehicles.router");
-const vehiclesTypeRouter = require("./routes/vehiclesType.router");
-const routesRouter = require("./routes/routes.router");
-const cors = require("cors");
+import express from "express";
+import userRouter from "./routes/users.routes.js";
+import companiesRouter from "./routes/companies.router.js";
+import driversRouter from "./routes/drivers.router.js";
+import vehiclesRouter from "./routes/vehicles.router.js";
+import vehiclesTypeRouter from "./routes/vehiclesType.router.js";
+import routesRouter from "./routes/routes.router.js";
+import cors from "cors";
 
 const PORT = process.env.PORT || 8080;
 const app = express();

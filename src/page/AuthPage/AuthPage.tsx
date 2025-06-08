@@ -3,8 +3,10 @@
 import { useState } from "react";
 import SignIn from "./ui/SignIn";
 import Registration from "./ui/Registration";
+import Link from "next/link";
+import { FaArrowLeft } from "react-icons/fa6";
 
-export default function AuthPage() {
+export function AuthPage() {
   const [changeForm, setChangeForm] = useState("Войти");
 
   const handleChangeForm = () =>
@@ -14,8 +16,14 @@ export default function AuthPage() {
 
   return (
     <div className="flex">
-      <div className="bg-[#212123] flex  w-[50%] h-[100vh] text-white">
+      <main className="bg-[#212123] flex  w-[50%] h-[100vh] text-white">
         <div className="m-auto w-[80%] grid gap-5">
+          <Link
+            href={"/"}
+            className="bg-[#262524] w-[50px] h-[50px] rounded-full flex"
+          >
+            <FaArrowLeft className="m-auto" />
+          </Link>
           <h2 className="font-bold text-[3rem] leading-tight">
             Добро пожаловать в мир эффективных грузоперевозок!
           </h2>
@@ -28,7 +36,7 @@ export default function AuthPage() {
             платформу для повышения эффективности своих грузоперевозок.
           </p>
         </div>
-      </div>
+      </main>
 
       <form className="rounded-[12px] m-auto bg-white w-[25%] h-full px-9 py-7">
         <div className="flex justify-between items-center mb-[20px]">

@@ -1,6 +1,7 @@
-const db = require("../db");
+import { db } from "../db.js";
+// const db = require("../db");
 
-class RoutesController {
+export class RoutesController {
   async getRoutes(req, res) {
     const routes = await db.query("SELECT * FROM public.routes");
 
@@ -34,4 +35,4 @@ class RoutesController {
   }
 }
 
-module.exports = new RoutesController();
+// module.exports = new RoutesController();

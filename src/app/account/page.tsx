@@ -1,4 +1,4 @@
-import { AccountPage } from "@/pages/AccountePage";
+import { AccountPage } from "@/page/AccountePage";
 
 export default function Account() {
   return <AccountPage />;

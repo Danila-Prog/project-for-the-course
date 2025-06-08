@@ -1,7 +1,9 @@
-const Router = require("express");
-const router = new Router();
-const vehiclesTypeController = require("../controller/vehiclesType.controller");
+import { Router } from "express";
+import { VehiclesTypeController } from "../controller/vehiclesType.controller.js";
+
+const router = Router();
+const vehiclesTypeController = new VehiclesTypeController();
 
 router.get("/vehiclesType", vehiclesTypeController.getVehiclesType);
 
-module.exports = router;
+export default router;

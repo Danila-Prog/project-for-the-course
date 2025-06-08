@@ -10,7 +10,7 @@ import {
 } from "react";
 import { CardUser } from "@/entities/CardUser";
 import { DRIVERS_STATUS } from "../lib/consts";
-import mockImage from "/public/icons/mockImage.webp";
+import avatar_users from "/public/icons/avatar_users.webp";
 import { filterDrivers } from "./filterUsers";
 import { declensionWord } from "./declensionWord";
 export default function useRenderDriver(
@@ -88,7 +88,7 @@ export default function useRenderDriver(
       <CardUser
         key={user?.user_id}
         nameDriver={`${user?.name} ${user?.surname}`}
-        imageSrc={mockImage}
+        imageSrc={avatar_users}
         status={
           DRIVERS_STATUS[driver.status_driver_id as keyof typeof DRIVERS_STATUS]
         }

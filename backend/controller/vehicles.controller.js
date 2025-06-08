@@ -1,6 +1,7 @@
-const db = require("../db");
+import { db } from "../db.js";
+// const db = require("../db");
 
-class VehiclesController {
+export class VehiclesController {
   async getVehicles(req, res) {
     const vehicles = await db.query("SELECT * FROM public.vehicles");
 
@@ -8,4 +9,4 @@ class VehiclesController {
   }
 }
 
-module.exports = new VehiclesController();
+// module.exports = new VehiclesController();

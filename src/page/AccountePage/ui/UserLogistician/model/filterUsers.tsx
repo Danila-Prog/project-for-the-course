@@ -4,7 +4,7 @@ import {
   IUsersDto,
   IVehiclesDto,
   IVehiclesTypeDto,
-} from "@/pages/AuthPage/model/types";
+} from "@/page/AuthPage/model/types";
 
 export const filterDrivers = (
   drivers: IDriverDto[],

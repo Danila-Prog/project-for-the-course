@@ -1,6 +1,6 @@
-const db = require("../db");
+import { db } from "../db.js";
 
-class UserController {
+export class UserController {
   async getUser(req, res) {
     const users = await db.query("SELECT * FROM public.users");
 
@@ -18,5 +18,3 @@ class UserController {
     res.json(newUser.rows[0]);
   }
 }
-
-module.exports = new UserController();

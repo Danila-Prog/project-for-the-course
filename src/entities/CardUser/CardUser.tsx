@@ -1,4 +1,4 @@
-import { IUser } from "@/page/AccountePage/model/types";
+import { IUser } from "@/page/AccountPage/model/types";
 import Image from "next/image";
 import { ReactElement } from "react";
 interface ICardUser extends IUser {

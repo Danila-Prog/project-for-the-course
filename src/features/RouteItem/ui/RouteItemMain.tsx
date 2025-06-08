@@ -93,7 +93,7 @@ export default function RouteItemMain({
   return (
     <>
       <main className="flex justify-between items-center mt-[10px] mb-[30px]">
-        <section className="flex flex-col gap-[5px] w-[6%] text-[18px] font-semibold [&>h2>span]:font-normal">
+        <section className="flex flex-col gap-[5px] text-[18px] font-semibold [&>h2>span]:font-normal">
           <h2>
             Точка от: <span>{routeFrom}</span>
           </h2>

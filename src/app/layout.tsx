@@ -1,25 +1,19 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { DM_Sans, Montserrat } from "next/font/google";
 import clsx from "clsx";
+import { dmSans, montserrat } from "./fonts";
 
 export const metadata: Metadata = {
-  title: "Курсач",
+  title: "Маршрутизатор",
 
   description:
-    "Курсовой проект на тему оптимизация маршрутов для грузоперевозки",
-};
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-dmsans",
-});
+    "Маршрутизатор — сайт, который позволяет оптимизировать маршруты для грузоперевозок",
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-montserrat",
-});
+  icons: { icon: "/icons/trucking.jpg" },
+
+  keywords:
+    "маршруты, сайт, оптимизация маршрутов, оптимизация, грузоперевозки",
+};
 
 export default function RootLayout({
   children,

@@ -1,7 +1,8 @@
 import Image from "next/image";
 import laptop_img from "/public/icons/mackBook.png";
 import Link from "next/link";
-export function ConnectingBlock() {
+
+export function ConnectionBlock() {
   return (
     <section className="bg-white flex items-center justify-between mb-20 p-7 rounded-3xl">
       <div>

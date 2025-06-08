@@ -23,7 +23,7 @@ export default function RouteItem({
     setLocalStatus(drivers?.status_driver_id);
   }, [drivers?.status_driver_id]);
 
-  const handleVisible = () => setVisible((visib) => !visib);
+  const handleVisible = () => setVisible((visible) => !visible);
 
   return (
     <RouteItemLayout

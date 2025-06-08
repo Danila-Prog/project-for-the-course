@@ -1,10 +1,11 @@
 "use client";
-import { FooterHome } from "@/widgets/footer";
-import { ConnectingBlock } from "./ui/connectiongBlock";
-import { Main } from "@/widgets/main";
+
+import { FooterHome } from "@/page/HomePage/ui/Footer";
+import { ConnectionBlock } from "./ui/ConnectionBlock";
+import { Main } from "@/page/HomePage/ui/Main";
 import { Header } from "@/widgets/header";
 import { useEffect, useState } from "react";
-import { AccountPage } from "../AccountePage";
+import { AccountPage } from "../AccountPage";
 
 export function HomePage() {
   const [userId, setUserId] = useState<string | null>("");
@@ -23,7 +24,7 @@ export function HomePage() {
         <div className="w-[75%] mx-auto">
           <Header />
           <Main />
-          <ConnectingBlock />
+          <ConnectionBlock />
           <FooterHome />
         </div>
       )}

@@ -3,7 +3,7 @@
 import UserLogistician from "./ui/UserLogistician/UserLogistician";
 import { useEffect, useState } from "react";
 import UserDriver from "./ui/UserDriver";
-import { Header } from "@/widgets/Header";
+import { Header } from "../../widgets/Header/ui/Header";
 
 export default function AccountPage() {
   const [roleId, setRoleId] = useState<string | null>(null);

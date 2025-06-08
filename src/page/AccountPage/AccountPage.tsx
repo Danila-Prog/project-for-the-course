@@ -1,6 +1,6 @@
 "use client";
 
-import { Header } from "@/widgets/Header";
+import { Header } from "../../widgets/Header";
 import UserLogistician from "./ui/UserLogistician/UserLogistician";
 import { useEffect, useState } from "react";
 import UserDriver from "./ui/UserDriver";

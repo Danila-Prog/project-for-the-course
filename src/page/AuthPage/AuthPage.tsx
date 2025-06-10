@@ -1,18 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignIn from "./ui/SignIn";
 import Registration from "./ui/Registration";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
 
 export function AuthPage() {
   const [changeForm, setChangeForm] = useState("Войти");
+  const [shouldRender, setShouldRender] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const id = localStorage.getItem("userId");
+
+    if (id) {
+      router.replace("/account");
+    } else {
+      setShouldRender(true);
+    }
+  }, [router]);
 
   const handleChangeForm = () =>
     setChangeForm((prevChange) =>
       prevChange === "Войти" ? "Регистрация" : "Войти"
     );
+
+  if (!shouldRender) {
+    return null;
+  }
 
   return (
     <div className="flex">

@@ -5,29 +5,32 @@ import { ConnectionBlock } from "./ui/ConnectionBlock";
 import { Main } from "@/page/HomePage/ui/Main";
 import { Header } from "@/widgets/Header";
 import { useEffect, useState } from "react";
-import { AccountPage } from "../AccountPage";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
-  const [userId, setUserId] = useState<string | null>("");
+  const [shouldRender, setShouldRender] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUserId(localStorage.getItem("userId") ?? "");
+    const id = localStorage.getItem("userId");
+
+    if (id) {
+      router.replace("/account");
+    } else {
+      setShouldRender(true);
     }
-  }, []);
+  }, [router]);
+
+  if (!shouldRender) {
+    return null;
+  }
 
   return (
-    <>
-      {userId && <AccountPage />}
-
-      {!userId && (
-        <div className="w-[75%] mx-auto">
-          <Header />
-          <Main />
-          <ConnectionBlock />
-          <FooterHome />
-        </div>
-      )}
-    </>
+    <div className="w-[75%] mx-auto">
+      <Header />
+      <Main />
+      <ConnectionBlock />
+      <FooterHome />
+    </div>
   );
 }

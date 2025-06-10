@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 import { FooterHome } from "@/page/HomePage/ui/Footer";
 import { ConnectionBlock } from "./ui/ConnectionBlock";

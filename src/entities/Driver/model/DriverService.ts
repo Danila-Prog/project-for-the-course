@@ -1,0 +1,105 @@
+import { Filters } from "@/entities/Logistician/lib/types";
+import { DriverModel } from "./DriverModel";
+import { Driver, DriversRepository, Updates } from "./types";
+import { UserService } from "@/entities/User";
+import { VehiclesService } from "@/entities/Vehicles/model/VehiclesService";
+
+export class DriverService {
+  constructor(
+    private readonly repository: DriversRepository,
+    private readonly userService: UserService,
+    private readonly vehicleService: VehiclesService,
+  ) {}
+
+  public async getDrivers(): Promise<Driver[]> {
+    const { data } = await this.repository.getDrivers();
+
+    return DriverModel.mapDtoToDrivers(data);
+  }
+
+  public async getDriverById(driverId: number): Promise<Driver> {
+    const { data } = await this.repository.getDriverById(driverId);
+    return DriverModel.mapDtoToDriver(data[0]);
+  }
+
+  public async uploadDriverPhoto(driverId: number, formData: FormData) {
+    await this.repository.uploadPhoto(driverId, { payload: formData });
+  }
+
+  public async updateDriver(driverId: number, updates: Updates) {
+    try {
+      await this.repository.updateDriver({
+        payload: { driver_id: driverId, updates: updates },
+      });
+    } catch (error) {
+      console.error("Error updating driver status:", error);
+      throw error;
+    }
+  }
+
+  public async getFilteredDrivers(filters: Filters): Promise<Driver[]> {
+    const drivers = await this.getDrivers();
+    const users = await this.userService.getUsers();
+    const vehicles = await this.vehicleService.getVehicles();
+
+    if (!drivers && !users) return [];
+
+    return drivers.filter((driver) => {
+      const user = this.userService.findUserById(users, driver.userId);
+
+      if (!user) return false;
+
+      const vehicle =
+        vehicles &&
+        this.vehicleService.findVehiclesById(vehicles, driver.vehiclesId);
+
+      const userExperience = Number(driver.experienceYears);
+      const userCapacity = vehicle ? Number(vehicle.vehiclesCapacity) : 0;
+      const onlyTypeCar = vehicle?.vehiclesType?.split(" ")[0] || "";
+
+      const {
+        search,
+        experienceFrom,
+        experienceBefore,
+        capacityFrom,
+        capacityBefore,
+        typeCar,
+      } = filters;
+
+      const matchUser =
+        (user.name &&
+          `${user.name} ${user.surname}`
+            .toLowerCase()
+            .includes(search.toLowerCase())) ||
+        (vehicle?.numberCar &&
+          vehicle.numberCar.toLowerCase().includes(search.toLowerCase()));
+
+      const matchesExperience =
+        (experienceFrom ? userExperience >= Number(experienceFrom) : true) &&
+        (experienceBefore ? userExperience <= Number(experienceBefore) : true);
+
+      const matchCapacity =
+        (capacityFrom ? userCapacity >= Number(capacityFrom) : true) &&
+        (capacityBefore ? userCapacity <= Number(capacityBefore) : true);
+
+      const matchesTypeCar =
+        (typeCar === "passenger" && onlyTypeCar === "Легковой") ||
+        (typeCar === "truck" && onlyTypeCar === "Грузовой") ||
+        !typeCar;
+
+      return matchUser && matchesExperience && matchesTypeCar && matchCapacity;
+    });
+  }
+
+  public getActiveDrivers(drivers: Driver[], activeDriver: boolean) {
+    return DriverModel.getActiveDrivers(drivers, activeDriver);
+  }
+
+  public findDriveById(drivers: Driver[], userId: number): Driver | undefined {
+    return DriverModel.findDriveById(drivers, userId);
+  }
+
+  public getDriversVehiclesIds(drivers: Driver[]) {
+    return DriverModel.getDriversVehiclesIds(drivers);
+  }
+}

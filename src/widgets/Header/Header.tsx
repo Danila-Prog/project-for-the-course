@@ -12,9 +12,7 @@ export function Header() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setGetUserName(localStorage.getItem("username"));
-    }
+    setGetUserName(localStorage.getItem("username"));
   }, []);
 
   const IconComponent = ({ children }: { children: ReactNode }) =>
@@ -38,7 +36,6 @@ export function Header() {
 
       {!!getUserName ? (
         <div className="flex gap-[10px] items-center">
-          <span className="font-extrabold ">Пользователь: {getUserName}</span>
           <UiButton
             sizeButton="sm"
             textButton="Выйти"

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useFetch } from "./useFetch";
+import { useDI } from "@/shared/lib/di";
+import { useAsync } from "./useAsync";
 
 export function useUpdate() {
   const [userId, setUserId] = useState<string | null>(null);
@@ -7,8 +8,11 @@ export function useUpdate() {
   useEffect(() => {
     setUserId(localStorage.getItem("userId"));
   }, []);
+  const { driverService } = useDI();
 
-  const { drivers } = useFetch(userId);
+  const { data: drivers } = useAsync(() =>
+    driverService.getDriverById(Number(userId)),
+  );
 
   const updateDriverStatus = async (status: number) => {
     const response = await fetch("http://localhost:8080/api/drivers", {
@@ -17,8 +21,8 @@ export function useUpdate() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        driver_id: drivers?.driver_id,
-        status_driver_id: status,
+        driver_id: drivers?.driverId,
+        update: { status_driver_id: status },
       }),
     });
 

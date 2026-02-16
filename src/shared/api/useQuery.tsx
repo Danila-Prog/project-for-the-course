@@ -25,7 +25,7 @@ export function useQuery<T>(url: string) {
         }
       }
     },
-    [url]
+    [url],
   );
 
   useEffect(() => {

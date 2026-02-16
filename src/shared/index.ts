@@ -4,3 +4,8 @@ export { UiCheckBox } from "./ui/UiCheckBox";
 export { UiButton } from "./ui/UiButton";
 export { InputDropDown } from "./ui/InputDropDown";
 export { PasswordInput } from "./ui/PasswordInput";
+export { Tab, Tabs } from "./ui/Tabs";
+export { ROLES, validateByRegexp } from "./lib";
+export { Calendar } from "./ui/Calendar";
+export { List } from "./ui/List";
+export * from "./ui/DeleteModalWrapper";

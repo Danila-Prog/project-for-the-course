@@ -3,13 +3,13 @@ import { TSelectedOption } from "../lib/types";
 import { GroupBase, OptionsOrGroups } from "react-select";
 
 export default function useFetchAddress(
-  setSelectedOption: Dispatch<SetStateAction<string | null>>
+  setSelectedOption: Dispatch<SetStateAction<string>>,
 ) {
   const fetchAddress = async (
     inputValue: string,
     callback: (
-      options: OptionsOrGroups<TSelectedOption, GroupBase<TSelectedOption>>
-    ) => void
+      options: OptionsOrGroups<TSelectedOption, GroupBase<TSelectedOption>>,
+    ) => void,
   ): Promise<OptionsOrGroups<TSelectedOption, GroupBase<TSelectedOption>>> => {
     try {
       setSelectedOption(inputValue);
@@ -25,7 +25,7 @@ export default function useFetchAddress(
             Authorization: "Token " + process.env.TOKEN,
           },
           body: JSON.stringify({ query: inputValue }),
-        }
+        },
       );
 
       const res = await fetchingData.json();

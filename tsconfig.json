@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -22,9 +18,7 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
+      "@/*": ["./src/*"],
       "@/page/*": ["./src/page/*"]
     }
   },
@@ -32,9 +26,12 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "backend/index.js", "backend/controller/users.controller.js", "backend/routes/users.routes.js", "backend/db.js"  ],
-  "exclude": [
-    "node_modules"  
-  ]
+    ".next/types/**/*.ts",
+    "backend/index.js",
+    "backend/controller/users.controller.js",
+    "backend/routes/users.routes.js",
+    "backend/db.js",
+    "src/entities/Admin/ui/UsersTab/model/useUserTab.ts"
+  ],
+  "exclude": ["node_modules"]
 }

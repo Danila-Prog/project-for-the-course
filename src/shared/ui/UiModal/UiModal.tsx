@@ -1,18 +1,23 @@
 import clsx from "clsx";
 import { MouseEvent, ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { RxCross2 } from "react-icons/rx";
 
 interface IUiModal {
   children: ReactNode;
   className?: string;
   isOpen: boolean;
+  classNameContent?: string;
   onClose: () => void;
+  width?: string;
 }
 export default function UiModal({
   children,
   className,
+  classNameContent,
   isOpen,
   onClose,
+  width = "w-[35%]",
 }: IUiModal) {
   if (!isOpen) return null;
 
@@ -28,12 +33,16 @@ export default function UiModal({
       onClick={handleClose}
       className={clsx(
         className,
-        "fixed inset-0 bg-slate-900/60 backdrop-blur flex justify-center items-center"
+        "fixed inset-0 bg-slate-900/60 backdrop-blur flex justify-center items-center",
       )}
     >
       <div
         data-id="modal"
-        className="bg-white w-[35%] rounded-[10px] px-[40px] pt-[20px] pb-[35px]"
+        className={clsx(
+          width,
+          classNameContent,
+          "bg-white rounded-[10px] px-[40px] pt-[20px] pb-[35px]",
+        )}
       >
         {children}
       </div>
@@ -46,10 +55,19 @@ export default function UiModal({
 UiModal.Header = function UiModalHeader({
   children,
   className,
-}: Pick<IUiModal, "children" | "className">) {
+  onClose,
+}: Pick<IUiModal, "children" | "className" | "onClose">) {
   return (
-    <header className={clsx(className, "text-[30px] text-center font-bold")}>
+    <header
+      className={clsx(
+        className,
+        "text-xl font-bold flex justify-between items-center",
+      )}
+    >
       {children}
+      <button className="cursor-pointer " onClick={onClose}>
+        <RxCross2 className="w-5 h-5" />
+      </button>
     </header>
   );
 };
@@ -58,7 +76,7 @@ UiModal.Main = function UiModalMain({
   children,
   className,
 }: Pick<IUiModal, "children" | "className">) {
-  return <main className={clsx(className)}>{children}</main>;
+  return <main className={className}>{children}</main>;
 };
 
 UiModal.Footer = function UiModalFooter({

@@ -1,6 +1,7 @@
-import { Dispatch, ReactElement, SetStateAction } from "react";
+import { ReactElement } from "react";
 import AsyncSelect from "react-select/async";
 import useFetchAddress from "./model/useFetchAddress";
+import { StateSetter } from "@/shared/types";
 
 type TSelectedOption = {
   value: string;
@@ -9,12 +10,15 @@ type TSelectedOption = {
 
 interface IInputDropDown {
   idInputDropDown?: string;
-  setSelectedOption: Dispatch<SetStateAction<string | null>>;
+  selectedOption?: string;
+  setSelectedOption: StateSetter<string>;
   placeholder: string;
   label: ReactElement;
 }
+
 export default function InputDropDown({
   idInputDropDown,
+  selectedOption,
   setSelectedOption,
   placeholder,
   label,
@@ -31,6 +35,7 @@ export default function InputDropDown({
         inputId={idInputDropDown}
         cacheOptions
         isClearable
+        inputValue={selectedOption}
         styles={{
           control: (styles) => ({
             ...styles,

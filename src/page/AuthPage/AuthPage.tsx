@@ -2,13 +2,11 @@
 
 import { useEffect, useState } from "react";
 import SignIn from "./ui/SignIn";
-import Registration from "./ui/Registration";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 
 export function AuthPage() {
-  const [changeForm, setChangeForm] = useState("Войти");
   const [shouldRender, setShouldRender] = useState(false);
   const router = useRouter();
 
@@ -21,11 +19,6 @@ export function AuthPage() {
       setShouldRender(true);
     }
   }, [router]);
-
-  const handleChangeForm = () =>
-    setChangeForm((prevChange) =>
-      prevChange === "Войти" ? "Регистрация" : "Войти"
-    );
 
   if (!shouldRender) {
     return null;
@@ -55,24 +48,11 @@ export function AuthPage() {
         </div>
       </main>
 
-      <form className="rounded-[12px] m-auto bg-white w-[25%] h-full px-9 py-7">
-        <div className="flex justify-between items-center mb-[20px]">
-          <h1 className="text-[1.75rem] font-bold">
-            {changeForm === "Войти" ? "Войти" : "Регистрация"}
-          </h1>
+      <section className="rounded-[12px] m-auto bg-white w-[25%] h-full px-9 py-7">
+        <h1 className="text-[1.75rem] font-bold mb-[20px]">Войти</h1>
 
-          <button
-            type="button"
-            className="text-[1rem] font-semibold text-[#9297A9]"
-            onClick={handleChangeForm}
-          >
-            {changeForm === "Войти" ? "Регистрация" : "Войти"}
-          </button>
-        </div>
-
-        {changeForm === "Войти" && <SignIn />}
-        {changeForm === "Регистрация" && <Registration />}
-      </form>
+        <SignIn />
+      </section>
     </div>
   );
 }

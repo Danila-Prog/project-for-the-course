@@ -1,0 +1,1 @@
+export { DeleteModalWrapper } from "./DeleteModalWrapper";

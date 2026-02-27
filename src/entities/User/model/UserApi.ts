@@ -3,7 +3,7 @@ import {
   httpClient,
   RequestConfig,
 } from "@/shared/api/httpClient";
-import { UserDTO, UserRepository } from "./types";
+import { User, UserDTO, UserRepository } from "./types";
 
 export class UserApi implements UserRepository {
   private readonly ENDPOINT = "users";
@@ -24,7 +24,7 @@ export class UserApi implements UserRepository {
 
   updateUser(
     id: number,
-    { payload }: RequestConfig<Omit<UserDTO, "user_id">>,
+    { payload }: RequestConfig<{ updates: Omit<User, "userId"> }>,
   ): ApiResponse<UserDTO> {
     return httpClient.patch<UserDTO>(`${this.ENDPOINT}/${id}`, payload);
   }

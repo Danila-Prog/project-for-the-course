@@ -1,1 +1,1 @@
-export { RouteItem } from "./RouteItem";
+export { RouteItemCard } from "./RouteItemCard";

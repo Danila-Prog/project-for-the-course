@@ -1,5 +1,4 @@
 import { db } from "../db.js";
-// const db = require("../db");
 
 export class VehiclesController {
   async getVehicles(req, res) {
@@ -8,5 +7,3 @@ export class VehiclesController {
     res.json(vehicles.rows);
   }
 }
-
-// module.exports = new VehiclesController();

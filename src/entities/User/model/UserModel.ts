@@ -32,6 +32,7 @@ export class UserModel {
       return matchUser || matchUsername;
     });
   }
+
   public static mapDtoToUsers(users: UserDTO[]): User[] {
     return users.map((user) => ({
       ...user,

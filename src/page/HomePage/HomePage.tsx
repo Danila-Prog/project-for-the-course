@@ -1,36 +1,17 @@
-"use client";
-
-import { FooterHome } from "@/page/HomePage/ui/Footer";
-import { ConnectionBlock } from "./ui/ConnectionBlock";
+import { Footer } from "@/page/HomePage/ui/Footer";
 import { Main } from "@/page/HomePage/ui/Main";
 import { Header } from "@/widgets/Header";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
 export default function HomePage() {
-  const [shouldRender, setShouldRender] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    const id = localStorage.getItem("userId");
-
-    if (id) {
-      router.replace("/account");
-    } else {
-      setShouldRender(true);
-    }
-  }, [router]);
-
-  if (!shouldRender) {
-    return null;
-  }
-
   return (
-    <div className="w-[75%] mx-auto">
+    <div className="w-[95%] md:w-[90%] lg:w-[85%] xl:w-[75%] mx-auto min-h-screen flex flex-col">
       <Header />
-      <Main />
-      <ConnectionBlock />
-      <FooterHome />
+
+      <div className="flex-grow flex items-center justify-center">
+        <Main />
+      </div>
+
+      <Footer />
     </div>
   );
 }

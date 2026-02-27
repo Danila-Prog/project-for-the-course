@@ -17,7 +17,7 @@ export interface Driver {
   vehiclesId: number;
   photoUrl: string | null;
 }
-export type Updates = Partial<{
+export type UpdatesDriver = Partial<{
   status_driver_id: number | null;
   vehicles_id: number | null;
 }>;
@@ -25,11 +25,12 @@ export type Updates = Partial<{
 export type DriversRepository = {
   getDrivers: () => ApiResponse<DriverDto[]>;
   getDriverById: (driverId: number) => ApiResponse<DriverDto[]>;
+  getDriverByUserId: (userId: number) => ApiResponse<DriverDto[]>;
   updateDriver: ({
     payload,
   }: RequestConfig<{
     driver_id: number;
-    updates: Updates;
+    updates: UpdatesDriver;
   }>) => ApiResponse<DriverDto[]>;
 
   uploadPhoto: (

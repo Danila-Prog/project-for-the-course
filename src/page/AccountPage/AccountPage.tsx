@@ -1,23 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Header } from "@/widgets/Header";
-import { Admin, Driver, Logistician } from "../../entities";
+import { Admin } from "../Admin";
+import { Logistician } from "../Logistician";
+import { Driver } from "../Driver";
+import { RouteItem, InjectRouteProvider } from "@/features";
+import { useAuth } from "@/shared/lib";
 
 export default function AccountPage() {
-  const [roleId, setRoleId] = useState<string | null>(null);
+  const { user } = useAuth();
+  if (!user) return;
 
-  useEffect(() => {
-    setRoleId(localStorage.getItem("roleId") ?? "");
-  }, []);
+  const roleId = user.roleId;
 
   return (
     <div className="w-[75%] mx-auto">
       <Header />
 
-      {Number(roleId) === 1 && <Driver />}
-      {Number(roleId) === 2 && <Logistician />}
-      {Number(roleId) === 3 && <Admin />}
+      {roleId === 1 && (
+        <InjectRouteProvider RouteItem={RouteItem}>
+          <Driver />
+        </InjectRouteProvider>
+      )}
+
+      {roleId === 2 && <Logistician />}
+      {roleId === 3 && <Admin />}
     </div>
   );
 }

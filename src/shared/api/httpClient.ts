@@ -84,7 +84,7 @@ export class HttpClient {
       let errorData;
       try {
         errorData = await response.json();
-      } catch (e) {
+      } catch {
         errorData = { message: response.statusText };
       }
       throw new Error(

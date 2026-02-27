@@ -23,7 +23,7 @@ export interface UserRepository {
   ) => ApiResponse<UserDTO>;
   updateUser: (
     id: number,
-    config: RequestConfig<Omit<UserDTO, "user_id">>,
+    config: RequestConfig<{ updates: Omit<User, "userId"> }>,
   ) => ApiResponse<UserDTO>;
 
   deleteUser: (id: number) => ApiResponse<UserDTO>;

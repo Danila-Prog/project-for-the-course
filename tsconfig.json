@@ -31,7 +31,7 @@
     "backend/controller/users.controller.js",
     "backend/routes/users.routes.js",
     "backend/db.js",
-    "src/entities/Admin/ui/UsersTab/model/useUserTab.ts"
+    "src/features/Admin/model/useUserTab.ts"
   ],
   "exclude": ["node_modules"]
 }

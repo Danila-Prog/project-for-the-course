@@ -11,7 +11,7 @@ export class RoutesController {
     const driverId = req.params.id;
 
     const route = await db.query(
-      "SELECT * FROM public.routes WHERE driver_id = $1",
+      "SELECT * FROM public.routes WHERE driver_id = $1 AND id_status_route = 1",
       [driverId],
     );
 
@@ -29,25 +29,87 @@ export class RoutesController {
     res.json(newRoute.rows[0]);
   }
 
-  async updateRoutes(req, res) {
-    const { driver_id, start_point, end_point, date_start, date_end } =
-      req.body;
+  async updateRoute(req, res) {
+    const { routeId, updates } = req.body;
 
-    const updateRoute = await db.query(
-      "UPDATE public.routes SET start_point = $2, end_point = $3, date_start = $4, date_end = $5 WHERE driver_id = $1 RETURNING *",
-      [driver_id, start_point, end_point, date_start, date_end],
+    const allowedFields = [
+      "driver_id",
+      "start_point",
+      "end_point",
+      "date_start",
+      "date_end",
+      "id_status_route",
+    ];
+
+    const keys = Object.keys(updates).filter(
+      (key) => allowedFields.includes(key) && updates[key] !== undefined,
     );
-    
-    res.json(updateRoute.rows[0]);
+
+    if (keys.length === 0) {
+      return res.status(400).json({ message: "Нет данных для обновления" });
+    }
+
+    const setClause = keys
+      .map((key, index) => `${key} = $${index + 1}`)
+      .join(", ");
+
+    const values = keys.map((key) => updates[key]);
+
+    const query = `
+      UPDATE public.routes
+      SET ${setClause}
+      WHERE route_id = $${keys.length + 1}
+      RETURNING *
+    `;
+
+    try {
+      const updatedDriver = await db.query(query, [...values, routeId]);
+
+      if (updatedDriver.rows.length > 0) {
+        res.json(updatedDriver.rows[0]);
+      } else {
+        res.status(404).json({ message: "Маршрута с таким ID не найден." });
+      }
+    } catch (error) {
+      console.error("Ошибка при обновлении водителя в БД:", error);
+      res
+        .status(500)
+        .json({ message: "Произошла ошибка сервера при обновлении водителя." });
+    }
   }
 
   async deleteRoutes(req, res) {
-    const route_id = req.params.route_id;
+    const routeId = req.params.id;
+    console.log(routeId);
     const deleteRoutes = await db.query(
       "DELETE FROM public.routes WHERE route_id = $1",
-      [route_id],
+      [routeId],
     );
+
     res.json(deleteRoutes.rows[0]);
+  }
+
+  async uploadConfirmationPhoto(req, res) {
+    if (!req.file) {
+      return res.status(400).json({ message: "Файл не загружен." });
+    }
+
+    const routeId = req.params.id;
+    const serverBaseUrl = req.protocol + "://" + req.get("host");
+    const photoUrl = `${serverBaseUrl}/uploads/${req.file.filename}`;
+
+    try {
+      await db.query(
+        "UPDATE routes SET confirmation_photo = $1 WHERE route_id = $2",
+        [photoUrl, routeId],
+      );
+
+      res
+        .status(200)
+        .json({ message: "Фотография успешно загружена.", photoUrl: photoUrl });
+    } catch (error) {
+      console.error("Ошибка при обновлении фото профиля:", error);
+    }
   }
 }
 

@@ -1,5 +1,6 @@
+"use client";
+
 import { formatDate } from "@/shared/lib";
-import { StateSetter } from "@/shared/types";
 import clsx from "clsx";
 import {
   add,
@@ -23,7 +24,7 @@ export const Calendar = ({
   setter,
 }: {
   currDate: string;
-  setter: StateSetter<string>;
+  setter: (val: string) => void;
 }) => {
   const today = startOfToday();
   const [currMonth, setCurrMonth] = useState(() => format(today, "MMM-yyyy"));

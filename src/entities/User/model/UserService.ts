@@ -19,8 +19,8 @@ export class UserService {
   public async createUser(payload: Omit<UserDTO, "user_id">) {
     await this.repository.createUser({ payload });
   }
-  public async updateUser(id: number, payload: Omit<UserDTO, "user_id">) {
-    await this.repository.updateUser(id, { payload });
+  public async updateUser(id: number, updates: Omit<User, "userId">) {
+    await this.repository.updateUser(id, { payload: { updates: updates } });
   }
   public async deleteUser(id: number) {
     await this.repository.deleteUser(id);

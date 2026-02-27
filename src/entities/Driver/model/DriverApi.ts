@@ -1,5 +1,5 @@
 import { httpClient, RequestConfig } from "@/shared/api/httpClient";
-import { DriverDto, DriversRepository, Updates } from "./types";
+import { DriverDto, DriversRepository, UpdatesDriver } from "./types";
 
 export class DriverApi implements DriversRepository {
   private readonly ENDPOINT = "drivers";
@@ -12,6 +12,10 @@ export class DriverApi implements DriversRepository {
     return httpClient.get<DriverDto[]>(`${this.ENDPOINT}/${driverId}`);
   }
 
+  getDriverByUserId(userId: number) {
+    return httpClient.get<DriverDto[]>(`${this.ENDPOINT}/user/${userId}`);
+  }
+
   uploadPhoto(driverId: number, { payload }: RequestConfig<FormData>) {
     return httpClient.patch<DriverDto>(`${this.ENDPOINT}/${driverId}`, payload);
   }
@@ -20,7 +24,7 @@ export class DriverApi implements DriversRepository {
     payload,
   }: RequestConfig<{
     driver_id: number;
-    updates: Updates;
+    updates: UpdatesDriver;
   }>) {
     return httpClient.patch<DriverDto[]>(this.ENDPOINT, payload);
   }

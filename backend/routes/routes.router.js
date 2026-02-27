@@ -9,11 +9,11 @@ router.get("/routes", routesController.getRoutes);
 router.get("/routes/:id", routesController.getRouteByDriverId);
 router.delete("/routes/:id", routesController.deleteRoutes);
 router.post("/routes", routesController.createRoutes);
-router.patch("/routes", routesController.updateRoutes);
+router.patch("/routes", routesController.updateRoute);
 router.patch(
   "/routes/:id",
   confirmRoutePhotoUpload,
-  //   driversController.uploadProfilePhoto,
+  routesController.uploadConfirmationPhoto,
 );
 
 export default router;

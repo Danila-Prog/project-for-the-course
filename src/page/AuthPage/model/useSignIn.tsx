@@ -1,5 +1,3 @@
-import { useAsync } from "@/shared/api/useAsync";
-import { useDI } from "@/shared/lib/di";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -10,30 +8,20 @@ export const useSignIn = () => {
 
   const router = useRouter();
 
-  const { driverService, userService } = useDI();
+  const signIn = async () => {
+    const res = await fetch("http://localhost:8080/api/login", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
-  const { data: users } = useAsync(() => userService.getUsers());
-  const { data: drivers } = useAsync(() => driverService.getDrivers());
+    if (!res.ok) return "invalid-credentials";
 
-  const signIn = () => {
-    const user = users?.find(
-      (u) => u.username === formData.login && u.password === formData.password,
-    );
-
-    if (!user) {
-      return "invalid-credentials";
-    }
-
-    const driver = driverService.findDriveById(drivers ?? [], user.userId);
-
-    localStorage.setItem("userId", String(user.userId));
-    localStorage.setItem("username", user.username);
-    localStorage.setItem("roleId", String(user.roleId));
-    localStorage.setItem("name", user.name);
-    localStorage.setItem("surname", user.surname);
-    localStorage.setItem("driverId", String(driver?.driverId));
-
-    router.push("/account");
+    router.replace("/account");
+    router.refresh();
   };
 
   const updateForm = (field: SignInField, value: string) => {

@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import clsx from "clsx";
 import { dmSans, montserrat } from "./fonts";
+import { AuthCtxProvider, verifyJWT } from "@/shared/lib";
+import { cookies } from "next/headers";
+import { User } from "@/entities";
 
 export const metadata: Metadata = {
   title: "Маршрутизатор",
@@ -20,10 +23,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const token = cookies().get("accessToken")?.value;
+  const user = token ? verifyJWT<Omit<User, "password">>(token) : null;
+
   return (
     <html lang="ru">
       <body className={clsx(dmSans.variable, montserrat.variable)}>
-        {children}
+        <AuthCtxProvider user={user}>{children}</AuthCtxProvider>
         <div id="modals"></div>
       </body>
     </html>

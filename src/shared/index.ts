@@ -9,3 +9,7 @@ export { ROLES, validateByRegexp } from "./lib";
 export { Calendar } from "./ui/Calendar";
 export { List } from "./ui/List";
 export * from "./ui/DeleteModalWrapper";
+export * from "./ui/SearchInput";
+export * from "./ui/SelectTypeCar";
+export * from "./ui/SelectVehicles";
+export * from "./ui/UploadPhoto";

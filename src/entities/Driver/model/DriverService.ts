@@ -1,6 +1,6 @@
-import { Filters } from "@/entities/Logistician/lib/types";
+import { Filters } from "@/features/Logistician/lib/types";
 import { DriverModel } from "./DriverModel";
-import { Driver, DriversRepository, Updates } from "./types";
+import { Driver, DriversRepository, UpdatesDriver } from "./types";
 import { UserService } from "@/entities/User";
 import { VehiclesService } from "@/entities/Vehicles/model/VehiclesService";
 
@@ -22,17 +22,23 @@ export class DriverService {
     return DriverModel.mapDtoToDriver(data[0]);
   }
 
+  public async getDriverByUserId(userId: number): Promise<Driver> {
+    const { data } = await this.repository.getDriverByUserId(userId);
+
+    return DriverModel.mapDtoToDriver(data[0]);
+  }
+
   public async uploadDriverPhoto(driverId: number, formData: FormData) {
     await this.repository.uploadPhoto(driverId, { payload: formData });
   }
 
-  public async updateDriver(driverId: number, updates: Updates) {
+  public async updateDriver(driverId: number, updates: UpdatesDriver) {
     try {
       await this.repository.updateDriver({
         payload: { driver_id: driverId, updates: updates },
       });
     } catch (error) {
-      console.error("Error updating driver status:", error);
+      console.error("Error updating driver:", error);
       throw error;
     }
   }

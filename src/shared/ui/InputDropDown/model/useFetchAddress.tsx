@@ -1,9 +1,8 @@
-import { Dispatch, SetStateAction } from "react";
 import { TSelectedOption } from "../lib/types";
 import { GroupBase, OptionsOrGroups } from "react-select";
 
 export default function useFetchAddress(
-  setSelectedOption: Dispatch<SetStateAction<string>>,
+  setSelectedOption: (val: string) => void,
 ) {
   const fetchAddress = async (
     inputValue: string,

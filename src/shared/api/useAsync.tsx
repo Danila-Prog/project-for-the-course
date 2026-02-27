@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState, type DependencyList } from "react";
 import { StateSetter } from "../types";
 
@@ -12,7 +14,7 @@ type UseAsyncReturn<Data> = {
 export const useAsync = <Data,>(
   request: (() => Promise<Data>) | null | undefined,
   deps: DependencyList = [],
-): UseAsyncReturn<Data> => {
+): UseAsyncReturn<Data> & { refetch: () => Promise<Data | undefined> } => {
   const [data, setData] = useState<Data | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -54,5 +56,6 @@ export const useAsync = <Data,>(
     isLoading,
     isError,
     error,
+    refetch: fetchData,
   };
 };

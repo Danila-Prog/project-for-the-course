@@ -11,8 +11,8 @@ export default function SignIn() {
 
   const disabled = !formData.login || !formData.password;
 
-  const handleSubmit = () => {
-    const result = signIn();
+  const handleSubmit = async() => {
+    const result = await signIn()
 
     if (result === "invalid-credentials") {
       setHasAuthError(true);

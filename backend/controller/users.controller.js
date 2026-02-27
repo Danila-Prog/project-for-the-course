@@ -18,30 +18,58 @@ export class UserController {
   }
 
   async createUser(req, res) {
-    const { surname, name, username, password, role_id, email } = req.body;
+    const { surname, name, username, password, roleId, email } = req.body;
 
     const newUser = await db.query(
       `INSERT INTO public.users 
        (username, password, role_id, name, surname, email) 
        VALUES ($1, $2, $3, $4, $5, $6) 
        RETURNING *`,
-      [username, password, role_id, name, surname, email],
+      [username, password, roleId, name, surname, email],
     );
     res.json(newUser.rows[0]);
   }
-  
+
   async updateUser(req, res) {
     const { id } = req.params;
-    const { surname, name, username, password, role_id, email } = req.body;
+    const { updates } = req.body;
 
+    const modifyUpdates = {
+      ...updates,
+      role_id: updates.roleId,
+    };
+
+    const allowedFields = [
+      "surname",
+      "name",
+      "username",
+      "password",
+      "role_id",
+      "email",
+    ];
+
+    const keys = Object.keys(modifyUpdates).filter(
+      (key) => allowedFields.includes(key) && modifyUpdates[key] !== undefined,
+    );
+
+    if (keys.length === 0) {
+      return res.status(400).json({ message: "Нет данных для обновления" });
+    }
+
+    const setClause = keys
+      .map((key, index) => `${key} = $${index + 1}`)
+      .join(", ");
+
+    const values = keys.map((key) => modifyUpdates[key]);
+
+    const query = `
+      UPDATE public.users
+      SET ${setClause}
+      WHERE user_id = $${keys.length + 1}
+      RETURNING *
+    `;
     try {
-      const updatedUser = await db.query(
-        `UPDATE public.users 
-         SET username = $1, password = $2, role_id = $3, name = $4, surname = $5, email = $6 
-         WHERE user_id = $7 
-         RETURNING *`,
-        [username, password, role_id, name, surname, email, id],
-      );
+      const updatedUser = await db.query(query, [...values, id]);
       res.json(updatedUser.rows[0]);
     } catch (error) {
       console.error("Ошибка при обновлении пользователя:", error);

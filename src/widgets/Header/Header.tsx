@@ -1,54 +1,53 @@
 "use client";
 
 import { PiCarProfileBold } from "react-icons/pi";
-import { FaRegUser } from "react-icons/fa6";
 import Link from "next/link";
-import { ReactNode, useEffect, useState } from "react";
 import { UiButton } from "@/shared";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import clsx from "clsx";
+import { useAuth } from "@/shared/lib";
+import { httpClient } from "@/shared/api/httpClient";
 
 export function Header() {
-  const [getUserName, setGetUserName] = useState<string | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
+  const { user } = useAuth();
 
-  useEffect(() => {
-    setGetUserName(localStorage.getItem("username"));
-  }, []);
+  const handleExit = async () => {
+    await httpClient.post(
+      "logout",
+      {},
+      {
+        credentials: "include",
+      },
+    );
 
-  const IconComponent = ({ children }: { children: ReactNode }) =>
-    !!getUserName ? <div>{children}</div> : <Link href="/">{children}</Link>;
-
-  const handleExit = () => {
-    if (window.location.href === "http://localhost:3000/") {
-      window.location.reload();
-    } else {
-      router.push("/");
-    }
-
-    localStorage.clear();
+    router.refresh();
   };
 
   return (
-    <header className="flex justify-between my-1 py-2 px-3 bg-white rounded-xl">
-      <IconComponent>
-        <PiCarProfileBold className="w-8 h-8" />
-      </IconComponent>
+    <header
+      className={clsx(
+        pathname !== "/" && "mb-4",
+        "flex items-center justify-between mt-2 py-2 px-3 bg-white rounded-xl",
+      )}
+    >
+      <PiCarProfileBold className="w-8 h-8 xl:w-10 xl:h-10" />
 
-      {!!getUserName ? (
-        <div className="flex gap-[10px] items-center">
+      {!!user ? (
+        <div className="flex gap-2.5 items-center">
           <UiButton
-            sizeButton="sm"
             textButton="Выйти"
-            sizesText="text-[18px]"
+            sizesText="text-base lg:text-lg"
             onClick={handleExit}
+            className="px-6 py-1 lg:px-8 lg:py-2"
           />
         </div>
       ) : (
         <Link
           href="/auth"
-          className="w-[140px] h-[40px] text-[18px] flex justify-center items-center font-medium bg-button-grey text-white transition hover:bg-[#464646] rounded-[16px]"
+          className="px-6 py-1 lg:px-8 lg:py-2 text-base lg:text-lg flex justify-center items-center font-medium bg-button-grey text-white transition hover:bg-[#464646] rounded-xl"
         >
-          <FaRegUser className="mr-1" />
           Войти
         </Link>
       )}

@@ -1,1 +1,0 @@
-export { useRegistrationTab } from "./useRegistrationTab";

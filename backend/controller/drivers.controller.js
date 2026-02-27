@@ -16,6 +16,15 @@ export class DriverController {
     res.json(driver.rows);
   }
 
+  async getDriverByUserId(req, res) {
+    const driver = await db.query(
+      "SELECT * FROM public.drivers WHERE user_id = $1",
+      [req.params.id],
+    );
+
+    res.json(driver.rows);
+  }
+  
   async updateDriver(req, res) {
     const { driver_id, updates } = req.body;
 

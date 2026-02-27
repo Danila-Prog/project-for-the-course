@@ -1,7 +1,7 @@
 import Image, { StaticImageData } from "next/image";
 import { ReactElement } from "react";
 
-interface CardDriver {
+interface Props {
   imageSrc: StaticImageData | string;
   nameDriver: string;
   status: string;
@@ -9,12 +9,13 @@ interface CardDriver {
   capacity?: string;
   experience: string;
   numberCar?: string;
-  buttons: ReactElement;
+  buttons?: ReactElement;
   infoRoute?: ReactElement;
   vehicle?: string;
+  confirmPhoto?: ReactElement;
 }
 
-export default function CardDriver({
+export const CardDriver = ({
   imageSrc,
   nameDriver,
   status,
@@ -25,7 +26,8 @@ export default function CardDriver({
   buttons,
   infoRoute,
   vehicle,
-}: CardDriver) {
+  confirmPhoto,
+}: Props) => {
   return (
     <div className="shadow-card rounded-[15px] p-[25px] grid gap-[12px]">
       <article className="flex">
@@ -39,9 +41,11 @@ export default function CardDriver({
 
         <div>
           <h1 className="text-[24px] font-bold mb-[4px]"> {nameDriver}</h1>
+
           <p className="text-[15px] text-[#7b92a4]">
             Статуc водителя: {status}
           </p>
+
           {buttons}
         </div>
       </article>
@@ -76,6 +80,8 @@ export default function CardDriver({
           Номерной знак: <span className="font-medium">{numberCar}</span>
         </p>
       )}
+
+      {confirmPhoto}
     </div>
   );
-}
+};

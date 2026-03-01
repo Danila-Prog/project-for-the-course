@@ -19,7 +19,7 @@ export const AdminTabs = () => {
         href="?tabAdmin=register"
         className={currentTab === "register" ? "bg-slate-100" : ""}
       >
-        Регистрация пользователя
+        Регистрация
       </Tab>
     </Tabs>
   );

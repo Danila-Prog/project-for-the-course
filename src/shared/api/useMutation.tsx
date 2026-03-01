@@ -81,7 +81,7 @@ export const useMutation = <Data, Variables = void>(
         options?.onSettled?.();
       }
     },
-    [mutationFn, options?.onSuccess, options?.onError, options?.onSettled], // Зависимости для useCallback
+    [mutationFn, options],
   );
 
   return {

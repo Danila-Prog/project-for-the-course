@@ -70,7 +70,7 @@ export const UploadPhoto = ({
     <div className="mx-auto flex flex-col items-center">
       {previewUrl && (
         <div className="mb-3 ">
-          <span className="block text-center text-sm text-gray-600 mb-1.5">
+          <span className="inline-block text-sm text-gray-600 mb-1.5">
             Предпросмотр:
           </span>
 
@@ -79,7 +79,7 @@ export const UploadPhoto = ({
             alt="Driver preview"
             width={224}
             height={224}
-            className="w-56 h-56 object-cover rounded-[10px] border mb-2"
+            className="w-56  object-cover rounded-[10px] border mb-2"
           />
         </div>
       )}
@@ -102,7 +102,7 @@ export const UploadPhoto = ({
           disabled={!selectedFile || isLoading}
           className={clsx(
             classNameConfirmButton,
-            "w-[300px] h-[50px] px-[16px] rounded-[25px] transition text-white text-[20px] font-medium mt-[30px] disabled:opacity-70 mx-auto",
+            "max-w-[320px] py-2 px-6 md:px-10 rounded-xl transition text-white text-[20px] font-medium mt-[30px] disabled:opacity-70 mx-auto",
           )}
         >
           {isLoading ? "Загрузка..." : textConfirm}

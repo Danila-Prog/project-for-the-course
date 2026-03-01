@@ -46,6 +46,7 @@ const historyRouteService = new HistoryRoutesService(
   historyRouteApi,
   userService,
   vehiclesService,
+  driverService,
 );
 
 routeService.setHistoryRouteService(historyRouteService);

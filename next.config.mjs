@@ -6,6 +6,7 @@ const nextConfig = {
     URL_API_ADDRESS: process.env.URL_ADDRESS,
     JWT_SECRET: process.env.JWT_SECRET,
   },
+  
   images: {
     remotePatterns: [
       {

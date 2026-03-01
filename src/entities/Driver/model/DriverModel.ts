@@ -34,9 +34,7 @@ export class DriverModel {
     };
   }
 
-  public static getActiveDrivers(drivers: Driver[], activeDriver: boolean) {
-    return drivers.filter((driver) =>
-      activeDriver ? driver.statusDriverId !== 1 : driver.statusDriverId === 1,
-    );
+  public static getStatusDrivers(drivers: Driver[], status: number) {
+    return drivers.filter((driver) => driver.statusDriverId === status);
   }
 }

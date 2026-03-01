@@ -11,6 +11,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        min826: "826px",
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",

@@ -25,9 +25,8 @@ export const RegistrationTab = () => {
 
   return (
     <form
-      autoComplete="off"
       onSubmit={(e) => handleSubmit(e, createUser)}
-      className="w-full bg-white pt-[20px] px-[40px] pb-[40px] rounded-[10px]"
+      className="w-full bg-white pt-5 px-5 md:px-10 pb-10 rounded-xl"
     >
       <div className="flex flex-col gap-[10px]">
         <UiInput

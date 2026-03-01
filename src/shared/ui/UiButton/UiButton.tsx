@@ -32,7 +32,7 @@ export default function UiButton({
         sizesText,
         className,
         rounded,
-        "flex justify-center items-center font-medium bg-button-grey text-white transition hover:bg-[#464646] disabled:opacity-70",
+        "flex justify-center items-center text-wrap font-medium bg-button-grey text-white transition hover:bg-[#464646] disabled:opacity-70",
       )}
       {...buttonProps}
     >

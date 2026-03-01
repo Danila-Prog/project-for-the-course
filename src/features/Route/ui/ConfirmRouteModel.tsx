@@ -10,7 +10,11 @@ export const ConfirmRouteModel = ({ isOpen, onClose }: Props) => {
   const { handleSubmitConfirmRoute } = useConfirmRoute();
 
   return (
-    <UiModal isOpen={isOpen} onClose={onClose}>
+    <UiModal
+      isOpen={isOpen}
+      onClose={onClose}
+      width="w-[95%] md:w-[60%] lg:w-[40%]"
+    >
       <UiModal.Header onClose={onClose}>
         Подтвердите окончание маршрута
       </UiModal.Header>

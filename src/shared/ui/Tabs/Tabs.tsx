@@ -4,7 +4,7 @@ import { ComponentProps, PropsWithChildren } from "react";
 
 export const Tabs = ({ children }: PropsWithChildren) => {
   return (
-    <ul className="bg-white mr-[30px] rounded-[10px] py-[15px] flex flex-col gap-5 h-full flex-shrink-0">
+    <ul className="bg-white md:mr-6 rounded-lg py-4 flex flex-col gap-5 h-full w-full min826:w-fit flex-shrink-0">
       {children}
     </ul>
   );
@@ -20,7 +20,7 @@ export const Tab = ({
       <Link
         href={href ?? ""}
         className={clsx(
-          "block w-full font-medium hover:bg-slate-50 px-[23px] py-1.5 transition-colors duration-500 cursor-pointer",
+          "block w-full font-medium hover:bg-slate-50 pl-5 pr-12 py-1.5 transition-colors duration-500 cursor-pointer",
           className,
         )}
       >

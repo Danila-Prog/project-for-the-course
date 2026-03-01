@@ -7,8 +7,8 @@ import { ComponentType, PropsWithChildren, useState } from "react";
 
 interface Props {
   RouteItem: ComponentType<{ route: Route; driverId: number }>;
-  isUpdateRoute: boolean;
-  setIsUpdateRoute: StateSetter<boolean>;
+  isUpdateRoute?: boolean;
+  setIsUpdateRoute?: StateSetter<boolean>;
 }
 
 const InjectRouteCtx = createStrictContext<Props>();

@@ -26,12 +26,16 @@ export default function DriverPersonFormEditing({
   );
 
   return (
-    <UiModal isOpen={isOpen} onClose={onClose} width="w-[40%]">
-      <UiModal.Header className="mb-[10px]" onClose={onClose}>
+    <UiModal
+      isOpen={isOpen}
+      onClose={onClose}
+      width="w-[95%] md:w-[60%] lg:w-[40%]"
+    >
+      <UiModal.Header className="mb-2.5" onClose={onClose}>
         Редактирования фото
       </UiModal.Header>
 
-      <UiModal.Main className="w-[60%] mx-auto">
+      <UiModal.Main>
         <UploadPhoto
           onSubmit={async (selectedFile) => {
             const formData = new FormData();

@@ -1,9 +1,9 @@
 import { List } from "@/shared";
-import { LogisticianCardFabric } from "./LogisticianCardFabric";
-import { useDI } from "@/shared/lib/di";
-import { useAsync } from "@/shared/api/useAsync";
 import { CurrentTabLogistician, Filters } from "../lib/types";
-import { useRenderForm } from "../model";
+import { useLogisticianListViewModel, useRenderForm } from "../model";
+import { CardHistoryRoutes } from "./CardHistoryRoutes";
+import { CardAllDrivers } from "./CardAllDrivers";
+import { CardActiveDrivers } from "./CardActiveDrivers";
 
 interface Props {
   filters: Filters;
@@ -11,14 +11,11 @@ interface Props {
 }
 
 export const LogisticianListCard = ({ filters, currentTab }: Props) => {
-  const { driverService, routeService } = useDI();
-
-  const { data: filteredDrivers } = useAsync(
-    () => driverService.getFilteredDrivers(filters),
-    [filters],
-  );
-
-  const { data: routes } = useAsync(() => routeService.getRoutes());
+  const {
+    accessDriversAggregates,
+    activeDriversAggregates,
+    filteredHistoryRoutes,
+  } = useLogisticianListViewModel(filters, currentTab);
 
   const {
     formOrder,
@@ -31,47 +28,73 @@ export const LogisticianListCard = ({ filters, currentTab }: Props) => {
     toggleFormOrder,
   } = useRenderForm();
 
-  if (!filteredDrivers) return null;
+  if (currentTab === "allDrivers") {
+    return (
+      <>
+        <List
+          className="grid gap-[25px]"
+          entity={accessDriversAggregates}
+          keyExtractor={(accessDriver) => accessDriver.driver.driverId ?? 0}
+          renderCard={(accessDriver) => (
+            <CardAllDrivers
+              driver={accessDriver.driver}
+              setSelectedDriverId={setSelectedDriverId}
+              setSelectedUserId={setSelectedUserId}
+              toggleFormOrder={toggleFormOrder}
+              user={accessDriver.user}
+            />
+          )}
+        />
 
-  const routesWhereStatus1 = routes?.filter(
-    (route) => route.idStatusRoute === 1,
-  );
+        {formOrder}
+      </>
+    );
+  }
 
-  const route = new Map(
-    routesWhereStatus1?.map((route) => [route.driverId, route]),
-  );
+  if (currentTab === "activeDrivers") {
+    return (
+      <>
+        <List
+          className="grid gap-[25px]"
+          entity={activeDriversAggregates}
+          keyExtractor={(activeDriver) => activeDriver.driver.driverId}
+          renderCard={(activeDriver) => (
+            <CardActiveDrivers
+              driver={activeDriver.driver}
+              route={activeDriver.route}
+              user={activeDriver.user}
+              vehicle={activeDriver.vehicle}
+              setSelectedDriverId={setSelectedDriverId}
+              toggleDeleteOrder={toggleFormDeleteOrder}
+              toggleEditOrder={toggleFormEditingOrder}
+            />
+          )}
+        />
 
-  const filteredAndSortedDrivers = driverService.getActiveDrivers(
-    filteredDrivers,
-    currentTab === "activeDrivers",
-  );
+        {formEditingOrder}
 
-  return (
-    <>
+        {deleteOrder}
+      </>
+    );
+  }
+
+  if (currentTab === "historyDrivers") {
+    return (
       <List
         className="grid gap-[25px]"
-        entity={filteredAndSortedDrivers}
-        idKey="driverId"
-        renderCard={(driver) => (
-          <LogisticianCardFabric
-            key={driver.driverId}
-            driver={driver}
-            setSelectedDriverId={setSelectedDriverId}
-            setSelectedUserId={setSelectedUserId}
-            toggleFormDeleteOrder={toggleFormDeleteOrder}
-            toggleFormEditingOrder={toggleFormEditingOrder}
-            toggleFormOrder={toggleFormOrder}
-            currentTab={currentTab}
-            route={route?.get(driver.driverId)}
+        entity={filteredHistoryRoutes ?? []}
+        keyExtractor={(historyRoute) => historyRoute.route.id}
+        renderCard={(historyRoute) => (
+          <CardHistoryRoutes
+            driver={historyRoute.driver}
+            route={historyRoute.route}
+            user={historyRoute.user}
+            vehicle={historyRoute.vehicle}
           />
         )}
       />
+    );
+  }
 
-      {formOrder}
-
-      {formEditingOrder}
-
-      {deleteOrder}
-    </>
-  );
+  return null;
 };

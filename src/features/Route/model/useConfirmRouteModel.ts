@@ -17,7 +17,7 @@ export const useConfirmRoute = () => {
     const formData = new FormData();
     formData.append("confirmPhoto", selectedFile);
     await confirmRoute.mutate(formData);
-    setIsUpdateRoute(true);
+    setIsUpdateRoute?.(true);
   };
 
   return { handleSubmitConfirmRoute };

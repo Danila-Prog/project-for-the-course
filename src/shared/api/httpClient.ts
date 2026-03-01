@@ -53,9 +53,7 @@ export class HttpClient {
     endpoint: string,
     method: RequestInit["method"],
     options: RequestOptions = {},
-  ): ApiResponse<T> {
-    console.info("REQUEST:", method, endpoint, new Date());
-
+  ) {
     let url = `${this.baseUrl}/${endpoint}`;
     if (options.params) {
       url += this.createSearchParams(options.params);

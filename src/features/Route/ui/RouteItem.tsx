@@ -16,12 +16,10 @@ export const RouteItem = ({
   const handleVisible = () => setVisible((visible) => !visible);
 
   return (
-    <div className="grid border-2 rounded-[7px]">
+    <div className="flex flex-col border-2 rounded-md ">
       <button
         onClick={handleVisible}
-        className={
-          "text-start py-[5px] px-[15px] font-medium text-[20px] flex flex-col gap-2"
-        }
+        className="text-start py-1.5 px-4 font-medium text-base flex flex-col gap-1"
       >
         <RouteItemCard
           startPoint={route.startPoint}
@@ -32,7 +30,7 @@ export const RouteItem = ({
       </button>
 
       {visible && (
-        <main className="px-[15px] pb-[25px]">
+        <main className="px-4 pb-6">
           <RouteItemMain
             driverId={driverId}
             startPoint={route.startPoint}

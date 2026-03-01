@@ -42,18 +42,18 @@ export const DriverPersonAccount = ({ driverId, userId }: Props) => {
 
   return (
     <>
-      <article className="w-full bg-white px-[20px] pt-[15px] pb-[20px] rounded-[16px] flex gap-5 mb-8">
+      <article className="w-full bg-white py-5 pb-7 px-5 md:px-10 rounded-xl flex min-[650px]:flex-row min826:flex-col lg:flex-row flex-col gap-5 mb-8">
         <Image
           src={driver?.photoUrl ?? avatar_users}
           alt="Driver avatar"
           width={176}
           height={176}
-          className="w-44 h-44 rounded-xl"
+          className="w-44 h-44 rounded-xl aspect-square flex flex-shrink-0"
         />
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1.5">
           <h1 className="text-[25px] font-bold">
-            Водитель: {user?.name} {user?.surname}
+            {user?.name} {user?.surname}
           </h1>
 
           <span className="block">Username: {user?.username}</span>
@@ -68,9 +68,8 @@ export const DriverPersonAccount = ({ driverId, userId }: Props) => {
           </span>
 
           <UiButton
-            sizeButton="lg"
             textButton="Редактировать фото"
-            sizesText="text-base !h-[50px] px-[16px] mt-auto bg-orange-700 transition hover:bg-orange-800"
+            sizesText="text-base py-2 max-w-[320px] px-4 mt-auto bg-orange-700 transition hover:bg-orange-800 !mt-auto"
             onClick={handleOpenDriverPersonEditingPerson}
           />
         </div>

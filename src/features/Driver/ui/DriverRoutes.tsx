@@ -16,14 +16,14 @@ export const DriverRoutes = ({ driverId }: Props) => {
 
   const { data: route } = useAsync(
     () => routeService.getRouteByDriverId(driverId),
-    [isUpdateRoute],
+    [isUpdateRoute, driverId],
   );
-  
-  if (!route) return null;
+
+  if (!route) return;
 
   return (
-    <section className="w-[80%] mx-auto bg-white px-[30px] pt-[20px] pb-[30px] rounded-[16px]">
-      <h1 className="text-[30px] font-bold mb-4">
+    <section className=" bg-white px-[30px] pt-[20px] pb-[30px] rounded-xl mb-2.5">
+      <h1 className="text-xl min826:text-2xl font-bold mb-4">
         Доступно {route ? 1 : 0} маршрут:
       </h1>
 

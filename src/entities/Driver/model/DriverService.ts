@@ -1,8 +1,9 @@
 import { Filters } from "@/features/Logistician/lib/types";
 import { DriverModel } from "./DriverModel";
 import { Driver, DriversRepository, UpdatesDriver } from "./types";
-import { UserService } from "@/entities/User";
+import { User, UserService } from "@/entities/User";
 import { VehiclesService } from "@/entities/Vehicles/model/VehiclesService";
+import { Vehicles } from "@/entities/Vehicles";
 
 export class DriverService {
   constructor(
@@ -43,17 +44,16 @@ export class DriverService {
     }
   }
 
-  public async getFilteredDrivers(filters: Filters): Promise<Driver[]> {
-    const drivers = await this.getDrivers();
-    const users = await this.userService.getUsers();
-    const vehicles = await this.vehicleService.getVehicles();
-
-    if (!drivers && !users) return [];
-
+  public getFilteredDrivers(
+    drivers: Driver[],
+    users: User[],
+    vehicles: Vehicles[],
+    filters: Filters,
+  ): Driver[] {
     return drivers.filter((driver) => {
       const user = this.userService.findUserById(users, driver.userId);
 
-      if (!user) return false;
+      if (!user) return;
 
       const vehicle =
         vehicles &&
@@ -97,8 +97,8 @@ export class DriverService {
     });
   }
 
-  public getActiveDrivers(drivers: Driver[], activeDriver: boolean) {
-    return DriverModel.getActiveDrivers(drivers, activeDriver);
+  public getStatusDrivers(drivers: Driver[], status: number) {
+    return DriverModel.getStatusDrivers(drivers, status);
   }
 
   public findDriveById(drivers: Driver[], userId: number): Driver | undefined {

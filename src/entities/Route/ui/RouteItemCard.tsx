@@ -10,8 +10,11 @@ export const RouteItemCard = ({
   return (
     <>
       <span>
-        <span className="font-semibold">Маршрут:</span>{" "}
-        {`${startPoint} → ${endPoint}`}
+        <span className="font-semibold">Точка от:</span> {startPoint}
+      </span>
+
+      <span>
+        <span className="font-semibold">Точка до:</span> {endPoint}
       </span>
 
       <span>

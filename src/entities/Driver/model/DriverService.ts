@@ -1,15 +1,13 @@
 import { Filters } from "@/features/Logistician/lib/types";
 import { DriverModel } from "./DriverModel";
 import { Driver, DriversRepository, UpdatesDriver } from "./types";
-import { User, UserService } from "@/entities/User";
-import { VehiclesService } from "@/entities/Vehicles/model/VehiclesService";
-import { Vehicles } from "@/entities/Vehicles";
+import { User, UserService, CarService, Car } from "@/entities";
 
 export class DriverService {
   constructor(
     private readonly repository: DriversRepository,
     private readonly userService: UserService,
-    private readonly vehicleService: VehiclesService,
+    private readonly carService: CarService,
   ) {}
 
   public async getDrivers(): Promise<Driver[]> {
@@ -47,7 +45,7 @@ export class DriverService {
   public getFilteredDrivers(
     drivers: Driver[],
     users: User[],
-    vehicles: Vehicles[],
+    cars: Car[],
     filters: Filters,
   ): Driver[] {
     return drivers.filter((driver) => {
@@ -55,13 +53,10 @@ export class DriverService {
 
       if (!user) return;
 
-      const vehicle =
-        vehicles &&
-        this.vehicleService.findVehiclesById(vehicles, driver.vehiclesId);
+      const car = cars && this.carService.findCarById(cars, driver.carId);
 
       const userExperience = Number(driver.experienceYears);
-      const userCapacity = vehicle ? Number(vehicle.vehiclesCapacity) : 0;
-      const onlyTypeCar = vehicle?.vehiclesType?.split(" ")[0] || "";
+      const userCapacity = car ? Number(car.weight) : 0;
 
       const {
         search,
@@ -69,7 +64,6 @@ export class DriverService {
         experienceBefore,
         capacityFrom,
         capacityBefore,
-        typeCar,
       } = filters;
 
       const matchUser =
@@ -77,8 +71,8 @@ export class DriverService {
           `${user.name} ${user.surname}`
             .toLowerCase()
             .includes(search.toLowerCase())) ||
-        (vehicle?.numberCar &&
-          vehicle.numberCar.toLowerCase().includes(search.toLowerCase()));
+        (car?.numberCar &&
+          car.numberCar.toLowerCase().includes(search.toLowerCase()));
 
       const matchesExperience =
         (experienceFrom ? userExperience >= Number(experienceFrom) : true) &&
@@ -88,12 +82,7 @@ export class DriverService {
         (capacityFrom ? userCapacity >= Number(capacityFrom) : true) &&
         (capacityBefore ? userCapacity <= Number(capacityBefore) : true);
 
-      const matchesTypeCar =
-        (typeCar === "passenger" && onlyTypeCar === "Легковой") ||
-        (typeCar === "truck" && onlyTypeCar === "Грузовой") ||
-        !typeCar;
-
-      return matchUser && matchesExperience && matchesTypeCar && matchCapacity;
+      return matchUser && matchesExperience && matchCapacity;
     });
   }
 
@@ -105,7 +94,7 @@ export class DriverService {
     return DriverModel.findDriveById(drivers, userId);
   }
 
-  public getDriversVehiclesIds(drivers: Driver[]) {
-    return DriverModel.getDriversVehiclesIds(drivers);
+  public getDriversCarsIds(drivers: Driver[]) {
+    return DriverModel.getDriversCarsIds(drivers);
   }
 }

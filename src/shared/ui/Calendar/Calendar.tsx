@@ -22,9 +22,11 @@ const DAYS = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 export const Calendar = ({
   currDate,
   setter,
+  disabledCondition,
 }: {
   currDate: string;
   setter: (val: string) => void;
+  disabledCondition?: (day?: string) => boolean;
 }) => {
   const today = startOfToday();
   const [currMonth, setCurrMonth] = useState(() => format(today, "MMM-yyyy"));
@@ -124,21 +126,29 @@ export const Calendar = ({
       <div className="grid grid-cols-7 gap-y-1">
         {daysInMonth.map((day, idx) => {
           const isCurrentMonth = isSameMonth(day, firstDayOfMonth);
+          const formattedDay = formatDate(day, "sql");
+          const isPastDay = formattedDay < formatDate(today, "sql");
+          const isDisabled =
+            !isCurrentMonth ||
+            isPastDay ||
+            (disabledCondition?.(formattedDay) ?? false);
 
           return (
             <div key={idx} className="flex items-center justify-center">
               <button
                 type="button"
+                disabled={isDisabled}
                 onClick={() => {
-                  setter(formatDate(day, "sql") as string);
+                  if (isDisabled) return;
+                  setter(formattedDay);
                 }}
                 className={clsx(
-                  formatDate(day, "sql") === currDate && "bg-gray-100",
+                  formattedDay === currDate && "bg-gray-100",
                   !isCurrentMonth
                     ? "text-gray-300"
                     : "text-gray-700 font-medium",
                   isToday(day) ? "bg-red-700 !text-white" : "hover:bg-gray-100",
-
+                  isDisabled && "opacity-50 cursor-not-allowed",
                   "h-7 w-7 text-xs flex items-center justify-center rounded-full transition-colors",
                 )}
               >

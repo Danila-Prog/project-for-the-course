@@ -1,4 +1,4 @@
-export { ROLES } from "./roles";
+export { roles, defaultSearchParamsByRole } from "./roles";
 export { validateByRegexp } from "./validateByRegexp";
 export { createStrictContext } from "./createStrictContext";
 export { useStrictContext } from "./useStrictContext";
@@ -9,3 +9,4 @@ export { declensionWord } from "./declensionWord";
 export { updateField } from "./updateField";
 export { verifyJWT } from "./jwt";
 export { AuthCtxProvider, useAuth, type AuthCtxProps } from "./auth";
+export { YandexMapsProvider } from "./yandexMaps";

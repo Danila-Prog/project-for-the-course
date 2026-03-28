@@ -11,7 +11,7 @@ interface Props {
   numberCar?: string;
   buttons?: ReactElement;
   infoRoute?: ReactElement;
-  vehicle?: string;
+  car?: string;
   confirmPhoto?: ReactElement;
 }
 
@@ -25,25 +25,28 @@ export const CardDriver = ({
   numberCar,
   buttons,
   infoRoute,
-  vehicle,
+  car,
   confirmPhoto,
 }: Props) => {
   return (
-    <div className="shadow-card rounded-[15px] p-[25px] grid gap-[12px]">
+    <div className="shadow-card rounded-2xl p-5 flex flex-col gap-3">
       <article className="flex">
         <Image
           src={imageSrc}
           alt="Driver photo"
-          width={120}
-          height={120}
-          className="w-[120px] h-[120px] mr-[25px] rounded-[8px]"
+          width={160}
+          height={160}
+          className="w-40 h-40 mr-5 rounded-xl"
         />
 
         <div>
-          <h1 className="text-[24px] font-bold mb-[4px]"> {nameDriver}</h1>
+          <h1 className="text-xl font-bold mb-1 text-accent-black">
+            {nameDriver}
+          </h1>
 
-          <p className="text-[15px] text-[#7b92a4]">
-            Статуc водителя: {status}
+          <p className="text-xs text-primary-gray font-medium">
+            Статуc водителя:{" "}
+            <span className="text-secondary-green">{status}</span>
           </p>
 
           {buttons}
@@ -52,32 +55,32 @@ export const CardDriver = ({
 
       {infoRoute}
 
-      <p className="font-bold text-[16px]">
-        Стаж: <span className="font-medium">{experience}</span>
+      <p className="font-semibold text-xs">
+        Стаж: <span className="font-normal">{experience}</span>
       </p>
 
-      {vehicle && (
-        <p className="font-bold text-[16px]">
-          Автомобиль: <span className="font-medium">{vehicle}</span>
+      {car && (
+        <p className="font-semibold text-xs">
+          Автомобиль: <span className="font-normal">{car}</span>
         </p>
       )}
 
       {typeCar && (
-        <p className="font-bold text-[16px]">
+        <p className="font-semibold text-xs">
           Тип автомобиля:{" "}
-          <span className="font-medium">{typeCar} автомобиль</span>
+          <span className="font-normal">{typeCar} автомобиль</span>
         </p>
       )}
 
       {capacity && (
-        <p className="font-bold text-[16px]">
-          Грузоподъёмность: <span className="font-medium">{capacity}</span>
+        <p className="font-semibold text-xs">
+          Грузоподъёмность: <span className="font-normal">{capacity}</span>
         </p>
       )}
 
       {numberCar && (
-        <p className="font-bold text-[16px]">
-          Номерной знак: <span className="font-medium">{numberCar}</span>
+        <p className="font-semibold text-xs">
+          Номерной знак: <span className="font-normal">{numberCar}</span>
         </p>
       )}
 

@@ -5,7 +5,7 @@ export interface DriverDto {
   experience_years: number;
   status_driver_id: number;
   user_id: number;
-  vehicles_id: number;
+  car_id: number;
   photo_url: string | null;
 }
 
@@ -14,12 +14,12 @@ export interface Driver {
   experienceYears: number;
   statusDriverId: number;
   userId: number;
-  vehiclesId: number;
+  carId: number;
   photoUrl: string | null;
 }
 export type UpdatesDriver = Partial<{
   status_driver_id: number | null;
-  vehicles_id: number | null;
+  car_id: number | null;
 }>;
 
 export type DriversRepository = {

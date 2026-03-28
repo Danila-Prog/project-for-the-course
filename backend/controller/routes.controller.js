@@ -19,12 +19,12 @@ export class RoutesController {
   }
 
   async createRoutes(req, res) {
-    const { driver_id, start_point, end_point, date_start, date_end } =
+    const { driver_id, start_point, end_point, date_start, date_end, weight } =
       req.body;
 
     const newRoute = await db.query(
-      `INSERT INTO public.routes (driver_id, start_point, end_point, date_start, date_end, id_status_route) VALUES ($1, $2, $3, $4, $5, 1) RETURNING *`,
-      [driver_id, start_point, end_point, date_start, date_end],
+      `INSERT INTO public.routes (driver_id, start_point, end_point, date_start, date_end, id_status_route, weight) VALUES ($1, $2, $3, $4, $5, 1, $6) RETURNING *`,
+      [driver_id, start_point, end_point, date_start, date_end, weight],
     );
     res.json(newRoute.rows[0]);
   }
@@ -39,6 +39,7 @@ export class RoutesController {
       "date_start",
       "date_end",
       "id_status_route",
+      "weight",
     ];
 
     const keys = Object.keys(updates).filter(

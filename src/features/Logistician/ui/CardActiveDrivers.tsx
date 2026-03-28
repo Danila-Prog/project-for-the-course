@@ -1,4 +1,4 @@
-import { CardDriver, Driver, Route, User, Vehicles } from "@/entities";
+import { CardDriver, Driver, Route, User, Car } from "@/entities";
 import { declensionWord, formatDate, STATUS_DRIVER } from "@/shared/lib";
 import { StateSetter } from "@/shared/types";
 import avatar_users from "/public/icons/avatar_users.webp";
@@ -6,7 +6,7 @@ import avatar_users from "/public/icons/avatar_users.webp";
 interface Props {
   user: User;
   driver: Driver;
-  vehicle: Vehicles;
+  car: Car;
   route: Route;
   toggleDeleteOrder: () => void;
   toggleEditOrder: () => void;
@@ -16,7 +16,7 @@ interface Props {
 export const CardActiveDrivers = ({
   user,
   driver,
-  vehicle,
+  car,
   route,
   setSelectedDriverId,
   toggleDeleteOrder,
@@ -32,13 +32,14 @@ export const CardActiveDrivers = ({
         Number(driver.experienceYears),
         ["год", "года", "лет"],
       )}`}
-      vehicle={vehicle?.nameVehicles}
-      numberCar={vehicle?.numberCar ?? ""}
-      capacity={`${vehicle?.vehiclesCapacity} ${declensionWord(
-        Number(vehicle?.vehiclesCapacity),
-        ["тонна", "тонны", "тонн"],
-      )}`}
-      typeCar={vehicle?.vehiclesType ?? ""}
+      car={car?.name}
+      numberCar={car?.numberCar ?? ""}
+      capacity={`${car?.weight} ${declensionWord(Number(car?.weight), [
+        "тонна",
+        "тонны",
+        "тонн",
+      ])}`}
+      typeCar={car?.carType ?? ""}
       buttons={
         <div className="flex gap-3">
           <button
@@ -87,6 +88,18 @@ export const CardActiveDrivers = ({
               Дата конца маршрута:{" "}
               <span className="font-medium">
                 {formatDate(route?.dateEnd ?? "", "normal")}
+              </span>
+            </p>
+
+            <p className="font-bold text-[16px]">
+              Масса груза:{" "}
+              <span className="font-medium">
+                {route.weight}{" "}
+                {declensionWord(Number(car?.weight), [
+                  "тонна",
+                  "тонны",
+                  "тонн",
+                ])}
               </span>
             </p>
           </>

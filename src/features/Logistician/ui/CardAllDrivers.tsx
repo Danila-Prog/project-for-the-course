@@ -28,7 +28,7 @@ export const CardAllDrivers = ({
       )}`}
       buttons={
         <button
-          className="h-[43px] px-[16px] rounded-[25px] bg-button-grey transition hover:bg-[#464646] text-white text-[17px] font-medium mt-[12px]"
+          className="px-4 py-1.5 rounded-xl bg-accent-green transition hover:hover:scale-[1.02] text-primary-white text-base mt-5"
           onClick={() => {
             toggleFormOrder();
             setSelectedDriverId(driver.driverId);

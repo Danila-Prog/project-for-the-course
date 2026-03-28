@@ -84,7 +84,7 @@ export default function RouteItemInfo({
           onLoad={addRoute}
         />
       </div>
-      
+
       <ConfirmRouteModel
         isOpen={isOpenConfirmRoute}
         onClose={toggleConfirmRoute}

@@ -1,5 +1,4 @@
 export interface Filters {
-  search: string;
   experienceFrom: string;
   experienceBefore: string;
   capacityFrom: string;

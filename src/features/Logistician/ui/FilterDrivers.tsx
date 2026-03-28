@@ -1,4 +1,4 @@
-import { UiInput, SelectTypeCar } from "@/shared";
+import { UiInput } from "@/shared";
 import { CurrentTabLogistician, Filters } from "../lib/types";
 import { ChangeEvent } from "react";
 
@@ -16,24 +16,13 @@ export const FilterDrivers = ({
   currentTab,
 }: IFiltersResearchUsers) => {
   return (
-    <aside className="bg-white mr-[30px] rounded-[10px] px-[23px] pt-[15px] pb-[40px] grid gap-[25px] h-full">
-      <h2 className="text-center mx-auto font-bold">
-        Фильтры поиска сотрудника
-      </h2>
-
+    <aside className="bg-white rounded-lg py-4 px-5 flex flex-col gap-5 h-full flex-shrink-0">
       {currentTab !== "allDrivers" && (
         <>
-          <div>
-            <p className="font-bold text-[15px] mb-[12px]">Тип автомобиля</p>
-
-            <SelectTypeCar
-              value={filters.typeCar}
-              onChange={handleFiltersChange}
-            />
-          </div>
-
-          <div>
-            <p className="font-bold text-[15px] mb-[12px]">Грузоподъёмность</p>
+          <fieldset>
+            <legend className="font-medium text-[16px] mb-1">
+              Грузоподъёмность
+            </legend>
 
             <div className="flex">
               <UiInput
@@ -61,12 +50,12 @@ export const FilterDrivers = ({
                 onChange={handleFiltersChange}
               />
             </div>
-          </div>
+          </fieldset>
         </>
       )}
 
-      <div>
-        <p className="font-bold text-[15px] mb-[12px]">Стаж водителя</p>
+      <fieldset>
+        <legend className="font-medium text-[16px] mb-1 ">Стаж</legend>
 
         <div className="flex">
           <UiInput
@@ -94,7 +83,7 @@ export const FilterDrivers = ({
             onChange={handleFiltersChange}
           />
         </div>
-      </div>
+      </fieldset>
     </aside>
   );
 };

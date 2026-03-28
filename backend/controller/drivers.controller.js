@@ -24,11 +24,11 @@ export class DriverController {
 
     res.json(driver.rows);
   }
-  
+
   async updateDriver(req, res) {
     const { driver_id, updates } = req.body;
 
-    const allowedFields = ["status_driver_id", "vehicles_id"];
+    const allowedFields = ["status_driver_id", "car_id"];
 
     const keys = Object.keys(updates).filter(
       (key) => allowedFields.includes(key) && updates[key] !== undefined,

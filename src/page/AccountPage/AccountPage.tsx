@@ -14,11 +14,12 @@ export default function AccountPage() {
   const roleId = user.roleId;
 
   return (
-    <div className="w-[95%] md:w-[90%] lg:w-[85%] xl:w-[75%] mx-auto">
-      <Header />
+    <div className="w-[95%] mx-auto">
+      <Header
+      />
 
       {roleId === 1 && (
-        <InjectRouteProvider RouteItem={RouteItem} >
+        <InjectRouteProvider RouteItem={RouteItem}>
           <Driver />
         </InjectRouteProvider>
       )}

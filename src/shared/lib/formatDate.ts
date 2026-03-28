@@ -3,17 +3,17 @@ import { format } from "date-fns";
 export const formatDate = (
   date: Date | string,
   formatPattern: "normal" | "sql",
-) => {
+): string => {
   if (!date) {
     console.warn("Дата не предоставлена или невалидна");
-    return;
+    return "";
   }
 
   const completeDate = typeof date === "string" ? new Date(date) : date;
 
   if (isNaN(completeDate.getTime())) {
     console.warn("Получена невалидная дата для форматирования:", date);
-    return;
+    return "";
   }
 
   if (formatPattern === "normal") {
@@ -23,4 +23,6 @@ export const formatDate = (
   if (formatPattern === "sql") {
     return format(completeDate, "yyyy-MM-dd");
   }
+
+  return format(completeDate, "yyyy-MM-dd");
 };

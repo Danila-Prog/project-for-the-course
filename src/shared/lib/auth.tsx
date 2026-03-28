@@ -1,8 +1,9 @@
 "use client";
 
 import { User } from "@/entities";
-import { createStrictContext, useStrictContext } from "@/shared/lib";
 import { PropsWithChildren } from "react";
+import { createStrictContext } from "./createStrictContext";
+import { useStrictContext } from "./useStrictContext";
 
 export interface AuthCtxProps {
   user: Omit<User, "password"> | null;

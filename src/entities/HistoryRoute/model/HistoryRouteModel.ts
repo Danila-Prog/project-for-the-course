@@ -8,7 +8,7 @@ export class HistoryRouteModel {
       id: historyRouteDto.id_history_routes,
       driverId: historyRouteDto.id_driver,
       routeId: historyRouteDto.id_route,
-      vehicleId: historyRouteDto.id_vehicle,
+      carId: historyRouteDto.id_car,
       userId: historyRouteDto.id_user,
     };
   }

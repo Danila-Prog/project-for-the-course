@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ROLES, useAuth } from "@/shared/lib";
+import { roles, useAuth } from "@/shared/lib";
 import { DeleteModalWrapper, List, SearchInput } from "@/shared";
 import { useUserTab } from "../model";
 import { EditUserModal } from "./EditUserModal";
@@ -44,7 +44,7 @@ export const UsersTab = () => {
 
               <span className="block">Username: {user?.username}</span>
 
-              <span className="block">Роль: {ROLES[user?.roleId]}</span>
+              <span className="block">Роль: {roles[user?.roleId]}</span>
 
               <footer className="flex gap-1 min-[433px]:gap-3 flex-wrap mt-3">
                 <button

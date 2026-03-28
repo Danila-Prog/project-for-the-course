@@ -1,8 +1,8 @@
 import express from "express";
 import userRouter from "./routes/users.routes.js";
 import driversRouter from "./routes/drivers.router.js";
-import vehiclesRouter from "./routes/vehicles.router.js";
-import vehiclesTypeRouter from "./routes/vehiclesType.router.js";
+import carRouter from "./routes/car.router.js";
+import carTypeRouter from "./routes/carType.router.js";
 import historyRoutes from "./routes/historyRoute.router.js";
 import routesRouter from "./routes/routes.router.js";
 import authRouter from "./routes/auth.routes.js";
@@ -66,9 +66,9 @@ app.post("/send-email", async (req, res) => {
 
 app.use("/api", userRouter);
 app.use("/api", driversRouter);
-app.use("/api", vehiclesRouter);
+app.use("/api", carRouter);
 app.use("/api", routesRouter);
-app.use("/api/vehicles", vehiclesTypeRouter);
+app.use("/api/car", carTypeRouter);
 app.use("/api", historyRoutes);
 app.use("/api", authRouter);
 app.listen(PORT, () => console.log(`server start on ${PORT}`));

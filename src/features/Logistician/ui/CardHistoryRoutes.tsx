@@ -2,18 +2,18 @@ import { Driver } from "@/entities/Driver/model/types";
 import { declensionWord, formatDate } from "@/shared/lib";
 import avatar_users from "/public/icons/avatar_users.webp";
 import Image from "next/image";
-import { CardDriver, Route, User, Vehicles } from "@/entities";
+import { CardDriver, Route, User, Car } from "@/entities";
 
 export const CardHistoryRoutes = ({
   driver,
   route,
   user,
-  vehicle,
+  car,
 }: {
   driver: Driver;
   route: Route;
   user: User;
-  vehicle: Vehicles;
+  car: Car;
 }) => {
   return (
     <CardDriver
@@ -23,14 +23,15 @@ export const CardHistoryRoutes = ({
         Number(driver.experienceYears),
         ["год", "года", "лет"],
       )}`}
-      vehicle={vehicle?.nameVehicles}
-      numberCar={vehicle?.numberCar ?? ""}
-      capacity={`${vehicle?.vehiclesCapacity} ${declensionWord(
-        Number(vehicle?.vehiclesCapacity),
-        ["тонна", "тонны", "тонн"],
-      )}`}
+      car={car?.name}
+      numberCar={car?.numberCar ?? ""}
+      capacity={`${car?.weight} ${declensionWord(Number(car?.weight), [
+        "тонна",
+        "тонны",
+        "тонн",
+      ])}`}
       status="Выполнен"
-      typeCar={vehicle?.vehiclesType ?? ""}
+      typeCar={car?.carType ?? ""}
       infoRoute={
         route && (
           <>
@@ -54,6 +55,18 @@ export const CardHistoryRoutes = ({
               Дата конца маршрута:{" "}
               <span className="font-medium">
                 {formatDate(route?.dateEnd ?? "", "normal")}
+              </span>
+            </p>
+
+            <p className="font-bold text-[16px]">
+              Масса груза:{" "}
+              <span className="font-medium">
+                {route.weight}{" "}
+                {declensionWord(Number(car?.weight), [
+                  "тонна",
+                  "тонны",
+                  "тонн",
+                ])}
               </span>
             </p>
           </>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import clsx from "clsx";
 import { dmSans, montserrat } from "./fonts";
-import { AuthCtxProvider, verifyJWT } from "@/shared/lib";
+import { AuthCtxProvider, verifyJWT, YandexMapsProvider } from "@/shared/lib";
 import { cookies } from "next/headers";
 import { User } from "@/entities";
 
@@ -28,8 +28,16 @@ export default function RootLayout({
 
   return (
     <html lang="ru">
-      <body className={clsx(dmSans.variable, montserrat.variable)}>
-        <AuthCtxProvider user={user}>{children}</AuthCtxProvider>
+      <body
+        className={clsx(
+          dmSans.variable,
+          montserrat.variable,
+          "bg-primary-white",
+        )}
+      >
+        <AuthCtxProvider user={user}>
+          <YandexMapsProvider>{children}</YandexMapsProvider>
+        </AuthCtxProvider>
         <div id="modals"></div>
       </body>
     </html>

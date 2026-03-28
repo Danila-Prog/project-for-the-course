@@ -8,12 +8,12 @@ export class HistoryRouteController {
   }
 
   async createRouteForHistory(req, res) {
-    const { driverId, routeId, vehicleId, userId } = req.body;
+    const { driverId, routeId, carId, userId } = req.body;
 
     try {
       const { rows } = await db.query(
-        "INSERT INTO public.history_routes (id_driver, id_route, id_vehicle, id_user) VALUES ($1, $2, $3, $4) RETURNING *",
-        [driverId, routeId, vehicleId, userId],
+        "INSERT INTO public.history_routes (id_driver, id_route, id_car, id_user) VALUES ($1, $2, $3, $4) RETURNING *",
+        [driverId, routeId, carId, userId],
       );
 
       res.status(201).json(rows[0]);

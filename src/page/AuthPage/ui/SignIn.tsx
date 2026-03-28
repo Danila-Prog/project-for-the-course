@@ -1,9 +1,9 @@
 "use client";
 
-import { PasswordInput, UiInput } from "@/shared";
+import { Logo, PasswordInput, UiInput } from "@/shared";
 import { UiButton } from "@/shared";
 import { useSignIn } from "../model/useSignIn";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 export default function SignIn() {
   const [hasAuthError, setHasAuthError] = useState(false);
@@ -11,8 +11,9 @@ export default function SignIn() {
 
   const disabled = !formData.login || !formData.password;
 
-  const handleSubmit = async() => {
-    const result = await signIn()
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    const result = await signIn();
 
     if (result === "invalid-credentials") {
       setHasAuthError(true);
@@ -20,8 +21,17 @@ export default function SignIn() {
   };
 
   return (
-    <section>
-      <div className="flex flex-col gap-[15px] mb-[30px]">
+    <section className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] bg-white px-12 py-14 rounded-2xl">
+      <Logo className="mb-12 justify-center" />
+      <h1 className="text-5xl font-bold mb-5 text-accent-black text-center">
+        Войти
+      </h1>
+
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-5"
+        autoComplete="on"
+      >
         <UiInput
           idInput="login"
           label="Логин"
@@ -46,22 +56,20 @@ export default function SignIn() {
         />
 
         {hasAuthError && (
-          <span className="text-[14px] text-rose-500 font-bold">
-            Не верный логин или пароль
+          <span className="text-sm text-rose-500">
+            Неверный логин или пароль
           </span>
         )}
-      </div>
 
-      <UiButton
-        type="button"
-        disabled={disabled}
-        onClick={handleSubmit}
-        sizeButton="full"
-        textButton="Войти"
-        sizesText="text-[16px]"
-        className="h-[43px]"
-        rounded="rounded-[10px]"
-      />
+        <UiButton
+          disabled={disabled}
+          sizeButton="full"
+          textButton="Войти"
+          sizesText="text-lg"
+          rounded="rounded-xl"
+          className="py-2.5 bg-accent-green text-primary-white hover:scale-[1.02] transition mt-4"
+        />
+      </form>
     </section>
   );
 }

@@ -5,8 +5,7 @@ import { DriverService } from "@/entities/Driver/model/DriverService";
 import { RouteApi } from "@/entities/Route/model/RouteApi";
 import { RouteService } from "@/entities/Route/model/RouteService";
 import { UserApi, UserService } from "@/entities/User";
-import { VehiclesApi } from "@/entities/Vehicles/model/VehiclesApi";
-import { VehiclesService } from "@/entities/Vehicles/model/VehiclesService";
+import { CarApi, CarService } from "@/entities";
 import { createStrictContext } from "@/shared/lib/createStrictContext";
 import { PropsWithChildren } from "react";
 import { useStrictContext } from "./useStrictContext";
@@ -19,21 +18,21 @@ type InjectorDeps = {
   routeService: RouteService;
   driverService: DriverService;
   userService: UserService;
-  vehiclesService: VehiclesService;
+  carService: CarService;
   historyRouteService: HistoryRoutesService;
 };
 
 const userApi = new UserApi();
 const userService = new UserService(userApi);
 
-const vehiclesApi = new VehiclesApi();
-const vehiclesService = new VehiclesService(vehiclesApi);
+const carApi = new CarApi();
+const carService = new CarService(carApi);
 
 const driverApi = new DriverApi();
 const driverService = new DriverService(
   driverApi,
   userService,
-  vehiclesService,
+  carService,
 );
 
 const routeApi = new RouteApi();
@@ -45,7 +44,7 @@ const historyRouteApi = new HistoryRoutesApi();
 const historyRouteService = new HistoryRoutesService(
   historyRouteApi,
   userService,
-  vehiclesService,
+  carService,
   driverService,
 );
 
@@ -56,7 +55,7 @@ const DEPS = {
   routeService,
   driverService,
   userService,
-  vehiclesService,
+  carService,
   historyRouteService,
 };
 

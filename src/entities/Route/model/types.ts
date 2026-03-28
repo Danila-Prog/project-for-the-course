@@ -9,9 +9,10 @@ export interface RoutesDto {
   date_end: string;
   confirmation_photo: string;
   id_status_route: 1 | 2;
+  weight: number;
 }
 
-export interface Route {
+export interface Route extends Pick<RoutesDto, "weight"> {
   id: number;
   driverId: number;
   startPoint: string;
@@ -29,6 +30,7 @@ export type UpdatesRoute = Partial<{
   date_start: string | null;
   date_end: string | null;
   id_status_route: 1 | 2 | null;
+  weight: number | null;
 }>;
 
 export type RouteRepository = {
@@ -41,6 +43,7 @@ export type RouteRepository = {
       end_point: string;
       date_start: string;
       date_end: string;
+      weight: number;
     }>,
   ) => ApiResponse<RoutesDto>;
 

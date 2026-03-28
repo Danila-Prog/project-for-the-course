@@ -15,9 +15,11 @@ const config: Config = {
         min826: "826px",
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        "button-grey": "#262524",
+        "accent-green": "#60dcc9",
+        "accent-black": "#393944",
+        "primary-white": "#f5f5f5",
+        "secondary-green": "#37897b",
+        "primary-gray": "#999999",
       },
       boxShadow: {
         card: "0 0 0 1px rgba(13, 35, 67, .07), 0 5px 15px -8px rgba(13, 35, 67, .4)",

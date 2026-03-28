@@ -36,20 +36,21 @@ export default function UiInput({
 
   const bordersColor = {
     none: "",
-    lightGrey: "border-2 border-[#d6d6d6]",
+    lightGrey:
+      "border-2 border-primary-grey/40 focus-within:border-secondary-green",
   }[borderColor];
 
   const sizesLabel = {
-    sm: "text-[15px]",
-    md: "text-[17px]",
+    sm: "text-xs",
+    md: "text-base",
   }[sizeLabel];
 
   return (
-    <div>
+    <>
       {label && (
         <label
           htmlFor={idInput}
-          className={clsx("font-medium mb-[5px]", sizesLabel)}
+          className={clsx("mb-2 text-primary-gray", sizesLabel)}
         >
           {label}
         </label>
@@ -59,16 +60,16 @@ export default function UiInput({
         className={clsx(
           bordersColor,
           sizesInput,
-          isRounded ? "rounded-[10px]" : "",
-          isPadding ? "px-[16px] py-[6px]" : "",
+          isRounded ? "rounded-2xl" : "",
+          isPadding ? "px-3.5 py-1.5" : "",
           additionalStyle,
-          "flex justify-between"
+          "flex justify-between items-center",
         )}
       >
         {leftIcon && <div>{leftIcon}</div>}
 
         <input
-          className="text-[15px] font-medium w-full pr-[8px]"
+          className="font-medium w-full pr-[8px] bg-transparent "
           {...inputProps}
           id={idInput}
         />
@@ -79,6 +80,6 @@ export default function UiInput({
           </button>
         )}
       </div>
-    </div>
+    </>
   );
 }

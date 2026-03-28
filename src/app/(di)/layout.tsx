@@ -6,8 +6,8 @@ export default function DILayout({
   children: React.ReactNode;
 }>) {
   return (
-    <section>
+    <>
       <InjectorProvider>{children}</InjectorProvider>
-    </section>
+    </>
   );
 }

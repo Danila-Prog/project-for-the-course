@@ -1,3 +1,5 @@
+"use client";
+
 import { startOfToday } from "date-fns";
 import { Route, RoutesDto } from "./types";
 
@@ -26,6 +28,7 @@ export class RouteModel {
       dateEnd: route.date_end,
       confirmationPhoto: route.confirmation_photo,
       idStatusRoute: route.id_status_route,
+      weight: route.weight,
     }));
   }
 
@@ -39,27 +42,30 @@ export class RouteModel {
       dateEnd: routeDto.date_end,
       confirmationPhoto: routeDto.confirmation_photo,
       idStatusRoute: routeDto.id_status_route,
+      weight: routeDto.weight,
     };
   }
 
   public static formErrorWithDate(dateStart: string, dateEnd: string) {
-    const today = startOfToday().getTime();
-
     if (!dateStart || !dateEnd) return "";
 
-    if (dateStart === dateEnd) {
-      return "Дата выгрузки не может быть равна дате загрузки";
+    const today = startOfToday().getTime();
+    const start = new Date(dateStart).getTime();
+    const end = new Date(dateEnd).getTime();
+
+    if (Number.isNaN(start) || Number.isNaN(end)) {
+      return "Некорректная дата";
     }
 
-    if (today > new Date(dateStart).getTime()) {
+    if (start < today) {
       return "Дата загрузки не может быть раньше текущей даты";
     }
 
-    if (today > new Date(dateEnd).getTime()) {
+    if (end < today) {
       return "Дата выгрузки не может быть раньше текущей даты";
     }
 
-    if (new Date(dateStart).getTime() > new Date(dateEnd).getTime()) {
+    if (start > end) {
       return "Дата выгрузки не может быть раньше даты загрузки";
     }
 

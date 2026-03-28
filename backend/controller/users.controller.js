@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { db } from "../db.js";
 
 export class UserController {
@@ -20,13 +21,19 @@ export class UserController {
   async createUser(req, res) {
     const { surname, name, username, password, roleId, email } = req.body;
 
+    const hashPassword = await bcrypt.hash(
+      password,
+      Number(process.env.SALT_ROUNDS) || 10,
+    );
+
     const newUser = await db.query(
       `INSERT INTO public.users 
        (username, password, role_id, name, surname, email) 
        VALUES ($1, $2, $3, $4, $5, $6) 
        RETURNING *`,
-      [username, password, roleId, name, surname, email],
+      [username, hashPassword, roleId, name, surname, email],
     );
+
     res.json(newUser.rows[0]);
   }
 

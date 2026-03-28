@@ -1,12 +1,21 @@
 "use client";
 
-import { PiCarProfileBold } from "react-icons/pi";
 import Link from "next/link";
-import { UiButton } from "@/shared";
+import { Logo, roles, SearchInput, UiButton } from "@/shared";
 import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
 import { useAuth } from "@/shared/lib";
 import { httpClient } from "@/shared/api/httpClient";
+import { AdminTabs, DriverTabs, LogisticianTabs } from "@/features";
+
+const navigationTabsByRole: Record<
+  (typeof roles)[keyof typeof roles],
+  () => JSX.Element
+> = {
+  Логист: LogisticianTabs,
+  Админ: AdminTabs,
+  Водитель: DriverTabs,
+};
 
 export function Header() {
   const router = useRouter();
@@ -25,28 +34,34 @@ export function Header() {
     router.refresh();
   };
 
+  const NavigationTab = user ? navigationTabsByRole[roles[user?.roleId]] : null;
+
   return (
     <header
       className={clsx(
-        pathname !== "/" && "mb-4",
-        "flex items-center justify-between mt-2 py-2 px-3 bg-white rounded-xl",
+        pathname !== "/" && "mb-8",
+        "flex items-center justify-between mt-5 bg-white px-5 py-2 rounded-xl min-h-[73px]",
       )}
     >
-      <PiCarProfileBold className="w-8 h-8 xl:w-10 xl:h-10" />
+      <Logo />
+
+      {user?.roleId && <SearchInput />}
+
+      {NavigationTab && <NavigationTab />}
 
       {!!user ? (
         <div className="flex gap-2.5 items-center">
           <UiButton
             textButton="Выйти"
-            sizesText="text-base lg:text-lg"
+            sizesText="text-base"
             onClick={handleExit}
-            className="px-6 py-1 lg:px-8 lg:py-2"
+            className="px-5 py-1.5 ml-8 bg-primary-gray text-white"
           />
         </div>
       ) : (
         <Link
           href="/auth"
-          className="px-6 py-1 lg:px-8 lg:py-2 text-base lg:text-lg flex justify-center items-center font-medium bg-button-grey text-white transition hover:bg-[#464646] rounded-xl"
+          className="px-5 py-1.5 text-base flex justify-center items-center font-medium bg-accent-green transition text-white rounded-xl hover:scale-105"
         >
           Войти
         </Link>

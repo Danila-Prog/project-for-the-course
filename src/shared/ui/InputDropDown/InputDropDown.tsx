@@ -13,9 +13,11 @@ interface IInputDropDown {
   setSelectedOption: (val: string) => void;
   placeholder: string;
   label: ReactElement;
+  classNameContainer?: string;
 }
 
 export default function InputDropDown({
+  classNameContainer,
   idInputDropDown,
   selectedOption,
   setSelectedOption,
@@ -25,7 +27,7 @@ export default function InputDropDown({
   const fetchAddress = useFetchAddress(setSelectedOption);
 
   return (
-    <div>
+    <div className={classNameContainer}>
       {label}
 
       <AsyncSelect

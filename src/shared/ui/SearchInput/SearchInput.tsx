@@ -1,20 +1,47 @@
 import { UiInput } from "@/shared";
-import { ComponentProps } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ComponentProps, useEffect, useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
 type TSearchInput = ComponentProps<"input">;
 
 export default function SearchInput({ ...inputProps }: TSearchInput) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const [value, setValue] = useState(searchParams.get("search") ?? "");
+
+  const currentTab = searchParams?.get("tabLogistician") ?? "allDrivers";
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      if (value.trim()) {
+        params.set("search", value.trim());
+      } else {
+        params.delete("search");
+      }
+
+      router.replace(`${pathname}?${params.toString()}`);
+    }, 400);
+
+    return () => clearTimeout(id);
+  }, [value, router, pathname, searchParams]);
+
   return (
     <UiInput
       type="text"
       name="search"
-      additionalStyle="mb-4 py-[9px] pl-[15px] pr-[23px]"
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      additionalStyle="w-full mx-10 py-2 pl-4 pr-5"
       borderColor="lightGrey"
       isRounded
       isPadding={false}
-      sizeInput="lg"
-      leftIcon={<FaMagnifyingGlass className="mr-[12px]" />}
+      leftIcon={<FaMagnifyingGlass className="mr-3" />}
+      placeholder={`Поиск по ФИО ${currentTab !== "allDrivers" ? "или номерной знак" : ""}`}
       {...inputProps}
     />
   );

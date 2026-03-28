@@ -8,8 +8,8 @@ export class DriverModel {
     return drivers.find((driver) => driver.userId === userId);
   }
 
-  public static getDriversVehiclesIds(drivers: Driver[]) {
-    return new Set(drivers.map((driver) => driver.vehiclesId));
+  public static getDriversCarsIds(drivers: Driver[]) {
+    return new Set(drivers.map((driver) => driver.carId));
   }
 
   public static mapDtoToDrivers(driverDto: DriverDto[]): Driver[] {
@@ -18,7 +18,7 @@ export class DriverModel {
       experienceYears: driver.experience_years,
       statusDriverId: driver.status_driver_id,
       userId: driver.user_id,
-      vehiclesId: driver.vehicles_id,
+      carId: driver.car_id,
       photoUrl: driver.photo_url,
     }));
   }
@@ -29,7 +29,7 @@ export class DriverModel {
       experienceYears: driverDto.experience_years,
       statusDriverId: driverDto.status_driver_id,
       userId: driverDto.user_id,
-      vehiclesId: driverDto.vehicles_id,
+      carId: driverDto.car_id,
       photoUrl: driverDto.photo_url,
     };
   }

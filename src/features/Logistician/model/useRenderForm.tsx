@@ -9,7 +9,7 @@ import { FormOrder } from "../ui/FormOrder";
 import { FormEditingOrder } from "../ui/FormEditingOrder";
 
 export const useRenderForm = () => {
-  const [modalFormOrder, setModaFormOrder] = useState<boolean>(false);
+  const [modalFormOrder, setModalFormOrder] = useState<boolean>(false);
   const [modalFormEditingOrder, setModalFormEditingOrder] =
     useState<boolean>(false);
   const [modalDeleteOrder, setModalDeleteOrder] = useState<boolean>(false);
@@ -26,11 +26,11 @@ export const useRenderForm = () => {
   const { mutate: deleteRoutesForUser } = useMutation(() =>
     routeService.deleteRouteForDriver(selectedDriverId ?? 0, route?.id ?? 0, {
       status_driver_id: 1,
-      vehicles_id: null,
+      car_id: null,
     }),
   );
 
-  const toggleFormOrder = () => setModaFormOrder((modal) => !modal);
+  const toggleFormOrder = () => setModalFormOrder((modal) => !modal);
 
   const toggleFormEditingOrder = () =>
     setModalFormEditingOrder((modal) => !modal);

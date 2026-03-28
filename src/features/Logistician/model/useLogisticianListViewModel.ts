@@ -12,12 +12,12 @@ export const useLogisticianListViewModel = (
     routeService,
     historyRouteService,
     userService,
-    vehiclesService,
+    carService,
   } = useDI();
 
   const { data: drivers } = useAsync(() => driverService.getDrivers());
   const { data: users } = useAsync(() => userService.getUsers());
-  const { data: vehicles } = useAsync(() => vehiclesService.getVehicles());
+  const { data: cars } = useAsync(() => carService.getCars());
   const { data: routes } = useAsync(() => routeService.getRoutes());
 
   const { data: historyRoutes } = useAsync(() =>
@@ -25,10 +25,10 @@ export const useLogisticianListViewModel = (
   );
 
   const filteredDrivers = useMemo(() => {
-    if (!drivers || !users || !vehicles) return [];
+    if (!drivers || !users || !cars) return [];
 
-    return driverService.getFilteredDrivers(drivers, users, vehicles, filters);
-  }, [drivers, users, vehicles, filters]);
+    return driverService.getFilteredDrivers(drivers, users, cars, filters);
+  }, [drivers, users, cars, filters]);
 
   const filteredHistoryRoutes = useMemo(() => {
     if (!historyRoutes) return [];
@@ -62,22 +62,20 @@ export const useLogisticianListViewModel = (
     return activeAndAssignedDrivers
       .map((driver) => {
         const user = users?.find((u) => u.userId === driver.userId);
-        const vehicle = vehicles?.find(
-          (v) => v.vehiclesId === driver.vehiclesId,
-        );
+        const car = cars?.find((v) => v.carId === driver.carId);
         const route = routes?.find((r) => r.driverId === driver.driverId);
 
-        if (!user || !driver || !vehicle || !route) return;
+        if (!user || !driver || !car || !route) return;
 
         return {
           driver,
           user,
-          vehicle,
+          car,
           route,
         };
       })
       .filter((item) => item !== undefined);
-  }, [filteredDrivers, currentTab, drivers, vehicles, routes, users]);
+  }, [filteredDrivers, currentTab, drivers, cars, routes, users]);
 
   return {
     accessDriversAggregates,

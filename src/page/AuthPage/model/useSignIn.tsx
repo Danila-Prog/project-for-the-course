@@ -1,3 +1,4 @@
+import { defaultSearchParamsByRole } from "@/shared/lib";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -20,7 +21,9 @@ export const useSignIn = () => {
 
     if (!res.ok) return "invalid-credentials";
 
-    router.replace("/account");
+    const user = await res.json();
+
+    router.replace("/account?" + defaultSearchParamsByRole[user.roleId]);
     router.refresh();
   };
 

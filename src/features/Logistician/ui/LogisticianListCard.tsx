@@ -32,7 +32,7 @@ export const LogisticianListCard = ({ filters, currentTab }: Props) => {
     return (
       <>
         <List
-          className="grid gap-[25px]"
+          className="grid grid-cols-2 gap-5"
           entity={accessDriversAggregates}
           keyExtractor={(accessDriver) => accessDriver.driver.driverId ?? 0}
           renderCard={(accessDriver) => (
@@ -63,7 +63,7 @@ export const LogisticianListCard = ({ filters, currentTab }: Props) => {
               driver={activeDriver.driver}
               route={activeDriver.route}
               user={activeDriver.user}
-              vehicle={activeDriver.vehicle}
+              car={activeDriver.car}
               setSelectedDriverId={setSelectedDriverId}
               toggleDeleteOrder={toggleFormDeleteOrder}
               toggleEditOrder={toggleFormEditingOrder}
@@ -89,7 +89,7 @@ export const LogisticianListCard = ({ filters, currentTab }: Props) => {
             driver={historyRoute.driver}
             route={historyRoute.route}
             user={historyRoute.user}
-            vehicle={historyRoute.vehicle}
+            car={historyRoute.car}
           />
         )}
       />

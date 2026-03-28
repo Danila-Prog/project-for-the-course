@@ -42,6 +42,7 @@ export class RouteService {
       end_point: string;
       date_start: string;
       date_end: string;
+      weight: number;
     },
     updateDriver: { driverId: number; selectVehicle: number },
 
@@ -52,7 +53,7 @@ export class RouteService {
         this.repository.createRoute({ payload }),
         this.driverService.updateDriver(updateDriver.driverId, {
           status_driver_id: 2,
-          vehicles_id: updateDriver.selectVehicle,
+          car_id: updateDriver.selectVehicle,
         }),
 
         fetch("http://localhost:8080/send-email", {
@@ -74,11 +75,12 @@ export class RouteService {
   async createAndAssignNewRoute(input: {
     driverId: number;
     userId: number;
-    vehicleId: number;
+    carId: number;
     start: string;
     end: string;
     dateStart: string;
     dateEnd: string;
+    weight: number;
   }) {
     const user = await this.userService.getUserById(input.userId);
 
@@ -89,10 +91,11 @@ export class RouteService {
         end_point: input.end,
         date_start: input.dateStart,
         date_end: input.dateEnd,
+        weight: input.weight,
       },
       {
         driverId: input.driverId,
-        selectVehicle: input.vehicleId,
+        selectVehicle: input.carId,
       },
       {
         email: user.email,
@@ -131,7 +134,7 @@ export class RouteService {
     if (!route) {
       throw new Error(`Route for driver ID ${driver.driverId} not found.`);
     }
-    const vehicleId = driver.vehiclesId;
+    const carId = driver.carId;
     const routeId = route.id;
 
     await Promise.all([
@@ -141,12 +144,12 @@ export class RouteService {
       this._historyRouteService?.createRouteForHistory({
         driverId: driver.driverId,
         routeId,
-        vehicleId,
+        carId,
         userId,
       }),
 
       this.driverService.updateDriver(driver.driverId, {
-        vehicles_id: null,
+        car_id: null,
         status_driver_id: 1,
       }),
     ]);

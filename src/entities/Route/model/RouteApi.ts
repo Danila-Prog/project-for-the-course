@@ -24,6 +24,7 @@ export class RouteApi implements RouteRepository {
     end_point: string;
     date_start: string;
     date_end: string;
+    weight: number;
   }>): ApiResponse<RoutesDto> {
     return httpClient.post<RoutesDto>(this.ENDPOINT, payload);
   }

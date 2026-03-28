@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { authMiddleware } from "../auth.middleware.js";
 import { db } from "../db.js";
 import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
 
 dotenv.config();
 
@@ -25,7 +26,6 @@ router.post("/login", async (req, res) => {
 
   // const isValid = await bcrypt.compare(password, user.password);
   const isValid = password === user.password;
-
   if (!isValid) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
@@ -50,7 +50,7 @@ router.post("/login", async (req, res) => {
     path: "/",
   });
 
-  res.json({ success: true });
+  res.json({ roleId: user.role_id, status: "success" });
 });
 
 router.post("/logout", (req, res) => {

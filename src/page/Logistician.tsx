@@ -1,18 +1,15 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
-import { SearchInput } from "@/shared/ui/SearchInput";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   CurrentTabLogistician,
   FilterDrivers,
   LogisticianListCard,
-  LogisticianTabs,
   Filters,
 } from "@/features/Logistician";
 
 export const FILTERS: Filters = {
-  search: "",
   experienceFrom: "",
   experienceBefore: "",
   capacityFrom: "",
@@ -21,9 +18,19 @@ export const FILTERS: Filters = {
 } as const;
 
 export const Logistician = () => {
-  const [filters, setFilters] = useState(FILTERS);
-
   const searchParams = useSearchParams();
+
+  const [filters, setFilters] = useState(() => ({
+    search: searchParams.get("search") ?? "",
+    ...FILTERS,
+  }));
+
+  useEffect(() => {
+    const urlSearch = searchParams.get("search") ?? "";
+    setFilters((prev) =>
+      prev.search === urlSearch ? prev : { ...prev, search: urlSearch },
+    );
+  }, [searchParams]);
 
   const currentTab = (searchParams?.get("tabLogistician") ??
     "allDrivers") as CurrentTabLogistician;
@@ -36,10 +43,8 @@ export const Logistician = () => {
   };
 
   return (
-    <div className="flex mt-[20px] mb-[30px]">
-      <section className="h-full flex flex-col gap-5">
-        <LogisticianTabs currentTab={currentTab} />
-
+    <div className="flex flex-col min826:flex-row min826:justify-between max-min826:gap-5">
+      <section className="h-full flex flex-col gap-5 md:mr-6">
         <FilterDrivers
           filters={filters}
           handleFiltersChange={handleFiltersChange}
@@ -47,13 +52,7 @@ export const Logistician = () => {
         />
       </section>
 
-      <main className="bg-white w-[71%] px-[40px] pt-[30px] pb-[40px] rounded-[10px]">
-        <SearchInput
-          value={filters.search}
-          onChange={handleFiltersChange}
-          placeholder={`Введите фио ${currentTab !== "allDrivers" ? "или номерной знак" : ""}`}
-        />
-
+      <main className="flex-1 min-w-0 bg-white px-[40px] pt-[30px] pb-[40px] rounded-lg">
         <LogisticianListCard filters={filters} currentTab={currentTab} />
       </main>
     </div>

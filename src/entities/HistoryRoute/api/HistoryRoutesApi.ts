@@ -17,7 +17,7 @@ export class HistoryRoutesApi implements HistoryRoutesRepository {
   }: RequestConfig<{
     driverId: number;
     routeId: number;
-    vehicleId: number;
+    carId: number;
     userId: number;
   }>): ApiResponse<HistoryRouteDTO> {
     return httpClient.post<HistoryRouteDTO>(this.ENDPOINT, payload);

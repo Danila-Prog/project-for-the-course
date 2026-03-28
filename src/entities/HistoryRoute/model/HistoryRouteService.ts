@@ -1,11 +1,14 @@
 import { User, UserService } from "@/entities/User";
 import { HistoryRoutesRepository, CreateRouteForHistory } from "../api/type";
 import { HistoryRouteModel } from "./HistoryRouteModel";
-import { VehiclesService } from "@/entities/Vehicles/model/VehiclesService";
-import { RouteService } from "@/entities/Route/model/RouteService";
-import { Driver, DriverService } from "@/entities/Driver";
-import { Vehicles } from "@/entities/Vehicles";
-import { Route } from "@/entities/Route";
+import {
+  CarService,
+  Car,
+  RouteService,
+  Route,
+  Driver,
+  DriverService,
+} from "@/entities";
 import { Filters } from "@/features";
 
 export class HistoryRoutesService {
@@ -14,7 +17,7 @@ export class HistoryRoutesService {
   constructor(
     private readonly historyRouteRepository: HistoryRoutesRepository,
     private readonly userService: UserService,
-    private readonly vehicleService: VehiclesService,
+    private readonly carService: CarService,
     private readonly driverService: DriverService,
   ) {}
 
@@ -33,16 +36,16 @@ export class HistoryRoutesService {
 
   async getDataForCardHistoryRoute() {
     try {
-      const [allHistoryRoutes, users, vehicles, routes, drivers] =
+      const [allHistoryRoutes, users, cars, routes, drivers] =
         await Promise.all([
           this.getHistoryRoutes(),
           this.userService.getUsers(),
-          this.vehicleService.getVehicles(),
+          this.carService.getCars(),
           this._routeService?.getRoutes(),
           this.driverService.getDrivers(),
         ]);
 
-      if (!routes || !users || !vehicles) return [];
+      if (!routes || !users || !cars) return [];
 
       return allHistoryRoutes
         .map((historyRoute) => {
@@ -56,24 +59,21 @@ export class HistoryRoutesService {
             historyRoute.userId,
           );
 
-          const vehicle = this.vehicleService.findVehiclesById(
-            vehicles,
-            historyRoute.vehicleId,
-          );
+          const car = this.carService.findCarById(cars, historyRoute.carId);
 
           const route = this._routeService?.findRouteById(
             routes,
             historyRoute.routeId,
           );
 
-          if (!driver || !user || !vehicle || !route) {
+          if (!driver || !user || !car || !route) {
             return;
           }
 
           return {
             driver,
             user,
-            vehicle,
+            car,
             route,
           };
         })
@@ -83,7 +83,7 @@ export class HistoryRoutesService {
           ): item is {
             driver: Driver;
             user: User;
-            vehicle: Vehicles;
+            car: Car;
             route: Route;
           } => item !== undefined,
         );
@@ -96,7 +96,7 @@ export class HistoryRoutesService {
     historyRoutes: {
       driver: Driver;
       user: User;
-      vehicle: Vehicles;
+      car: Car;
       route: Route;
     }[],
     filters: Filters,
@@ -104,11 +104,11 @@ export class HistoryRoutesService {
     return historyRoutes.filter((item) => {
       const driver = item.driver;
       const user = item.user;
-      const vehicle = item.vehicle;
+      const car = item.car;
 
       const userExperience = Number(driver.experienceYears);
-      const userCapacity = vehicle ? Number(vehicle.vehiclesCapacity) : 0;
-      const onlyTypeCar = vehicle.vehiclesType?.split(" ")[0] || "";
+      const userCapacity = car ? Number(car.weight) : 0;
+      const onlyTypeCar = car.carType?.split(" ")[0] || "";
 
       const {
         search,
@@ -123,7 +123,7 @@ export class HistoryRoutesService {
         `${user.name} ${user.surname}`
           .toLowerCase()
           .includes(search.toLowerCase()) ||
-        vehicle.numberCar?.toLowerCase().includes(search.toLowerCase());
+        car.numberCar?.toLowerCase().includes(search.toLowerCase());
 
       const matchesExperience =
         (experienceFrom ? userExperience >= Number(experienceFrom) : true) &&

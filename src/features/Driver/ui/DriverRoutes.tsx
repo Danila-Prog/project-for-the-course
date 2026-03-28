@@ -2,7 +2,6 @@
 
 import { useDI } from "@/shared/lib/di";
 import { useAsync } from "@/shared/api/useAsync";
-import { YMaps } from "react-yandex-maps";
 import { useRouteDI } from "../provider";
 
 interface Props {
@@ -27,9 +26,7 @@ export const DriverRoutes = ({ driverId }: Props) => {
         Доступно {route ? 1 : 0} маршрут:
       </h1>
 
-      <YMaps query={{ apikey: "cbc6f517-56a2-455d-b68b-aed0465d40d0" }}>
-        <RouteItem key={route.id} route={route} driverId={driverId} />
-      </YMaps>
+      <RouteItem key={route.id} route={route} driverId={driverId} />
     </section>
   );
 };

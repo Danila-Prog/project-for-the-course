@@ -1,3 +1,4 @@
+import { useDebouncedCallback } from "@/shared/hooks";
 import { TSelectedOption } from "../lib/types";
 import { GroupBase, OptionsOrGroups } from "react-select";
 
@@ -28,33 +29,22 @@ export default function useFetchAddress(
       );
 
       const res = await fetchingData.json();
-
-      const options: OptionsOrGroups<
+      const options = res.suggestions as OptionsOrGroups<
         TSelectedOption,
         GroupBase<TSelectedOption>
-      > = res.suggestions;
+      >;
 
       callback(options);
-
       return options;
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.log("error", error);
-        const emptyOptions: OptionsOrGroups<
-          TSelectedOption,
-          GroupBase<TSelectedOption>
-        > = [];
-        callback(emptyOptions);
-        return emptyOptions;
-      }
-      const emptyOptions: OptionsOrGroups<
+    } catch {
+      const empty: OptionsOrGroups<
         TSelectedOption,
         GroupBase<TSelectedOption>
       > = [];
-      callback(emptyOptions);
-      return emptyOptions;
+      callback(empty);
+      return empty;
     }
   };
 
-  return fetchAddress;
+  return useDebouncedCallback(fetchAddress, 400);
 }

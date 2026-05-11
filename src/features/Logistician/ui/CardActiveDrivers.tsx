@@ -2,6 +2,9 @@ import { CardDriver, Driver, Route, User, Car } from "@/entities";
 import { declensionWord, formatDate, STATUS_DRIVER } from "@/shared/lib";
 import { StateSetter } from "@/shared/types";
 import avatar_users from "/public/icons/avatar_users.webp";
+import { Menu } from "@/shared";
+import { LuMapPin, LuPencil, LuTrash, LuWeight } from "react-icons/lu";
+import { TbTruckDelivery } from "react-icons/tb";
 
 interface Props {
   user: User;
@@ -32,77 +35,91 @@ export const CardActiveDrivers = ({
         Number(driver.experienceYears),
         ["год", "года", "лет"],
       )}`}
-      car={car?.name}
-      numberCar={car?.numberCar ?? ""}
-      capacity={`${car?.weight} ${declensionWord(Number(car?.weight), [
-        "тонна",
-        "тонны",
-        "тонн",
-      ])}`}
-      typeCar={car?.carType ?? ""}
-      buttons={
-        <div className="flex gap-3">
-          <button
-            className="h-[43px] px-[16px] rounded-[25px] bg-orange-700 transition hover:bg-orange-800 text-white text-[17px] font-medium mt-[12px] disabled:opacity-50 disabled:hover:bg-orange-700"
-            disabled={driver.statusDriverId === 3}
-            onClick={() => {
-              setSelectedDriverId(driver.driverId);
-              toggleEditOrder();
-            }}
-          >
-            Редактировать заказ
-          </button>
-
-          <button
-            className="h-[43px] px-[16px] rounded-[25px] bg-red-700 transition hover:bg-red-800 text-white text-[17px] font-medium mt-[12px] disabled:opacity-50 disabled:hover:bg-red-700"
-            disabled={driver.statusDriverId === 3}
-            onClick={() => {
-              setSelectedDriverId(driver.driverId);
-              toggleDeleteOrder();
-            }}
-          >
-            Удалить заказ
-          </button>
-        </div>
+      menu={
+        <Menu
+          items={[
+            {
+              label: "Редактировать",
+              onClick: () => {
+                setSelectedDriverId(driver.driverId);
+                toggleEditOrder();
+              },
+              disabled: driver.statusDriverId === 3,
+              icon: <LuPencil />,
+            },
+            {
+              label: "Удалить",
+              onClick: () => {
+                setSelectedDriverId(driver.driverId);
+                toggleDeleteOrder();
+              },
+              variant: "danger",
+              disabled: driver.statusDriverId === 3,
+              icon: <LuTrash />,
+            },
+          ]}
+        />
       }
       infoRoute={
         route && (
-          <>
-            <p className="font-bold text-[16px]">
-              Адрес погрузки:{" "}
-              <span className="font-medium">{route?.startPoint}</span>
-            </p>
-            <p className="font-bold text-[16px]">
-              Адрес выгрузки:{" "}
-              <span className="font-medium">{route?.endPoint}</span>
-            </p>
+          <section className="flex flex-col gap-5 mt-5">
+            <section className="flex flex-col gap-3">
+              <div className="flex gap-1.5 items-center">
+                <LuMapPin
+                  className="text-primary-gray flex flex-shrink-0"
+                  size={22}
+                />
+                
+                <span className="font-medium text-sm">
+                  {route?.startPoint}{" "}
+                  <span className="text-sm text-primary-gray">
+                    {formatDate(route?.dateStart ?? "", "normal")}
+                  </span>
+                </span>
+              </div>
 
-            <p className="font-bold text-[16px]">
-              Дата начало маршрута:{" "}
-              <span className="font-medium">
-                {formatDate(route?.dateStart ?? "", "normal")}
-              </span>
-            </p>
+              <div className="flex gap-1.5 items-center">
+                <LuMapPin
+                  className="text-secondary-green flex flex-shrink-0"
+                  size={22}
+                />
 
-            <p className="font-bold text-[16px]">
-              Дата конца маршрута:{" "}
-              <span className="font-medium">
-                {formatDate(route?.dateEnd ?? "", "normal")}
-              </span>
-            </p>
+                <span className="font-medium text-sm">
+                  {route?.endPoint}{" "}
+                  <span className="text-sm text-primary-gray">
+                    {formatDate(route?.dateEnd ?? "", "normal")}
+                  </span>
+                </span>
+              </div>
+            </section>
 
-            <p className="font-bold text-[16px]">
-              Масса груза:{" "}
-              <span className="font-medium">
-                {route.weight}{" "}
+            <section className="flex gap-1.5 items-center">
+              <LuWeight size={22} className="text-primary-gray" />
+
+              <span className="font-medium text-sm">
+                Груз: {route.weight}{" "}
                 {declensionWord(Number(car?.weight), [
                   "тонна",
                   "тонны",
                   "тонн",
                 ])}
               </span>
-            </p>
-          </>
+            </section>
+
+            <section className="flex gap-1.5 items-center">
+              <TbTruckDelivery
+                size={22}
+                className="text-primary-gray flex flex-shrink-0"
+              />
+
+              <div className="flex flex-wrap">
+                <span className="block font-medium text-sm mr-1.5">
+                  {car.name}
+                </span>
+                <span className="font-medium text-sm">{car?.numberCar}</span>
+              </div>
+            </section>
+          </section>
         )
       }
     />

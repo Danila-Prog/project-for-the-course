@@ -16,10 +16,10 @@ export const RouteItem = ({
   const handleVisible = () => setVisible((visible) => !visible);
 
   return (
-    <div className="flex flex-col border-2 rounded-md ">
+    <div className="flex flex-col border-2 rounded-xl">
       <button
         onClick={handleVisible}
-        className="text-start py-1.5 px-4 font-medium text-base flex flex-col gap-1"
+        className="text-start py-2 px-4 font-medium flex flex-col my-auto gap-1"
       >
         <RouteItemCard
           startPoint={route.startPoint}

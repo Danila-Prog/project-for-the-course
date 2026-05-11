@@ -5,10 +5,6 @@ import { updateField } from "@/shared/lib";
 
 type Role = "driver" | "logist";
 
-type UseRegistrationOptions = {
-  requirePassword?: boolean;
-};
-
 const initialFormState = {
   surname: "",
   name: "",
@@ -24,9 +20,7 @@ const ROLE_TO_ID: Record<Role, number> = {
   logist: 2,
 };
 
-export const useRegistration = ({
-  requirePassword = true,
-}: UseRegistrationOptions = {}) => {
+export const useRegistration = () => {
   const [formData, setFormData] =
     useState<RegistrationFormData>(initialFormState);
 
@@ -36,16 +30,14 @@ export const useRegistration = ({
   const handleSubmit = (e: FormEvent, submit: () => void) => {
     e.preventDefault();
 
-    if (requirePassword) {
-      if (formData.password !== formData.confirmationPassword) {
-        setIsError(true);
-        return;
-      }
+    if (formData.password !== formData.confirmationPassword) {
+      setIsError(true);
+      return;
+    }
 
-      if (!validatePassword(formData.password)) {
-        setIsErrorPassword(true);
-        return;
-      }
+    if (!validatePassword(formData.password)) {
+      setIsErrorPassword(true);
+      return;
     }
 
     try {
@@ -59,7 +51,7 @@ export const useRegistration = ({
   const handleRoleChange = (role: Role) => {
     setFormData((prev) => ({
       ...prev,
-      roleId: ROLE_TO_ID[role],
+      roleId: prev.roleId === ROLE_TO_ID[role] ? null : ROLE_TO_ID[role],
     }));
   };
 

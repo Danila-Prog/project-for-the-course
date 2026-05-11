@@ -18,15 +18,13 @@ export const DriverRoutes = ({ driverId }: Props) => {
     [isUpdateRoute, driverId],
   );
 
-  if (!route) return;
-
   return (
-    <section className=" bg-white px-[30px] pt-[20px] pb-[30px] rounded-xl mb-2.5">
-      <h1 className="text-xl min826:text-2xl font-bold mb-4">
-        Доступно {route ? 1 : 0} маршрут:
+    <section className="xl:w-[57%] h-fit bg-white py-5 px-6 xl:px-8 rounded-2xl">
+      <h1 className="text-xl xl:text-2xl font-bold mb-4">
+        {route ? "Доступен 1 маршрут:" : "Доступно 0 маршрутов("}
       </h1>
 
-      <RouteItem key={route.id} route={route} driverId={driverId} />
+      {route && <RouteItem key={route.id} route={route} driverId={driverId} />}
     </section>
   );
 };

@@ -1,3 +1,4 @@
+import { UiButton } from "../UiButton";
 import { UiModal } from "../UiModal";
 
 interface Props {
@@ -8,28 +9,35 @@ interface Props {
 
 export const DeleteModalWrapper = ({ isOpen, onClose, onDelete }: Props) => {
   return (
-    <UiModal isOpen={isOpen} onClose={onClose}>
-      <UiModal.Header className="mb-[10px]" onClose={onClose}>
+    <UiModal
+      isOpen={isOpen}
+      onClose={onClose}
+      width="sm:w-[60%] md:w-[50%] lg:w-[35%]"
+    >
+      <UiModal.Header className="mb-2" onClose={onClose}>
         Вы уверенны?
       </UiModal.Header>
 
       <UiModal.Main className="flex gap-[15px]">
-        <button
+        <UiButton
+          textButton="Отменить"
+          sizeButton="full"
           onClick={onClose}
-          className="w-full h-[50px] rounded-[25px] bg-button-grey transition hover:bg-[#464646] text-white text-[20px] font-medium mt-[12px]"
-        >
-          Отменить
-        </button>
-
-        <button
-          className="w-full h-[50px] rounded-[25px] bg-red-700 transition hover:bg-red-800 text-white text-[20px] font-medium mt-[12px]"
+          sizesText="text-sm md:text-base lg:text-lg min-[1750px]:text-xl"
+          rounded="rounded-xl"
+          className="py-1.5 lg:py-2 max-w-[80%] bg-primary-gray text-primary-white hover:scale-[1.02] transition mt-3"
+        />
+        <UiButton
+          textButton="Удалить"
+          sizeButton="full"
           onClick={() => {
             onDelete();
             onClose();
           }}
-        >
-          Удалить
-        </button>
+          sizesText="text-sm  md:text-base lg:text-lg min-[1750px]:text-xl"
+          rounded="rounded-xl"
+          className="py-1.5 lg:py-2 max-w-[80%] bg-red-700 text-primary-white hover:scale-[1.02] transition mt-3"
+        />
       </UiModal.Main>
     </UiModal>
   );

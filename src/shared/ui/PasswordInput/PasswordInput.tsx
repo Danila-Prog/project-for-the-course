@@ -20,15 +20,20 @@ export default function PasswordInput({
   return (
     <UiInput
       type={isShow ? "text" : "password"}
-      sizeInput="lg"
       borderColor="lightGrey"
       idInput={idInput}
       label={label}
       rightIcon={
         isShow ? (
-          <BsEyeSlashFill color="#212123" />
+          <BsEyeSlashFill
+            color="#212123"
+            className="min-[1750px]:w-[25px] min-[1750px]:h-[25px]"
+          />
         ) : (
-          <IoEyeSharp color="#212123" />
+          <IoEyeSharp
+            color="#212123"
+            className="min-[1750px]:w-[25px] min-[1750px]:h-[25px]"
+          />
         )
       }
       handleClickRightIcon={handleShowPassword}

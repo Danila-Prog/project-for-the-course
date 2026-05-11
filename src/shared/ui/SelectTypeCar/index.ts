@@ -1,1 +1,0 @@
-export { SelectTypeCar } from "./SelectTypeCar";

@@ -1,6 +1,12 @@
-import { Calendar, InputDropDown, SelectCar, UiInput, UiModal } from "@/shared";
-import { useFormOrder } from "../model";
-import { FormEvent } from "react";
+import {
+  Calendar,
+  InputDropDown,
+  SelectCar,
+  UiButton,
+  UiInput,
+  UiModal,
+} from "@/shared";
+import { useFormOrder, useOrderDateConstraints } from "../model";
 import { RouteDurationLoader } from "@/features/Route/ui/RouteDurationLoader";
 
 export const FormOrder = ({
@@ -16,34 +22,33 @@ export const FormOrder = ({
 }) => {
   const {
     form,
-    errorDate,
     handleSubmit,
     isValid,
     updateFieldFunc,
     isDuplicateAddress,
+    isRouteUnavailable,
     reset,
-    setDurationMinutes,
-    minDateEnd,
+    setForm,
   } = useFormOrder(driverId, userId);
 
-  const handleCreateSubmit = (e: FormEvent) => {
-    handleSubmit(e);
+  const { setDurationMinutes, isDateStartDisabled, isDateEndDisabled } =
+    useOrderDateConstraints(form, setForm, isRouteUnavailable);
+
+  const handleClose = () => {
     onClose();
+    reset();
   };
 
   return (
     <>
       <UiModal
         isOpen={isOpen}
-        onClose={() => {
-          onClose();
-          reset();
-        }}
+        onClose={handleClose}
         classNameContent="overflow-y-scroll h-[80vh]"
       >
-        <form method="POST" onSubmit={handleCreateSubmit}>
+        <form method="POST" onSubmit={handleSubmit}>
           <UiModal.Header
-            className="mb-[10px]"
+            className="mb-4"
             onClose={() => {
               onClose();
               reset();
@@ -53,20 +58,12 @@ export const FormOrder = ({
           </UiModal.Header>
 
           <UiModal.Main className="grid gap-5">
-            <section className="">
+            <section>
               <InputDropDown
                 idInputDropDown="start_location"
                 selectedOption={form.start}
                 setSelectedOption={(val) => updateFieldFunc("start", val)}
-                placeholder="Введите адрес подачи"
-                label={
-                  <label
-                    className="block font-medium mb-[5px] text-[17px]"
-                    htmlFor="start_location"
-                  >
-                    Адрес погрузки
-                  </label>
-                }
+                label="Адрес погрузки"
               />
 
               <InputDropDown
@@ -74,15 +71,7 @@ export const FormOrder = ({
                 classNameContainer="mt-5 mb-2"
                 selectedOption={form.end}
                 setSelectedOption={(val) => updateFieldFunc("end", val)}
-                placeholder="Введите адрес выгрузки"
-                label={
-                  <label
-                    className="block font-medium mb-[5px] text-[17px]"
-                    htmlFor="end_location"
-                  >
-                    Адрес выгрузки
-                  </label>
-                }
+                label="Адрес выгрузки"
               />
 
               {isDuplicateAddress && (
@@ -92,95 +81,61 @@ export const FormOrder = ({
               )}
             </section>
 
-            <section>
-              <label
-                htmlFor="weightFormOrder"
-                className="block font-medium mb-[5px] text-[17px]"
-              >
-                Масса груза (т.)
-              </label>
+            <UiInput
+              id="weightFormOrder"
+              borderColor="lightGrey"
+              type="number"
+              value={form.weight}
+              label="Масса груза (т.)"
+              onChange={(e) => {
+                const v = e.target.value;
 
-              <UiInput
-                id="weightFormOrder"
-                sizeInput="lg"
-                borderColor="lightGrey"
-                type="number"
-                value={form.weight}
-                onChange={(e) => {
-                  const v = e.target.value;
-                  updateFieldFunc("weight", v === "" ? "" : Number(v));
-                }}
-              />
-            </section>
+                updateFieldFunc("weight", v === "0" ? v : v.replace(/^0+/, ""));
+              }}
+            />
 
-            <section>
-              <label className="block font-medium mb-[5px] text-[17px]">
-                Доступные автомобили
-              </label>
-
-              <SelectCar
-                isDisabled={!form.weight}
-                weight={form.weight ?? 0}
-                value={form.carId}
-                setter={(val) => updateFieldFunc("carId", val)}
-              />
-            </section>
+            <SelectCar
+              isDisabled={!form.weight}
+              weight={form.weight ?? 0}
+              value={form.carId}
+              setter={(val) => updateFieldFunc("carId", val)}
+              label="Доступные автомобили"
+            />
 
             <section>
-              <label className="block font-medium mb-[5px] text-[17px]">
+              <label className="block font-medium mb-[5px] text-sm">
                 Дата загрузки
               </label>
+
               <Calendar
                 currDate={form.dateStart}
                 setter={(val) => updateFieldFunc("dateStart", val)}
-                disabledCondition={(formattedDay) => {
-                  if (
-                    !form.start ||
-                    !form.end ||
-                    isDuplicateAddress ||
-                    !formattedDay
-                  )
-                    return true;
-                  return false;
-                }}
+                disabledCondition={isDateStartDisabled}
               />
             </section>
 
             <section>
-              <label className="block font-medium mb-[5px] text-[17px]">
+              <label className="block font-medium mb-[5px] text-sm">
                 Дата выгрузки
               </label>
 
               <Calendar
                 currDate={form.dateEnd}
                 setter={(val) => updateFieldFunc("dateEnd", val)}
-                disabledCondition={(formattedDay) => {
-                  if (
-                    !form.dateStart ||
-                    !form.start ||
-                    !form.end ||
-                    !formattedDay ||
-                    isDuplicateAddress
-                  )
-                    return true;
-                  return formattedDay <= minDateEnd;
-                }}
+                disabledCondition={isDateEndDisabled}
               />
             </section>
-
-            <span className="text-[14px] text-rose-500 font-bold">
-              {errorDate}
-            </span>
           </UiModal.Main>
 
           <UiModal.Footer className="flex justify-center mt-[30px]">
-            <button
-              type="submit"
-              className="w-[250px] h-[50px] px-[16px] rounded-[25px] bg-button-grey transition hover:bg-[#464646] text-white text-[20px] font-medium mt-[12px] disabled:opacity-70"
+            <UiButton
               disabled={!isValid}
-            >
-              Отдать заказ
-            </button>
+              sizeButton="full"
+              textButton="Отдать"
+              sizesText="text-lg"
+              rounded="rounded-xl"
+              className="py-2 max-w-[80%] bg-accent-green text-primary-white hover:scale-[1.02] transition mt-3"
+            />
           </UiModal.Footer>
         </form>
       </UiModal>

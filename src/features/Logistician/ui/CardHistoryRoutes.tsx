@@ -3,6 +3,8 @@ import { declensionWord, formatDate } from "@/shared/lib";
 import avatar_users from "/public/icons/avatar_users.webp";
 import Image from "next/image";
 import { CardDriver, Route, User, Car } from "@/entities";
+import { LuMapPin, LuWeight } from "react-icons/lu";
+import { TbTruckDelivery } from "react-icons/tb";
 
 export const CardHistoryRoutes = ({
   driver,
@@ -23,66 +25,79 @@ export const CardHistoryRoutes = ({
         Number(driver.experienceYears),
         ["год", "года", "лет"],
       )}`}
-      car={car?.name}
-      numberCar={car?.numberCar ?? ""}
-      capacity={`${car?.weight} ${declensionWord(Number(car?.weight), [
-        "тонна",
-        "тонны",
-        "тонн",
-      ])}`}
       status="Выполнен"
-      typeCar={car?.carType ?? ""}
       infoRoute={
         route && (
-          <>
-            <p className="font-bold text-[16px]">
-              Адрес погрузки:{" "}
-              <span className="font-medium">{route?.startPoint}</span>
-            </p>
-            <p className="font-bold text-[16px]">
-              Адрес выгрузки:{" "}
-              <span className="font-medium">{route?.endPoint}</span>
-            </p>
+          <section className="flex flex-col gap-5 mt-5">
+            <section className="flex flex-col gap-3">
+              <div className="flex gap-1.5 items-center">
+                <LuMapPin
+                  className="text-primary-gray flex flex-shrink-0"
+                  size={22}
+                />
+                <span className="font-medium text-sm">
+                  {route?.startPoint}{" "}
+                  <span className="text-sm text-primary-gray">
+                    {formatDate(route?.dateStart ?? "", "normal")}
+                  </span>
+                </span>
+              </div>
 
-            <p className="font-bold text-[16px]">
-              Дата начало маршрута:{" "}
-              <span className="font-medium">
-                {formatDate(route?.dateStart ?? "", "normal")}
-              </span>
-            </p>
+              <div className="flex gap-1.5 items-center">
+                <LuMapPin
+                  className="text-secondary-green flex flex-shrink-0"
+                  size={22}
+                />
+                <span className="font-medium text-sm">
+                  {route?.endPoint}{" "}
+                  <span className="text-sm text-primary-gray">
+                    {formatDate(route?.dateEnd ?? "", "normal")}
+                  </span>
+                </span>
+              </div>
+            </section>
 
-            <p className="font-bold text-[16px]">
-              Дата конца маршрута:{" "}
-              <span className="font-medium">
-                {formatDate(route?.dateEnd ?? "", "normal")}
-              </span>
-            </p>
+            <section className="flex items-center gap-1.5">
+              <LuWeight size={22} className="text-primary-gray" />
 
-            <p className="font-bold text-[16px]">
-              Масса груза:{" "}
-              <span className="font-medium">
-                {route.weight}{" "}
+              <span className="font-medium text-sm">
+                Груз: {route.weight}{" "}
                 {declensionWord(Number(car?.weight), [
                   "тонна",
                   "тонны",
                   "тонн",
                 ])}
               </span>
-            </p>
-          </>
+            </section>
+
+            <section className="flex gap-1.5 items-center mb-5">
+              <TbTruckDelivery
+                size={22}
+                className="text-primary-gray flex flex-shrink-0"
+              />
+
+              <div className="flex flex-wrap">
+                <span className="block font-medium text-sm mr-1.5">
+                  {car.name}
+                </span>
+                <span className="font-medium text-sm">{car?.numberCar}</span>
+              </div>
+            </section>
+          </section>
         )
       }
       confirmPhoto={
         <figure className="flex flex-col gap-1">
-          <figcaption className="font-bold text-[16px]">
-            Фото подтверждение
+          <figcaption className="font-medium text-sm">
+            Фото подтверждение:
           </figcaption>
+
           <Image
             src={route?.confirmationPhoto ?? avatar_users}
             alt="Confirmation photo"
-            width={200}
-            height={200}
-            className="w-[200px] h-[200px] rounded-[8px]"
+            width={250}
+            height={250}
+            className="w-[180px] h-[180px] min-[425px]:w-[230px] min-[425px]:h-[230px] lg:w-[250px] lg:h-[250px] rounded-[8px]"
           />
         </figure>
       }

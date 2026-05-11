@@ -29,9 +29,10 @@ export default function DriverPersonFormEditing({
     <UiModal
       isOpen={isOpen}
       onClose={onClose}
-      width="w-[95%] md:w-[60%] lg:w-[40%]"
+      classNameContent="h-fit max-h-[95%] overflow-y-auto"
+      width="w-[95%] sm:w-[60%] md:w-[50%] lg:w-[35%] xl:w-[30%]"
     >
-      <UiModal.Header className="mb-2.5" onClose={onClose}>
+      <UiModal.Header className="mb-6" onClose={onClose}>
         Редактирования фото
       </UiModal.Header>
 
@@ -43,7 +44,6 @@ export default function DriverPersonFormEditing({
             await mutate(formData);
           }}
           textConfirm="Сохранить фото"
-          classNameConfirmButton="bg-orange-700 hover:bg-orange-800"
         />
       </UiModal.Main>
     </UiModal>

@@ -1,5 +1,7 @@
+"use client";
+
 import clsx from "clsx";
-import { MouseEvent, ReactNode } from "react";
+import { MouseEvent, ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { RxCross2 } from "react-icons/rx";
 
@@ -17,14 +19,23 @@ export default function UiModal({
   classNameContent,
   isOpen,
   onClose,
-  width = "w-[35%]",
+  width = "lg:w-[35%]",
 }: IUiModal) {
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isOpen]);
+
+  if (!isOpen) return;
 
   const handleClose = (e: MouseEvent<HTMLDivElement>) => {
     const isModal = (e.target as HTMLDivElement).closest("[data-id=modal]");
 
     if (isModal) return;
+
     onClose();
   };
 
@@ -41,7 +52,7 @@ export default function UiModal({
         className={clsx(
           width,
           classNameContent,
-          "bg-white rounded-[10px] px-[40px] pt-[20px] pb-[35px]",
+          "bg-white rounded-2xl p-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6 w-[95%]",
         )}
       >
         {children}
@@ -61,7 +72,7 @@ UiModal.Header = function UiModalHeader({
     <header
       className={clsx(
         className,
-        "text-xl font-bold flex justify-between items-center",
+        "text-xl sm:text-2xl min-[1750px]:text-3xl font-bold flex justify-between items-center",
       )}
     >
       {children}

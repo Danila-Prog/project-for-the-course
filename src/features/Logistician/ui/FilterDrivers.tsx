@@ -16,71 +16,64 @@ export const FilterDrivers = ({
   currentTab,
 }: IFiltersResearchUsers) => {
   return (
-    <aside className="bg-white rounded-lg py-4 px-5 flex flex-col gap-5 h-full flex-shrink-0">
+    <aside className="flex gap-5 h-full flex-shrink-0 flex-wrap justify-center">
       {currentTab !== "allDrivers" && (
         <>
-          <fieldset>
-            <legend className="font-medium text-[16px] mb-1">
+          <fieldset className="max-w-[400px]">
+            <legend className="font-medium text-sm min-[1700px]:text-base mb-3">
               Грузоподъёмность
             </legend>
 
-            <div className="flex">
+            <div className="flex justify-between gap-2.5">
               <UiInput
                 type="number"
-                placeholder="От"
-                sizeInput="sm"
-                isPadding
                 borderColor="lightGrey"
-                isRounded
-                additionalStyle="mr-[10px]"
+                id="capacityFrom"
                 value={filters.capacityFrom}
                 name="capacityFrom"
                 onChange={handleFiltersChange}
+                label="От"
               />
 
               <UiInput
                 type="number"
-                placeholder="До"
-                sizeInput="sm"
-                isPadding
                 borderColor="lightGrey"
-                isRounded
                 value={filters.capacityBefore}
+                id="capacityBefore"
                 name="capacityBefore"
                 onChange={handleFiltersChange}
+                label="До"
               />
             </div>
           </fieldset>
         </>
       )}
 
-      <fieldset>
-        <legend className="font-medium text-[16px] mb-1 ">Стаж</legend>
+      <fieldset className="max-w-[400px]">
+        <legend className="font-medium text-sm mb-3 min-[1700px]:text-base">
+          Стаж
+        </legend>
 
-        <div className="flex">
+        <div className="flex justify-between gap-2.5">
           <UiInput
             type="number"
-            placeholder="От"
-            sizeInput="sm"
-            isPadding={true}
             borderColor="lightGrey"
-            isRounded={true}
-            additionalStyle="mr-[10px]"
+            isRounded
             value={filters.experienceFrom}
             name="experienceFrom"
             onChange={handleFiltersChange}
+            label="От"
           />
 
           <UiInput
             type="number"
             placeholder="До"
-            sizeInput="sm"
-            isPadding={true}
             borderColor="lightGrey"
             isRounded={true}
             value={filters.experienceBefore}
             name="experienceBefore"
             onChange={handleFiltersChange}
+            label="До"
           />
         </div>
       </fieldset>

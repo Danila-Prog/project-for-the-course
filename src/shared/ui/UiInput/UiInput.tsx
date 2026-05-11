@@ -1,85 +1,76 @@
 import clsx from "clsx";
-import { ComponentProps, ReactElement } from "react";
+import { ComponentProps, Fragment, ReactElement } from "react";
 
 interface IUiInput extends ComponentProps<"input"> {
-  sizeInput?: "sm" | "lg";
   borderColor?: "none" | "lightGrey";
   isRounded?: boolean;
-  isPadding?: boolean;
   leftIcon?: ReactElement;
   rightIcon?: ReactElement;
   additionalStyle?: string;
   handleClickRightIcon?: () => void;
   label?: string;
-  sizeLabel?: "sm" | "md";
   idInput?: string;
 }
 
 export default function UiInput({
-  sizeInput = "lg",
   borderColor = "none",
   additionalStyle,
   isRounded = true,
-  isPadding = true,
   rightIcon,
   handleClickRightIcon,
-  sizeLabel = "sm",
   label,
   idInput,
   leftIcon,
   ...inputProps
 }: IUiInput) {
-  const sizesInput = {
-    sm: "w-[8vw]",
-    lg: "w-full",
-  }[sizeInput];
-
   const bordersColor = {
     none: "",
     lightGrey:
       "border-2 border-primary-grey/40 focus-within:border-secondary-green",
   }[borderColor];
 
-  const sizesLabel = {
-    sm: "text-xs",
-    md: "text-base",
-  }[sizeLabel];
+  const Component = label ? "div" : Fragment;
 
   return (
-    <>
-      {label && (
-        <label
-          htmlFor={idInput}
-          className={clsx("mb-2 text-primary-gray", sizesLabel)}
-        >
-          {label}
-        </label>
-      )}
-
+    <Component className={label ? "w-full" : undefined}>
       <div
         className={clsx(
           bordersColor,
-          sizesInput,
-          isRounded ? "rounded-2xl" : "",
-          isPadding ? "px-3.5 py-1.5" : "",
+          isRounded ? "rounded-xl" : "",
           additionalStyle,
-          "flex justify-between items-center",
+          "relative flex justify-between items-center px-3.5 py-1.5 min-[1750px]:px-5 min-[1750px]:py-3",
         )}
       >
-        {leftIcon && <div>{leftIcon}</div>}
+        {leftIcon && <div className="flex-shrink-0">{leftIcon}</div>}
 
-        <input
-          className="font-medium w-full pr-[8px] bg-transparent "
-          {...inputProps}
-          id={idInput}
-        />
+        <div className="relative flex-1 min-w-0">
+          <input
+            className="peer font-medium w-full pr-[8px] bg-transparent text-xs sm:text-sm min-[1750px]:text-lg placeholder-transparent"
+            {...inputProps}
+            id={idInput}
+            placeholder=" "
+          />
+
+          {label && (
+            <label
+              htmlFor={idInput}
+              className="absolute left-0 top-1/2 -translate-y-1/2 text-primary-gray text-[0.65rem] sm:text-xs min-[1750px]:text-base transition-all duration-300 pointer-events-none peer-focus-within:top-0 peer-focus-within:-left-1 peer-focus-within:-translate-y-full peer-[&:not(:placeholder-shown)]:top-0 peer-[&:not(:placeholder-shown)]:-translate-y-full peer-focus-within:bg-white peer-focus-within:px-1 peer-focus-within:rounded-md peer-[&:not(:placeholder-shown)]:bg-white peer-[&:not(:placeholder-shown)]:px-1 peer-[&:not(:placeholder-shown)]:rounded-md peer-[&:not(:placeholder-shown)]:-left-1"
+            >
+              {label}
+            </label>
+          )}
+        </div>
 
         {rightIcon && (
-          <button type="button" onClick={handleClickRightIcon}>
+          <button
+            type="button"
+            onClick={handleClickRightIcon}
+            className="flex-shrink-0"
+          >
             {rightIcon}
           </button>
         )}
       </div>
-    </>
+    </Component>
   );
 }

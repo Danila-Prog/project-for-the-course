@@ -1,13 +1,7 @@
-import { DM_Sans, Montserrat } from "next/font/google";
+import { Raleway } from "next/font/google";
 
-export const dmSans = DM_Sans({
+export const raleway = Raleway({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-dmsans",
-});
-
-export const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-montserrat",
+  variable: "--font-raleway",
 });

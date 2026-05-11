@@ -1,6 +1,3 @@
-"use client";
-
-import { startOfToday } from "date-fns";
 import { Route, RoutesDto } from "./types";
 
 export class RouteModel {
@@ -44,31 +41,5 @@ export class RouteModel {
       idStatusRoute: routeDto.id_status_route,
       weight: routeDto.weight,
     };
-  }
-
-  public static formErrorWithDate(dateStart: string, dateEnd: string) {
-    if (!dateStart || !dateEnd) return "";
-
-    const today = startOfToday().getTime();
-    const start = new Date(dateStart).getTime();
-    const end = new Date(dateEnd).getTime();
-
-    if (Number.isNaN(start) || Number.isNaN(end)) {
-      return "Некорректная дата";
-    }
-
-    if (start < today) {
-      return "Дата загрузки не может быть раньше текущей даты";
-    }
-
-    if (end < today) {
-      return "Дата выгрузки не может быть раньше текущей даты";
-    }
-
-    if (start > end) {
-      return "Дата выгрузки не может быть раньше даты загрузки";
-    }
-
-    return "";
   }
 }

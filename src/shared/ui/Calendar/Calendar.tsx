@@ -59,7 +59,7 @@ export const Calendar = ({
   };
 
   return (
-    <div className="p-3 w-full bg-white border rounded-lg shadow-sm">
+    <div className="p-3 w-full bg-white border rounded-2xl shadow-sm">
       <div className="flex items-center justify-between mb-4 px-1">
         <h2 className="text-sm font-bold text-gray-700">
           {format(firstDayOfMonth, "LLLL yyyy", {
@@ -116,7 +116,7 @@ export const Calendar = ({
         {DAYS.map((day) => (
           <div
             key={day}
-            className="text-center text-[10px] font-medium text-gray-400 uppercase"
+            className="text-center text-xs font-medium text-gray-400 uppercase"
           >
             {day}
           </div>
@@ -147,9 +147,11 @@ export const Calendar = ({
                   !isCurrentMonth
                     ? "text-gray-300"
                     : "text-gray-700 font-medium",
-                  isToday(day) ? "bg-red-700 !text-white" : "hover:bg-gray-100",
+                  isToday(day)
+                    ? "bg-secondary-green !text-white"
+                    : "hover:bg-gray-100",
                   isDisabled && "opacity-50 cursor-not-allowed",
-                  "h-7 w-7 text-xs flex items-center justify-center rounded-full transition-colors",
+                  "h-7 w-7 text-sm flex items-center justify-center rounded-full transition-colors",
                 )}
               >
                 {format(day, "d")}

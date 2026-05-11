@@ -3,7 +3,7 @@ import { ApiResponse, RequestConfig } from "@/shared/api/httpClient";
 export interface DriverDto {
   driver_id: number;
   experience_years: number;
-  status_driver_id: number;
+  status_driver_id: 1 | 2 | 3;
   user_id: number;
   car_id: number;
   photo_url: string | null;
@@ -12,7 +12,7 @@ export interface DriverDto {
 export interface Driver {
   driverId: number;
   experienceYears: number;
-  statusDriverId: number;
+  statusDriverId: 1 | 2 | 3;
   userId: number;
   carId: number;
   photoUrl: string | null;

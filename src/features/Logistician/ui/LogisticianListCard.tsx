@@ -1,4 +1,4 @@
-import { List } from "@/shared";
+import { List, Maybe } from "@/shared";
 import { CurrentTabLogistician, Filters } from "../lib/types";
 import { useLogisticianListViewModel, useRenderForm } from "../model";
 import { CardHistoryRoutes } from "./CardHistoryRoutes";
@@ -30,9 +30,16 @@ export const LogisticianListCard = ({ filters, currentTab }: Props) => {
 
   if (currentTab === "allDrivers") {
     return (
-      <>
+      <Maybe
+        conditionFallback={!accessDriversAggregates.length}
+        fallback={
+          <span className="text-lg md:text-2xl text-center block">
+            Водителей нету(
+          </span>
+        }
+      >
         <List
-          className="grid grid-cols-2 gap-5"
+          className="grid grid-cols-1 md:grid-cols-2 gap-5 min-[1700px]:grid-cols-3"
           entity={accessDriversAggregates}
           keyExtractor={(accessDriver) => accessDriver.driver.driverId ?? 0}
           renderCard={(accessDriver) => (
@@ -47,15 +54,22 @@ export const LogisticianListCard = ({ filters, currentTab }: Props) => {
         />
 
         {formOrder}
-      </>
+      </Maybe>
     );
   }
 
   if (currentTab === "activeDrivers") {
     return (
-      <>
+      <Maybe
+        conditionFallback={!activeDriversAggregates.length}
+        fallback={
+          <span className="text-lg md:text-2xl text-center block">
+            Активных водителей нету(
+          </span>
+        }
+      >
         <List
-          className="grid gap-[25px]"
+          className="grid grid-cols-1 md:grid-cols-2 gap-5 min-[1700px]:grid-cols-3"
           entity={activeDriversAggregates}
           keyExtractor={(activeDriver) => activeDriver.driver.driverId}
           renderCard={(activeDriver) => (
@@ -70,29 +84,36 @@ export const LogisticianListCard = ({ filters, currentTab }: Props) => {
             />
           )}
         />
-
         {formEditingOrder}
-
         {deleteOrder}
-      </>
+      </Maybe>
     );
   }
 
   if (currentTab === "historyDrivers") {
     return (
-      <List
-        className="grid gap-[25px]"
-        entity={filteredHistoryRoutes ?? []}
-        keyExtractor={(historyRoute) => historyRoute.route.id}
-        renderCard={(historyRoute) => (
-          <CardHistoryRoutes
-            driver={historyRoute.driver}
-            route={historyRoute.route}
-            user={historyRoute.user}
-            car={historyRoute.car}
-          />
-        )}
-      />
+      <Maybe
+        conditionFallback={!filteredHistoryRoutes.length}
+        fallback={
+          <span className="text-lg md:text-2xl text-center block">
+            Истории заказов водителей нету(
+          </span>
+        }
+      >
+        <List
+          className="grid grid-cols-1 md:grid-cols-2 gap-5 min-[1700px]:grid-cols-3"
+          entity={filteredHistoryRoutes ?? []}
+          keyExtractor={(historyRoute) => historyRoute.route.id}
+          renderCard={(historyRoute) => (
+            <CardHistoryRoutes
+              driver={historyRoute.driver}
+              route={historyRoute.route}
+              user={historyRoute.user}
+              car={historyRoute.car}
+            />
+          )}
+        />
+      </Maybe>
     );
   }
 

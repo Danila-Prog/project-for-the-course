@@ -1,5 +1,6 @@
 import { Route } from "@/entities/Route/model/types";
 import { formatDate } from "@/shared/lib";
+import { LuMapPin } from "react-icons/lu";
 
 export const RouteItemCard = ({
   startPoint,
@@ -8,19 +9,34 @@ export const RouteItemCard = ({
   dateStart,
 }: Pick<Route, "startPoint" | "endPoint" | "dateEnd" | "dateStart">) => {
   return (
-    <>
-      <span>
-        <span className="font-semibold">Точка от:</span> {startPoint}
-      </span>
+    <section className="flex flex-col gap-3">
+      <div className="flex gap-1.5 items-center">
+        <LuMapPin className="text-primary-gray flex flex-shrink-0" size={25} />
+        <div>
+          <span className="font-medium text-sm xl:text-base block">
+            {startPoint}{" "}
+          </span>
+          <span className="text-primary-gray block text-sm xl:text-base font-medium">
+            {formatDate(dateStart ?? "", "normal")}
+          </span>
+        </div>
+      </div>
 
-      <span>
-        <span className="font-semibold">Точка до:</span> {endPoint}
-      </span>
+      <div className="flex gap-1.5 items-center">
+        <LuMapPin
+          className="text-secondary-green flex flex-shrink-0"
+          size={25}
+        />
+        <div>
+          <span className="font-medium text-sm xl:text-base block">
+            {endPoint}{" "}
+          </span>
 
-      <span>
-        <span className="font-semibold">Дата:</span>{" "}
-        {`${formatDate(dateStart, "normal")} — ${formatDate(dateEnd, "normal")}`}
-      </span>
-    </>
+          <span className="text-primary-gray block text-sm xl:text-base font-medium">
+            {formatDate(dateEnd ?? "", "normal")}
+          </span>
+        </div>
+      </div>
+    </section>
   );
 };

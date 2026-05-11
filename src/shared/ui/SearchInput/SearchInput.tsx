@@ -1,22 +1,43 @@
+"use client";
+
 import { UiInput } from "@/shared";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ComponentProps, useEffect, useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
-type TSearchInput = ComponentProps<"input">;
+type TSearchInput = ComponentProps<"input"> & {
+  searchGet: string;
+};
 
-export default function SearchInput({ ...inputProps }: TSearchInput) {
+const placeholder: Record<string, string> = {
+  allDrivers: "Поиск по ФИО",
+  activeDrivers: "Поиск по ФИО или номерному знаку",
+  historyDrivers: "Поиск по ФИО или номерному знаку",
+  users: "Поиск по ФИО или username",
+};
+
+export default function SearchInput({
+  searchGet,
+  ...inputProps
+}: TSearchInput) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const [value, setValue] = useState(searchParams.get("search") ?? "");
 
-  const currentTab = searchParams?.get("tabLogistician") ?? "allDrivers";
+  const currentTab = searchParams?.get(searchGet) ?? "allDrivers";
+
+  useEffect(() => {
+    setValue(searchParams.get("search") ?? "");
+  }, [searchParams]);
 
   useEffect(() => {
     const id = setTimeout(() => {
       const params = new URLSearchParams(searchParams.toString());
+      const searchFromUrl = params.get("search") ?? "";
+
+      if (value.trim() === searchFromUrl) return;
 
       if (value.trim()) {
         params.set("search", value.trim());
@@ -34,14 +55,16 @@ export default function SearchInput({ ...inputProps }: TSearchInput) {
     <UiInput
       type="text"
       name="search"
+      id={currentTab}
       value={value}
       onChange={(e) => setValue(e.target.value)}
-      additionalStyle="w-full mx-10 py-2 pl-4 pr-5"
+      additionalStyle="mx-2 xl:mx-4 min-[1750px]:mx-10"
       borderColor="lightGrey"
       isRounded
-      isPadding={false}
-      leftIcon={<FaMagnifyingGlass className="mr-3" />}
-      placeholder={`Поиск по ФИО ${currentTab !== "allDrivers" ? "или номерной знак" : ""}`}
+      label={placeholder[currentTab]}
+      leftIcon={
+        <FaMagnifyingGlass className="mr-2 w-[16px] h-[16px] min-[1750px]:w-[25px] min-[1750px]:h-[25px]" />
+      }
       {...inputProps}
     />
   );

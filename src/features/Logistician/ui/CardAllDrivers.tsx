@@ -2,6 +2,8 @@ import { CardDriver, Driver, User } from "@/entities";
 import { declensionWord, STATUS_DRIVER } from "@/shared/lib";
 import { StateSetter } from "@/shared/types";
 import avatar_users from "/public/icons/avatar_users.webp";
+import { Menu } from "@/shared";
+import { IoHomeOutline } from "react-icons/io5";
 
 interface Props {
   user: User;
@@ -26,17 +28,21 @@ export const CardAllDrivers = ({
         Number(driver.experienceYears),
         ["год", "года", "лет"],
       )}`}
-      buttons={
-        <button
-          className="px-4 py-1.5 rounded-xl bg-accent-green transition hover:hover:scale-[1.02] text-primary-white text-base mt-5"
-          onClick={() => {
-            toggleFormOrder();
-            setSelectedDriverId(driver.driverId);
-            setSelectedUserId(driver.userId);
-          }}
-        >
-          Дать заказ
-        </button>
+      menu={
+        <Menu
+          items={[
+            {
+              label: "Дать заказ",
+              onClick: () => {
+                toggleFormOrder();
+                setSelectedDriverId(driver.driverId);
+                setSelectedUserId(driver.userId);
+              },
+              variant: "give",
+              icon: <IoHomeOutline />,
+            },
+          ]}
+        />
       }
     />
   );

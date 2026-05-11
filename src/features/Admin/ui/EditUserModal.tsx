@@ -28,7 +28,9 @@ export const EditUserModal = ({ isOpen, onClose, user, onUpdate }: Props) => {
     isError,
     isErrorPassword,
     resetForm,
-  } = useRegistration({ requirePassword: false });
+  } = useRegistration();
+
+  const isPasswordValid = isError && isErrorPassword;
 
   useLayoutEffect(() => {
     if (!user) return;
@@ -43,7 +45,6 @@ export const EditUserModal = ({ isOpen, onClose, user, onUpdate }: Props) => {
     } else {
       handleRoleChange("logist");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (
@@ -53,14 +54,15 @@ export const EditUserModal = ({ isOpen, onClose, user, onUpdate }: Props) => {
         onClose();
         resetForm();
       }}
-      classNameContent="overflow-y-scroll h-[90vh]"
+      width="md:w-[60%] lg:w-[40%]"
+      classNameContent="h-[95%] overflow-y-scroll"
     >
       <UiModal.Header
         onClose={() => {
           onClose();
           resetForm();
         }}
-        className="mb-2.5"
+        className="mb-4"
       >
         Редактировать
       </UiModal.Header>
@@ -69,6 +71,10 @@ export const EditUserModal = ({ isOpen, onClose, user, onUpdate }: Props) => {
         autoComplete="new-password"
         onSubmit={(e) => {
           handleSubmit(e, () => {
+            if (isPasswordValid) {
+              return;
+            }
+
             onUpdate({
               id: user.userId,
               updates: {
@@ -77,15 +83,16 @@ export const EditUserModal = ({ isOpen, onClose, user, onUpdate }: Props) => {
                 surname: formData.surname,
                 username: formData.username,
                 password: formData.password,
-                roleId: formData.roleId,
+                roleId:
+                  formData.roleId !== null ? formData.roleId : user.roleId,
               },
             });
-          });
 
-          onClose();
+            onClose();
+          });
         }}
       >
-        <UiModal.Main className="flex flex-col gap-[10px]">
+        <UiModal.Main className="flex flex-col gap-4 md:gap-5">
           <UiInput
             idInput="surname"
             label="Фамилия"
@@ -144,22 +151,24 @@ export const EditUserModal = ({ isOpen, onClose, user, onUpdate }: Props) => {
           />
 
           {isErrorPassword && (
-            <span className="text-[14px] text-rose-500 font-bold">
+            <span className="text-xs lg:text-sm min-[1750px]:text-base text-rose-500 font-medium">
               Не валидный пароль
             </span>
           )}
 
           {isError && (
-            <span className="text-[14px] text-rose-500 font-bold">
+            <span className="text-xs lg:text-sm min-[1750px]:text-base text-rose-500 font-medium">
               Пароли не совпадают
             </span>
           )}
 
           <div className="flex flex-col gap-[5px]">
-            <span className="text-[15px] font-medium">Роль</span>
+            <span className="block text-[0.65rem] sm:text-xs min-[1750px]:text-base font-medium mb-1 md:mb-2.5 text-primary-gray">
+              Роль
+            </span>
 
-            <div className="flex mb-[25px]">
-              <div className="flex gap-[5px] items-center mr-[20px] ">
+            <div className="flex mb-5">
+              <div className="flex gap-2.5 items-center mr-5">
                 <UiCheckBox
                   idInput="input-driver"
                   checked={formData.roleId === 1}
@@ -169,13 +178,13 @@ export const EditUserModal = ({ isOpen, onClose, user, onUpdate }: Props) => {
 
                 <label
                   htmlFor="input-driver"
-                  className="text-[17px] font-medium"
+                  className="text-xs sm:text-sm min-[1750px]:text-lg font-medium"
                 >
                   Водитель
                 </label>
               </div>
 
-              <div className="flex gap-[8px] items-center">
+              <div className="flex gap-2.5 items-center">
                 <UiCheckBox
                   idInput="input-logic"
                   checked={formData.roleId === 2}
@@ -185,7 +194,7 @@ export const EditUserModal = ({ isOpen, onClose, user, onUpdate }: Props) => {
 
                 <label
                   htmlFor="input-logic"
-                  className="text-[17px] font-medium"
+                  className="text-xs sm:text-sm min-[1750px]:text-lg font-medium text-accent-black"
                 >
                   Логист
                 </label>
@@ -198,9 +207,9 @@ export const EditUserModal = ({ isOpen, onClose, user, onUpdate }: Props) => {
           <UiButton
             sizeButton="full"
             textButton="Редактировать"
-            sizesText="text-[16px]"
-            className="h-[43px]"
-            rounded="rounded-[10px]"
+            sizesText="text-sm sm:text-base min-[1750px]:text-2xl"
+            rounded="rounded-xl"
+            className="py-2 min-[1750px]:py-3 bg-accent-green text-primary-white hover:scale-[1.02] transition mt-2 lg:mt-3 min-[1750px]:mt-4"
           />
         </UiModal.Footer>
       </form>

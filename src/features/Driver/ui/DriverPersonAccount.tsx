@@ -42,7 +42,7 @@ export const DriverPersonAccount = ({ driverId, userId }: Props) => {
 
   return (
     <>
-      <article className="w-full bg-white py-5 pb-7 px-5 md:px-10 rounded-xl flex min-[650px]:flex-row min826:flex-col lg:flex-row flex-col gap-5 mb-8">
+      <article className="w-full md:w-fit h-fit bg-white py-5 px-6 sm:px-8 rounded-2xl flex flex-col min-[563px]:flex-row items-center gap-5">
         <Image
           src={driver?.photoUrl ?? avatar_users}
           alt="Driver avatar"
@@ -51,14 +51,16 @@ export const DriverPersonAccount = ({ driverId, userId }: Props) => {
           className="w-44 h-44 rounded-xl aspect-square flex flex-shrink-0"
         />
 
-        <div className="flex flex-col gap-1.5">
-          <h1 className="text-[25px] font-bold">
+        <div className="flex flex-col gap-1.5 w-full md:w-fit">
+          <h1 className="text-xl sm:text-2xl font-bold">
             {user?.name} {user?.surname}
           </h1>
 
-          <span className="block">Username: {user?.username}</span>
+          <span className="block text-sm sm:text-base">
+            Username: {user?.username}
+          </span>
 
-          <span>
+          <span className="text-sm sm:text-base">
             Ваш стаж: {driver?.experienceYears}{" "}
             {declensionWord(Number(driver?.experienceYears), [
               "год",
@@ -69,7 +71,8 @@ export const DriverPersonAccount = ({ driverId, userId }: Props) => {
 
           <UiButton
             textButton="Редактировать фото"
-            sizesText="text-base py-2 max-w-[320px] px-4 mt-auto bg-orange-700 transition hover:bg-orange-800 !mt-auto"
+            sizesText="text-sm sm:text-base"
+            className="py-2 px-4 mt-4 bg-primary-gray text-white "
             onClick={handleOpenDriverPersonEditingPerson}
           />
         </div>

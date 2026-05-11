@@ -1,5 +1,5 @@
-import { Main } from "@/page/HomePage/ui/Main";
-import { Header } from "@/widgets/Header";
+import { Main } from "./ui/Main";
+import { Header } from "@/features";
 
 export default function HomePage() {
   return (

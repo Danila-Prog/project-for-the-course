@@ -15,7 +15,7 @@ export const RegistrationTab = () => {
 
   const createUser = useRegistrationTab(formData);
 
-  const disabledButton =
+  const isDisabled =
     !formData.name ||
     !formData.surname ||
     !formData.username ||
@@ -26,9 +26,9 @@ export const RegistrationTab = () => {
   return (
     <form
       onSubmit={(e) => handleSubmit(e, createUser)}
-      className="w-full bg-white pt-5 px-5 md:px-10 pb-10 rounded-xl"
+      className="w-[95%] sm:w-[80%] md:w-[70%] lg:w-[50%] mx-auto bg-white px-6 py-3 sm:px-8 sm:py-5 lg:px-10 lg:py-7 rounded-xl mb-5"
     >
-      <div className="flex flex-col gap-[10px]">
+      <div className="flex flex-col gap-4 md:gap-5">
         <UiInput
           idInput="surname"
           label="Фамилия"
@@ -91,22 +91,24 @@ export const RegistrationTab = () => {
         />
 
         {isErrorPassword && (
-          <span className="text-[14px] text-rose-500 font-bold">
+          <span className="text-xs lg:text-sm min-[1750px]:text-base text-rose-500 font-medium">
             Не валидный пароль
           </span>
         )}
 
         {isError && (
-          <span className="text-[14px] text-rose-500 font-bold">
+          <span className="text-xs lg:text-sm min-[1750px]:text-base text-rose-500 font-medium">
             Пароли не совпадают
           </span>
         )}
 
         <div className="flex flex-col gap-[5px]">
-          <p className="text-[15px] font-medium">Роль</p>
+          <span className="block text-[0.65rem] sm:text-xs min-[1750px]:text-base font-medium mb-1 md:mb-2.5 text-primary-gray">
+            Роль
+          </span>
 
-          <div className="flex mb-[25px]">
-            <div className="flex gap-[5px] items-center mr-[20px] ">
+          <div className="flex mb-5">
+            <div className="flex gap-2.5 items-center mr-5">
               <UiCheckBox
                 idInput="input-driver"
                 checked={formData.roleId === 1}
@@ -114,12 +116,15 @@ export const RegistrationTab = () => {
                 onChange={() => handleRoleChange("driver")}
               />
 
-              <label htmlFor="input-driver" className="text-[17px] font-medium">
+              <label
+                htmlFor="input-driver"
+                className="text-xs sm:text-sm min-[1750px]:text-lg font-medium"
+              >
                 Водитель
               </label>
             </div>
 
-            <div className="flex gap-[8px] items-center">
+            <div className="flex gap-2.5 items-center">
               <UiCheckBox
                 idInput="input-logic"
                 checked={formData.roleId === 2}
@@ -127,21 +132,23 @@ export const RegistrationTab = () => {
                 onChange={() => handleRoleChange("logist")}
               />
 
-              <label htmlFor="input-logic" className="text-[17px] font-medium">
+              <label
+                htmlFor="input-logic"
+                className="text-xs sm:text-sm min-[1750px]:text-lg font-medium text-accent-black"
+              >
                 Логист
               </label>
             </div>
           </div>
         </div>
       </div>
-
       <UiButton
-        disabled={disabledButton}
+        disabled={isDisabled}
         sizeButton="full"
         textButton="Зарегистрировать"
-        sizesText="text-[16px]"
-        className="h-[43px]"
-        rounded="rounded-[10px]"
+        sizesText="text-sm sm:text-base min-[1750px]:text-2xl"
+        rounded="rounded-xl"
+        className="py-2 min-[1750px]:py-3 bg-accent-green text-primary-white hover:scale-[1.02] transition mt-2 lg:mt-3 min-[1750px]:mt-4"
       />
     </form>
   );

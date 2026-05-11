@@ -3,16 +3,16 @@ import SignIn from "./ui/SignIn";
 
 export function AuthPage() {
   return (
-    <div className="flex">
+    <div className="lg:flex w-full">
       <Image
-        className="w-[45%] h-[97vh] bg-cover bg-center bg-no-repeat rounded-2xl shadow-xl m-2"
+        className="hidden lg:block w-full lg:w-[45%] lg:h-screen bg-cover bg-center bg-no-repeat rounded-r-3xl shadow-xl aspect-auto object-cover"
         src="/icons/bg-auth.jpeg"
         width={200}
         height={300}
         alt=""
       />
 
-      <div className="relative w-full">
+      <div className="w-full h-screen flex items-center justify-center">
         <SignIn />
       </div>
     </div>

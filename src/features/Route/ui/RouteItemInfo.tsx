@@ -9,6 +9,9 @@ import { ConfirmRouteModel } from "./ConfirmRouteModel";
 import { useMap } from "../model";
 import { Route } from "@/entities/Route/model/types";
 import { useAsync } from "@/shared/api/useAsync";
+import { UiButton } from "@/shared";
+import { LuClock5 } from "react-icons/lu";
+import { FaRoute } from "react-icons/fa";
 
 export default function RouteItemInfo({
   endPoint,
@@ -52,26 +55,51 @@ export default function RouteItemInfo({
   return (
     <>
       <main className="mt-2.5 mb-7">
-        <section className="flex flex-col gap-1.5 text-sm font-semibold [&>span>span]:font-normal">
-          <span>
-            Расчётное время поездки: <span>{duration}</span>
-          </span>
-          <span>
-            Расстояние: <span>{distance}</span>
-          </span>
+        <section className="flex flex-col min-[600px]:flex-row gap-5">
+          <div className="flex flex-col gap-0.5 justify-between shadow-card w-full rounded-2xl px-4 py-2">
+            <LuClock5
+              size={30}
+              className="text-secondary-green block xl:mb-2 w-[24px] xl:w-[30px]"
+            />
+
+            <span className="text-base xl:text-xl text-accent-black block font-semibold">
+              {duration}
+            </span>
+
+            <span className="text-sm xl:text-base text-primary-gray">
+              Расчётное время поездки
+            </span>
+          </div>
+
+          <div className="flex flex-col gap-0.5 shadow-card w-full rounded-2xl px-4 py-2">
+            <FaRoute
+              size={30}
+              className="text-secondary-green block  xl:mb-2 w-[24px] xl:w-[30px]"
+            />
+
+            <span className="text-base xl:text-xl text-accent-black block font-semibold">
+              {distance}
+            </span>
+
+            <span className="text-sm xl:text-base text-primary-gray">
+              Расстояние
+            </span>
+          </div>
         </section>
 
-        <button
+        <UiButton
+          textButton={
+            drivers?.statusDriverId !== 3 ? "Взять заказ" : "Выполнил заказ"
+          }
+          sizesText="text-sm xl:text-base"
+          onClick={handleButtonClick}
           className={clsx(
             drivers?.statusDriverId !== 3
-              ? "bg-button-grey hover:bg-[#464646]"
-              : "bg-green-700 hover:bg-green-800",
+              ? "bg-accent-green"
+              : "bg-secondary-green",
             "px-5 py-2 rounded-xl mt-4 font-medium text-white transition",
           )}
-          onClick={handleButtonClick}
-        >
-          {drivers?.statusDriverId !== 3 ? "Взять заказ" : "Выполнил заказ"}
-        </button>
+        />
       </main>
 
       <div className="w-full h-[300px] md:h-[445px]">

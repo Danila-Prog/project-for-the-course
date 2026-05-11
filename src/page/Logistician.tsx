@@ -15,6 +15,8 @@ export const FILTERS: Filters = {
   capacityFrom: "",
   capacityBefore: "",
   typeCar: "",
+  sortBy: "",
+  sortOrder: "asc",
 } as const;
 
 export const Logistician = () => {
@@ -36,25 +38,23 @@ export const Logistician = () => {
     "allDrivers") as CurrentTabLogistician;
 
   const handleFiltersChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e:
+      | ChangeEvent<HTMLInputElement | HTMLSelectElement>
+      | { target: { name: string; value: string } },
   ) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
-    <div className="flex flex-col min826:flex-row min826:justify-between max-min826:gap-5">
-      <section className="h-full flex flex-col gap-5 md:mr-6">
-        <FilterDrivers
-          filters={filters}
-          handleFiltersChange={handleFiltersChange}
-          currentTab={currentTab}
-        />
-      </section>
+    <main className="flex flex-col gap-5 flex-1 min-w-0 bg-white px-6 py-3 sm:px-8 sm:py-5 lg:px-10 lg:py-7 rounded-xl">
+      <FilterDrivers
+        filters={filters}
+        handleFiltersChange={handleFiltersChange}
+        currentTab={currentTab}
+      />
 
-      <main className="flex-1 min-w-0 bg-white px-[40px] pt-[30px] pb-[40px] rounded-lg">
-        <LogisticianListCard filters={filters} currentTab={currentTab} />
-      </main>
-    </div>
+      <LogisticianListCard filters={filters} currentTab={currentTab} />
+    </main>
   );
 };

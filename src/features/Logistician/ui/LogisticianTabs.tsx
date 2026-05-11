@@ -1,13 +1,50 @@
 import { Tab, Tabs } from "@/shared";
+import { BurgerMenu } from "@/shared/ui/BurgerMenu/BurgerMenu";
+import { ReactElement } from "react";
 
-export const LogisticianTabs = () => {
+interface Props {
+  isShow: boolean;
+  onClose: () => void;
+  buttonLogOut: ReactElement;
+}
+
+const tabs = [
+  { label: "Все", href: "?tabLogistician=allDrivers", value: "allDrivers" },
+  {
+    label: "Активные",
+    href: "?tabLogistician=activeDrivers",
+    value: "activeDrivers",
+  },
+  {
+    label: "История",
+    href: "?tabLogistician=historyDrivers",
+    value: "historyDrivers",
+  },
+];
+
+export const LogisticianTabs = ({ isShow, onClose, buttonLogOut }: Props) => {
   return (
-    <Tabs>
-      <Tab href={"?tabLogistician=allDrivers"}>Все</Tab>
+    <>
+      <BurgerMenu isShow={isShow} onClose={onClose}>
+        <>
+          {tabs.map((tab) => (
+            <Tab key={tab.value} href={tab.href} className="text-base">
+              {tab.label}
+            </Tab>
+          ))}
+          {buttonLogOut}
+        </>
+      </BurgerMenu>
 
-      <Tab href={"?tabLogistician=activeDrivers"}>Активные</Tab>
-
-      <Tab href={"?tabLogistician=historyDrivers"}>История</Tab>
-    </Tabs>
+      <div className="hidden lg:block">
+        <Tabs>
+          {tabs.map((tab) => (
+            <Tab key={tab.value} href={tab.href}>
+              {tab.label}
+            </Tab>
+          ))}
+        </Tabs>
+      </div>
+    </>
   );
 };

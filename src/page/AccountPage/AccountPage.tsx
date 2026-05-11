@@ -1,10 +1,9 @@
 "use client";
 
-import { Header } from "@/widgets/Header";
 import { Admin } from "../Admin";
 import { Logistician } from "../Logistician";
 import { Driver } from "../Driver";
-import { RouteItem, InjectRouteProvider } from "@/features";
+import { RouteItem, InjectRouteProvider, Header } from "@/features";
 import { useAuth } from "@/shared/lib";
 
 export default function AccountPage() {
@@ -15,8 +14,7 @@ export default function AccountPage() {
 
   return (
     <div className="w-[95%] mx-auto">
-      <Header
-      />
+      <Header />
 
       {roleId === 1 && (
         <InjectRouteProvider RouteItem={RouteItem}>

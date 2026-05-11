@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import clsx from "clsx";
-import { dmSans, montserrat } from "./fonts";
+import { raleway } from "./fonts";
 import { AuthCtxProvider, verifyJWT, YandexMapsProvider } from "@/shared/lib";
 import { cookies } from "next/headers";
 import { User } from "@/entities";
@@ -28,13 +28,7 @@ export default function RootLayout({
 
   return (
     <html lang="ru">
-      <body
-        className={clsx(
-          dmSans.variable,
-          montserrat.variable,
-          "bg-primary-white",
-        )}
-      >
+      <body className={clsx(raleway.variable, "bg-primary-white font-raleway")}>
         <AuthCtxProvider user={user}>
           <YandexMapsProvider>{children}</YandexMapsProvider>
         </AuthCtxProvider>

@@ -165,8 +165,4 @@ export class RouteService {
   findRouteById(routes: Route[], routeId: number) {
     return RouteModel.findRouteById(routes, routeId);
   }
-
-  formErrorWithDate(dateStart: string, dateEnd: string) {
-    return RouteModel.formErrorWithDate(dateStart, dateEnd);
-  }
 }

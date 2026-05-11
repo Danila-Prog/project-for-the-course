@@ -13,20 +13,20 @@ export const ConfirmRouteModel = ({ isOpen, onClose }: Props) => {
     <UiModal
       isOpen={isOpen}
       onClose={onClose}
-      width="w-[95%] md:w-[60%] lg:w-[40%]"
+      classNameContent="h-fit max-h-[95%] overflow-y-auto"
+      width="w-[95%] sm:w-[60%] md:w-[50%] lg:w-[35%] xl:w-[30%]"
     >
-      <UiModal.Header onClose={onClose}>
-        Подтвердите окончание маршрута
+      <UiModal.Header onClose={onClose} className="mb-6">
+        Завершить маршрут
       </UiModal.Header>
 
-      <UiModal.Main className="mt-4">
+      <UiModal.Main>
         <UploadPhoto
           onSubmit={(selectedFile) => {
             handleSubmitConfirmRoute(selectedFile);
             onClose();
           }}
           textConfirm="Подтвердить"
-          classNameConfirmButton="bg-green-700 hover:bg-green-800"
         />
       </UiModal.Main>
     </UiModal>

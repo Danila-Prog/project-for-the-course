@@ -25,8 +25,7 @@ const config: Config = {
         card: "0 0 0 1px rgba(13, 35, 67, .07), 0 5px 15px -8px rgba(13, 35, 67, .4)",
       },
       fontFamily: {
-        dmsans: ["var(--font-dmsans)", "sans-serif"],
-        montserrat: ["var(--font-montserrat)", "sans-serif"],
+        raleway: ["var(--font-raleway)", "sans-serif"],
       },
     },
   },

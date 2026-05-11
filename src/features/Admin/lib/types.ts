@@ -5,5 +5,5 @@ export interface RegistrationFormData {
   username: string;
   password: string;
   confirmationPassword: string;
-  roleId: number;
+  roleId: number | null;
 }

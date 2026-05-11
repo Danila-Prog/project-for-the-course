@@ -1,17 +1,29 @@
-import { useState } from "react";
-import { roles, useAuth } from "@/shared/lib";
-import { DeleteModalWrapper, List, SearchInput } from "@/shared";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/shared/lib";
+import { DeleteModalWrapper, List, Menu } from "@/shared";
 import { useUserTab } from "../model";
 import { EditUserModal } from "./EditUserModal";
 import { User } from "@/entities";
+import { LuPencil, LuTrash } from "react-icons/lu";
+import { useSearchParams } from "next/navigation";
+import { UserCard } from "./UserCard";
 
 export const UsersTab = () => {
-  const [searchInput, setSearchInput] = useState("");
+  const searchParams = useSearchParams();
+
+  const [search, setSearch] = useState(() => searchParams.get("search") ?? "");
+
   const [findUser, setFindUser] = useState<User | null>(null);
 
   const [isOpenEdit, setIsOpenEdit] = useState(false);
 
   const { user } = useAuth();
+
+  useEffect(() => {
+    const urlSearch = searchParams.get("search") ?? "";
+
+    setSearch(urlSearch);
+  }, [searchParams]);
 
   const {
     deleteUser,
@@ -21,50 +33,39 @@ export const UsersTab = () => {
     isOpenDeleteModal,
     findUserById,
     updateUser,
-  } = useUserTab(searchInput, user?.userId);
+  } = useUserTab(search, user?.userId);
 
   return (
     <>
-      <main className="bg-white w-full pt-5 px-5 md:px-10 pb-10 rounded-xl">
-        <SearchInput
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          placeholder="Введите фио или username"
-        />
-
+      <main className="bg-white w-full pt-5 px-5 md:px-10 pb-10 rounded-2xl">
         <List
           keyExtractor={(user) => user.userId}
           entity={filteredUsers}
-          className="flex flex-col gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
           renderCard={(user) => (
-            <article className="shadow-card rounded-xl p-5">
-              <h2 className="text-[25px] font-bold">
-                {user?.name} {user?.surname}
-              </h2>
-
-              <span className="block">Username: {user?.username}</span>
-
-              <span className="block">Роль: {roles[user?.roleId]}</span>
-
-              <footer className="flex gap-1 min-[433px]:gap-3 flex-wrap mt-3">
-                <button
-                  className="py-2 px-4 rounded-xl bg-orange-700 transition hover:bg-orange-800 text-white text-[17px] font-medium disabled:opacity-50 disabled:hover:bg-orange-700"
-                  onClick={() => {
-                    setFindUser(findUserById(user.userId));
-                    setIsOpenEdit(true);
-                  }}
-                >
-                  Редактировать
-                </button>
-
-                <button
-                  className="py-2 px-4 rounded-xl bg-red-700 transition hover:bg-red-800 text-white text-[17px] font-medium disabled:opacity-50 disabled:hover:bg-red-700"
-                  onClick={() => openDeleteModal(user.userId)}
-                >
-                  Удалить
-                </button>
-              </footer>
-            </article>
+            <UserCard
+              {...user}
+              menu={
+                <Menu
+                  items={[
+                    {
+                      label: "Редактировать",
+                      onClick: () => {
+                        setFindUser(findUserById(user.userId));
+                        setIsOpenEdit(true);
+                      },
+                      icon: <LuPencil />,
+                    },
+                    {
+                      label: "Удалить",
+                      onClick: () => openDeleteModal(user.userId),
+                      variant: "danger",
+                      icon: <LuTrash />,
+                    },
+                  ]}
+                />
+              }
+            />
           )}
         />
       </main>

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "Маршрутизатор — сайт, который позволяет оптимизировать маршруты для грузоперевозок",
 
-  icons: { icon: "/icons/trucking.jpg" },
+  icons: { icon: "/icons/logo.png" },
 
   keywords:
     "маршруты, сайт, оптимизация маршрутов, оптимизация, грузоперевозки",

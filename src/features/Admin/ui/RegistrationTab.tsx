@@ -6,14 +6,17 @@ import { useRegistrationTab, useRegistration } from "../model";
 export const RegistrationTab = () => {
   const {
     formData,
+    experienceYears,
+    handleUpdateExperienceYears,
     isError,
     handleUpdateForm,
     handleRoleChange,
     handleSubmit,
     isErrorPassword,
+    resetForm,
   } = useRegistration();
 
-  const createUser = useRegistrationTab(formData);
+  const createUser = useRegistrationTab(formData, Number(experienceYears));
 
   const isDisabled =
     !formData.name ||
@@ -25,10 +28,15 @@ export const RegistrationTab = () => {
 
   return (
     <form
-      onSubmit={(e) => handleSubmit(e, createUser)}
+      onSubmit={(e) =>
+        handleSubmit(e, () => {
+          createUser();
+          resetForm();
+        })
+      }
       className="w-[95%] sm:w-[80%] md:w-[70%] lg:w-[50%] mx-auto bg-white px-6 py-3 sm:px-8 sm:py-5 lg:px-10 lg:py-7 rounded-xl mb-5"
     >
-      <div className="flex flex-col gap-4 md:gap-5">
+      <div className="flex flex-col gap-4 md:gap-5 mb-5">
         <UiInput
           idInput="surname"
           label="Фамилия"
@@ -107,7 +115,7 @@ export const RegistrationTab = () => {
             Роль
           </span>
 
-          <div className="flex mb-5">
+          <div className="flex">
             <div className="flex gap-2.5 items-center mr-5">
               <UiCheckBox
                 idInput="input-driver"
@@ -141,7 +149,24 @@ export const RegistrationTab = () => {
             </div>
           </div>
         </div>
+
+        {formData.roleId === 1 && (
+          <UiInput
+            id="weightFormOrder"
+            borderColor="lightGrey"
+            type="number"
+            label="Стаж"
+            min={0}
+            max={100}
+            value={experienceYears}
+            onChange={(e) => {
+              const v = e.target.value;
+              handleUpdateExperienceYears(v === "0" ? v : v.replace(/^0+/, ""));
+            }}
+          />
+        )}
       </div>
+
       <UiButton
         disabled={isDisabled}
         sizeButton="full"

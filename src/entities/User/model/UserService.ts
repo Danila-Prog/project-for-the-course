@@ -17,9 +17,17 @@ export class UserService {
   }
 
   public async createUser(payload: Omit<UserDTO, "user_id">) {
-    await this.repository.createUser({ payload });
+    const { data } = await this.repository.createUser({ payload });
+
+    return UserModel.mapDtoToUser(data);
   }
-  public async updateUser(id: number, updates: Omit<User, "userId">) {
+
+  public async updateUser(
+    id: number,
+    updates: Omit<User, "userId" | "password"> & {
+      password?: string;
+    },
+  ) {
     await this.repository.updateUser(id, { payload: { updates: updates } });
   }
   public async deleteUser(id: number) {

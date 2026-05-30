@@ -8,6 +8,7 @@ const driversController = new DriverController();
 router.get("/drivers", driversController.getDrivers);
 router.get("/drivers/:id", driversController.getDriverById);
 router.get("/drivers/user/:id", driversController.getDriverByUserId);
+router.post("/drivers", driversController.createDriver);
 router.patch("/drivers", driversController.updateDriver);
 router.patch(
   "/drivers/:id",

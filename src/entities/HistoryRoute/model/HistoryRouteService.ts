@@ -103,7 +103,6 @@ export class HistoryRoutesService {
   ) {
     return historyRoutes.filter((item) => {
       const driver = item.driver;
-      const user = item.user;
       const car = item.car;
 
       const userExperience = Number(driver.experienceYears);
@@ -111,19 +110,12 @@ export class HistoryRoutesService {
       const onlyTypeCar = car.carType?.split(" ")[0] || "";
 
       const {
-        search,
         experienceFrom,
         experienceBefore,
         capacityFrom,
         capacityBefore,
         typeCar,
       } = filters;
-
-      const matchUser =
-        `${user.name} ${user.surname}`
-          .toLowerCase()
-          .includes(search.toLowerCase()) ||
-        car.numberCar?.toLowerCase().includes(search.toLowerCase());
 
       const matchesExperience =
         (experienceFrom ? userExperience >= Number(experienceFrom) : true) &&
@@ -138,7 +130,7 @@ export class HistoryRoutesService {
         (typeCar === "truck" && onlyTypeCar === "Грузовой") ||
         !typeCar;
 
-      return matchUser && matchesExperience && matchesTypeCar && matchCapacity;
+      return matchesExperience && matchesTypeCar && matchCapacity;
     });
   }
 }

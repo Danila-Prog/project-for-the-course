@@ -16,6 +16,15 @@ export class DriverApi implements DriversRepository {
     return httpClient.get<DriverDto[]>(`${this.ENDPOINT}/user/${userId}`);
   }
 
+  createDriver({
+    payload,
+  }: RequestConfig<{
+    userId: number;
+    experienceYears: number;
+  }>) {
+    return httpClient.post<DriverDto>(this.ENDPOINT, payload);
+  }
+
   uploadPhoto(driverId: number, { payload }: RequestConfig<FormData>) {
     return httpClient.patch<DriverDto>(`${this.ENDPOINT}/${driverId}`, payload);
   }

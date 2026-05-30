@@ -13,16 +13,29 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   user: User;
-  onUpdate: (variables: {
+  onUpdateUser: (variables: {
     id: number;
-    updates: Omit<User, "userId">;
+    updates: Omit<User, "userId" | "password"> & {
+      password?: string;
+    };
   }) => Promise<void | undefined>;
+  onUpdateDriver: (experienceYears: number) => Promise<void | undefined>;
+  currentExperienceYears: number;
 }
 
-export const EditUserModal = ({ isOpen, onClose, user, onUpdate }: Props) => {
+export const EditUserModal = ({
+  isOpen,
+  onClose,
+  user,
+  onUpdateUser,
+  onUpdateDriver,
+  currentExperienceYears,
+}: Props) => {
   const {
     formData,
+    experienceYears,
     handleUpdateForm,
+    handleUpdateExperienceYears,
     handleRoleChange,
     handleSubmit,
     isError,
@@ -45,25 +58,27 @@ export const EditUserModal = ({ isOpen, onClose, user, onUpdate }: Props) => {
     } else {
       handleRoleChange("logist");
     }
-  }, [user]);
+
+    handleUpdateExperienceYears(String(currentExperienceYears));
+  }, [
+    user.email,
+    user.roleId,
+    user.name,
+    user.password,
+    user.surname,
+    user.username,
+    user.userId,
+    currentExperienceYears,
+  ]);
 
   return (
     <UiModal
       isOpen={isOpen}
-      onClose={() => {
-        onClose();
-        resetForm();
-      }}
+      onClose={onClose}
       width="md:w-[60%] lg:w-[40%]"
       classNameContent="h-[95%] overflow-y-scroll"
     >
-      <UiModal.Header
-        onClose={() => {
-          onClose();
-          resetForm();
-        }}
-        className="mb-4"
-      >
+      <UiModal.Header onClose={onClose} className="mb-4">
         Редактировать
       </UiModal.Header>
 
@@ -71,28 +86,31 @@ export const EditUserModal = ({ isOpen, onClose, user, onUpdate }: Props) => {
         autoComplete="new-password"
         onSubmit={(e) => {
           handleSubmit(e, () => {
-            if (isPasswordValid) {
-              return;
-            }
+            if (isPasswordValid) return;
 
-            onUpdate({
+            onUpdateUser({
               id: user.userId,
               updates: {
                 email: formData.email,
                 name: formData.name,
                 surname: formData.surname,
                 username: formData.username,
-                password: formData.password,
+                ...(formData.password && { password: formData.password }),
                 roleId:
                   formData.roleId !== null ? formData.roleId : user.roleId,
               },
             });
 
+            if (formData.roleId === 1) {
+              onUpdateDriver(Number(experienceYears));
+            }
+
+            resetForm();
             onClose();
           });
         }}
       >
-        <UiModal.Main className="flex flex-col gap-4 md:gap-5">
+        <UiModal.Main className="flex flex-col gap-4 md:gap-5 mb-5">
           <UiInput
             idInput="surname"
             label="Фамилия"
@@ -167,7 +185,7 @@ export const EditUserModal = ({ isOpen, onClose, user, onUpdate }: Props) => {
               Роль
             </span>
 
-            <div className="flex mb-5">
+            <div className="flex">
               <div className="flex gap-2.5 items-center mr-5">
                 <UiCheckBox
                   idInput="input-driver"
@@ -201,6 +219,24 @@ export const EditUserModal = ({ isOpen, onClose, user, onUpdate }: Props) => {
               </div>
             </div>
           </div>
+
+          {formData.roleId === 1 && (
+            <UiInput
+              id="weightFormOrder"
+              borderColor="lightGrey"
+              type="number"
+              label="Стаж"
+              min={0}
+              max={100}
+              value={experienceYears}
+              onChange={(e) => {
+                const v = e.target.value;
+                handleUpdateExperienceYears(
+                  v === "0" ? v : v.replace(/^0+/, ""),
+                );
+              }}
+            />
+          )}
         </UiModal.Main>
 
         <UiModal.Footer>

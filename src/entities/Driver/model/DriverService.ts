@@ -27,6 +27,13 @@ export class DriverService {
     return DriverModel.mapDtoToDriver(data[0]);
   }
 
+  public async createDriver(formData: {
+    userId: number;
+    experienceYears: number;
+  }) {
+    await this.repository.createDriver({ payload: formData });
+  }
+
   public async uploadDriverPhoto(driverId: number, formData: FormData) {
     await this.repository.uploadPhoto(driverId, { payload: formData });
   }
@@ -58,21 +65,8 @@ export class DriverService {
       const userExperience = Number(driver.experienceYears);
       const userCapacity = car ? Number(car.weight) : 0;
 
-      const {
-        search,
-        experienceFrom,
-        experienceBefore,
-        capacityFrom,
-        capacityBefore,
-      } = filters;
-
-      const matchUser =
-        (user.name &&
-          `${user.name} ${user.surname}`
-            .toLowerCase()
-            .includes(search.toLowerCase())) ||
-        (car?.numberCar &&
-          car.numberCar.toLowerCase().includes(search.toLowerCase()));
+      const { experienceFrom, experienceBefore, capacityFrom, capacityBefore } =
+        filters;
 
       const matchesExperience =
         (experienceFrom ? userExperience >= Number(experienceFrom) : true) &&
@@ -82,7 +76,7 @@ export class DriverService {
         (capacityFrom ? userCapacity >= Number(capacityFrom) : true) &&
         (capacityBefore ? userCapacity <= Number(capacityBefore) : true);
 
-      return matchUser && matchesExperience && matchCapacity;
+      return matchesExperience && matchCapacity;
     });
   }
 

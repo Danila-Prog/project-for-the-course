@@ -57,42 +57,44 @@ export function Header() {
         />
       )}
 
-      {NavigationTab && (
-        <NavigationTab
-          isShow={isShowBurgerMenu}
-          onClose={() => setIsShowBurgerMenu(false)}
-          buttonLogOut={
+      <div className="flex items-center">
+        {NavigationTab && (
+          <NavigationTab
+            isShow={isShowBurgerMenu}
+            onClose={() => setIsShowBurgerMenu(false)}
+            buttonLogOut={
+              <UiButton
+                textButton="Выйти"
+                sizesText="text-xs md:text-base min-[1750px]:text-xl"
+                onClick={handleExit}
+                className="w-full max-w-[200px] py-1.5 bg-primary-gray text-white mt-6"
+              />
+            }
+          />
+        )}
+
+        <button onClick={() => setIsShowBurgerMenu(true)} className="lg:hidden">
+          <RxHamburgerMenu />
+        </button>
+
+        {!!user ? (
+          <div className="hidden lg:flex gap-2.5 items-center">
             <UiButton
               textButton="Выйти"
-              sizesText="text-xs md:text-base min-[1750px]:text-xl"
+              sizesText="text-xs md:text-sm xl:text-base min-[1750px]:text-xl"
               onClick={handleExit}
-              className="w-full max-w-[200px] py-1.5 bg-primary-gray text-white mt-6"
+              className="px-4 md:px-5 py-1.5 min-[1750px]:px-7 min-[1750px]:py-2 ml-2 xl:ml-8 bg-primary-gray text-white"
             />
-          }
-        />
-      )}
-
-      <button onClick={() => setIsShowBurgerMenu(true)} className="lg:hidden">
-        <RxHamburgerMenu />
-      </button>
-
-      {!!user ? (
-        <div className="hidden lg:flex gap-2.5 items-center">
-          <UiButton
-            textButton="Выйти"
-            sizesText="text-xs md:text-sm xl:text-base min-[1750px]:text-xl"
-            onClick={handleExit}
-            className="px-4 md:px-5 py-1.5 min-[1750px]:px-7 min-[1750px]:py-2 ml-2 xl:ml-8 bg-primary-gray text-white"
-          />
-        </div>
-      ) : (
-        <Link
-          href="/auth"
-          className="px-4 md:px-5 py-1.5 min-[1750px]:px-7 min-[1750px]:py-2 text-xs md:text-base min-[1750px]:text-xl flex justify-center items-center font-medium bg-accent-green transition text-white rounded-lg md:rounded-xl hover:scale-105"
-        >
-          Войти
-        </Link>
-      )}
+          </div>
+        ) : (
+          <Link
+            href="/auth"
+            className="px-4 md:px-5 py-1.5 min-[1750px]:px-7 min-[1750px]:py-2 text-xs md:text-base min-[1750px]:text-xl flex justify-center items-center font-medium bg-accent-green transition text-white rounded-lg md:rounded-xl hover:scale-105"
+          >
+            Войти
+          </Link>
+        )}
+      </div>
     </header>
   );
 }

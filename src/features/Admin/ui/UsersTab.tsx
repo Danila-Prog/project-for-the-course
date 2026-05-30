@@ -3,7 +3,6 @@ import { useAuth } from "@/shared/lib";
 import { DeleteModalWrapper, List, Menu } from "@/shared";
 import { useUserTab } from "../model";
 import { EditUserModal } from "./EditUserModal";
-import { User } from "@/entities";
 import { LuPencil, LuTrash } from "react-icons/lu";
 import { useSearchParams } from "next/navigation";
 import { UserCard } from "./UserCard";
@@ -12,8 +11,6 @@ export const UsersTab = () => {
   const searchParams = useSearchParams();
 
   const [search, setSearch] = useState(() => searchParams.get("search") ?? "");
-
-  const [findUser, setFindUser] = useState<User | null>(null);
 
   const [isOpenEdit, setIsOpenEdit] = useState(false);
 
@@ -26,6 +23,8 @@ export const UsersTab = () => {
   }, [searchParams]);
 
   const {
+    findUser,
+    setFindUser,
     deleteUser,
     filteredUsers,
     closeDeleteModal,
@@ -33,6 +32,8 @@ export const UsersTab = () => {
     isOpenDeleteModal,
     findUserById,
     updateUser,
+    updateDriver,
+    currentExperienceYears,
   } = useUserTab(search, user?.userId);
 
   return (
@@ -75,7 +76,9 @@ export const UsersTab = () => {
           isOpen={isOpenEdit}
           onClose={() => setIsOpenEdit(false)}
           user={findUser}
-          onUpdate={updateUser}
+          onUpdateUser={updateUser}
+          onUpdateDriver={updateDriver}
+          currentExperienceYears={currentExperienceYears}
         />
       )}
 

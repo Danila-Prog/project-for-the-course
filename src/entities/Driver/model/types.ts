@@ -20,12 +20,19 @@ export interface Driver {
 export type UpdatesDriver = Partial<{
   status_driver_id: number | null;
   car_id: number | null;
+  experience_years: number | null;
 }>;
 
 export type DriversRepository = {
   getDrivers: () => ApiResponse<DriverDto[]>;
   getDriverById: (driverId: number) => ApiResponse<DriverDto[]>;
   getDriverByUserId: (userId: number) => ApiResponse<DriverDto[]>;
+  createDriver: ({
+    payload,
+  }: RequestConfig<{
+    userId: number;
+    experienceYears: number;
+  }>) => ApiResponse<DriverDto>;
   updateDriver: ({
     payload,
   }: RequestConfig<{

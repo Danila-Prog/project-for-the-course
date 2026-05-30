@@ -81,7 +81,7 @@ export class RoutesController {
 
   async deleteRoutes(req, res) {
     const routeId = req.params.id;
-    console.log(routeId);
+
     const deleteRoutes = await db.query(
       "DELETE FROM public.routes WHERE route_id = $1",
       [routeId],
@@ -113,5 +113,3 @@ export class RoutesController {
     }
   }
 }
-
-// module.exports = new RoutesController();

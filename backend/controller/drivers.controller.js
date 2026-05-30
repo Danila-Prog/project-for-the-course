@@ -1,6 +1,8 @@
 import { db } from "../db.js";
 
 export class DriverController {
+  static #DEFAULT_STATUS_DRIVER_ID = 1;
+
   async getDrivers(req, res) {
     const drivers = await db.query("SELECT * FROM public.drivers");
 
@@ -25,10 +27,44 @@ export class DriverController {
     res.json(driver.rows);
   }
 
+  async createDriver(req, res) {
+    try {
+      const { userId, experienceYears } = req.body;
+
+      if (!userId || !Number.isFinite(experienceYears) || experienceYears < 0) {
+        return res
+          .status(400)
+          .json({ error: "Invalid userId or experienceYears" });
+      }
+
+      const { rows } = await db.query(
+        `INSERT INTO public.drivers 
+             (user_id, experience_years, car_id, status_driver_id, photo_url) 
+             VALUES ($1, $2, $3, $4, $5) 
+             RETURNING *`,
+        [
+          userId,
+          experienceYears,
+          null,
+          DriverController.#DEFAULT_STATUS_DRIVER_ID,
+          null,
+        ],
+      );
+
+      return res.status(201).json(rows[0]);
+    } catch (error) {
+      if (error.code === "23503") {
+        return res.status(409).json({ error: "User not found" });
+      }
+      console.error("createDriver error:", error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
   async updateDriver(req, res) {
     const { driver_id, updates } = req.body;
 
-    const allowedFields = ["status_driver_id", "car_id"];
+    const allowedFields = ["status_driver_id", "car_id", "experience_years"];
 
     const keys = Object.keys(updates).filter(
       (key) => allowedFields.includes(key) && updates[key] !== undefined,

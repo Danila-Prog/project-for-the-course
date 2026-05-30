@@ -2,7 +2,7 @@ import { UiModal, UploadPhoto } from "@/shared";
 import { useDI } from "@/shared/lib";
 import { useMutation } from "@/shared/api/useMutation";
 
-export default function DriverPersonFormEditing({
+export const DriverPersonFormEditing = ({
   isOpen,
   onClose,
   driverId,
@@ -12,7 +12,7 @@ export default function DriverPersonFormEditing({
   onClose: () => void;
   driverId: number;
   toggleIsEditPhoto: () => void;
-}) {
+}) => {
   const { driverService } = useDI();
 
   const { mutate } = useMutation(
@@ -48,4 +48,4 @@ export default function DriverPersonFormEditing({
       </UiModal.Main>
     </UiModal>
   );
-}
+};

@@ -1,5 +1,4 @@
-import { DriverPersonAccount } from "@/features/Driver/ui/DriverPersonAccount";
-import { DriverRoutes } from "@/features/Driver/ui/DriverRoutes";
+import { DriverPersonAccount, DriverRoutes } from "@/features/Driver";
 import { useAsync } from "@/shared/api/useAsync";
 import { useAuth, useDI } from "@/shared/lib";
 

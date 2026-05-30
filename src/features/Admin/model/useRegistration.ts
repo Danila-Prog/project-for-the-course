@@ -23,6 +23,7 @@ const ROLE_TO_ID: Record<Role, number> = {
 export const useRegistration = () => {
   const [formData, setFormData] =
     useState<RegistrationFormData>(initialFormState);
+  const [experienceYears, setExperienceYears] = useState("");
 
   const [isError, setIsError] = useState(false);
   const [isErrorPassword, setIsErrorPassword] = useState(false);
@@ -30,19 +31,20 @@ export const useRegistration = () => {
   const handleSubmit = (e: FormEvent, submit: () => void) => {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmationPassword) {
-      setIsError(true);
-      return;
-    }
+    if (formData.password || formData.confirmationPassword) {
+      if (formData.password !== formData.confirmationPassword) {
+        setIsError(true);
+        return;
+      }
 
-    if (!validatePassword(formData.password)) {
-      setIsErrorPassword(true);
-      return;
+      if (!validatePassword(formData.password)) {
+        setIsErrorPassword(true);
+        return;
+      }
     }
 
     try {
       submit();
-      setFormData(initialFormState);
     } catch (error) {
       console.error("Registration error:", error);
     }
@@ -51,7 +53,7 @@ export const useRegistration = () => {
   const handleRoleChange = (role: Role) => {
     setFormData((prev) => ({
       ...prev,
-      roleId: prev.roleId === ROLE_TO_ID[role] ? null : ROLE_TO_ID[role],
+      roleId: prev.roleId === ROLE_TO_ID[role] ? prev.roleId : ROLE_TO_ID[role],
     }));
   };
 
@@ -65,13 +67,20 @@ export const useRegistration = () => {
     }
   });
 
-  const resetForm = () => {
-    setFormData(initialFormState);
+  const handleUpdateExperienceYears = (years: string) => {
+    setExperienceYears(years);
   };
+
+  function resetForm() {
+    setFormData(initialFormState);
+    if (formData.roleId === ROLE_TO_ID["driver"]) setExperienceYears("");
+  }
 
   return {
     formData,
+    experienceYears,
     handleUpdateForm,
+    handleUpdateExperienceYears,
     handleRoleChange,
     isError,
     isErrorPassword,

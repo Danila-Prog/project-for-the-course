@@ -32,6 +32,7 @@ export default function RootLayout({
         <AuthCtxProvider user={user}>
           <YandexMapsProvider>{children}</YandexMapsProvider>
         </AuthCtxProvider>
+        
         <div id="modals"></div>
       </body>
     </html>

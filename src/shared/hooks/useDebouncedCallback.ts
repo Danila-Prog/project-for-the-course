@@ -1,5 +1,7 @@
+"use client";
 import { useEffect, useRef, useCallback } from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const useDebouncedCallback = <T extends (...args: any[]) => any>(
   callback: T,
   delay: number,

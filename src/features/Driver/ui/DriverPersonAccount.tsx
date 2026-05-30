@@ -4,7 +4,7 @@ import { useState } from "react";
 import { declensionWord, useDI } from "@/shared/lib";
 import Image from "next/image";
 import { UiButton } from "@/shared";
-import DriverPersonFormEditing from "./DriverPersonFormEditing";
+import { DriverPersonFormEditing } from "./DriverPersonFormEditing";
 import avatar_users from "/public/icons/avatar_users.webp";
 import { useAsync } from "@/shared/api/useAsync";
 

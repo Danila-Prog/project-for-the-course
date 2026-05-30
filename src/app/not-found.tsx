@@ -2,6 +2,8 @@ import Image from "next/image";
 import not_found from "/public/icons/404.png";
 import Link from "next/link";
 
+export const dynamic = "force-static";
+
 export default function NotFound() {
   return (
     <div className="w-[95%] md:w-full max-w-[700px] xl:max-w-[1000px] min-[1700px]:max-w-[1500px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

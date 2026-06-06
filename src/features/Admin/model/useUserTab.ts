@@ -39,9 +39,8 @@ export const useUserTab = (searchInput?: string, currentUserId?: number) => {
       findUser?.userId
         ? driverService.getDriverByUserId(findUser.userId)
         : Promise.resolve(undefined),
-    [findUser?.userId],
+    [findUser?.userId, isSuccessUpdateUser],
   );
-
   const { mutate: updateDriver } = useMutation((experienceYears: number) =>
     driverService.updateDriver(
       dataDriver?.driverId ?? 0,

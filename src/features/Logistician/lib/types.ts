@@ -4,8 +4,7 @@ export interface Filters {
   capacityFrom: string;
   capacityBefore: string;
   typeCar: string;
-  sortBy: string;
-  sortOrder: "asc" | "desc";
+  search: string;
 }
 
 export type CurrentTabLogistician =

@@ -228,6 +228,7 @@ export const EditUserModal = ({
               label="Стаж"
               min={0}
               max={100}
+              step={0.1}
               value={experienceYears}
               onChange={(e) => {
                 const v = e.target.value;

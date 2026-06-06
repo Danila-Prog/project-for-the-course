@@ -69,7 +69,7 @@ export const CardActiveDrivers = ({
                   className="text-primary-gray flex flex-shrink-0"
                   size={22}
                 />
-                
+
                 <span className="font-medium text-sm">
                   {route?.startPoint}{" "}
                   <span className="text-sm text-primary-gray">
@@ -98,7 +98,7 @@ export const CardActiveDrivers = ({
 
               <span className="font-medium text-sm">
                 Груз: {route.weight}{" "}
-                {declensionWord(Number(car?.weight), [
+                {declensionWord(Number(route.weight), [
                   "тонна",
                   "тонны",
                   "тонн",
@@ -112,11 +112,17 @@ export const CardActiveDrivers = ({
                 className="text-primary-gray flex flex-shrink-0"
               />
 
-              <div className="flex flex-wrap">
-                <span className="block font-medium text-sm mr-1.5">
-                  {car.name}
-                </span>
+              <div className="flex flex-wrap gap-1.5">
+                <span className="block font-medium text-sm">{car.name}</span>
                 <span className="font-medium text-sm">{car?.numberCar}</span>
+                <span className="font-medium text-sm">
+                  {car?.weight}{" "}
+                  {declensionWord(Number(car?.weight), [
+                    "тонна",
+                    "тонны",
+                    "тонн",
+                  ])}
+                </span>
               </div>
             </section>
           </section>

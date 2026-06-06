@@ -54,7 +54,7 @@ export default function UiInput({
           {label && (
             <label
               htmlFor={idInput}
-              className="absolute left-0 top-1/2 -translate-y-1/2 text-primary-gray text-[0.65rem] sm:text-xs min-[1750px]:text-base transition-all duration-300 pointer-events-none peer-focus-within:top-0 peer-focus-within:-left-1 peer-focus-within:-translate-y-full peer-[&:not(:placeholder-shown)]:top-0 peer-[&:not(:placeholder-shown)]:-translate-y-full peer-focus-within:bg-white peer-focus-within:px-1 peer-focus-within:rounded-md peer-[&:not(:placeholder-shown)]:bg-white peer-[&:not(:placeholder-shown)]:px-1 peer-[&:not(:placeholder-shown)]:rounded-md peer-[&:not(:placeholder-shown)]:-left-1"
+              className="absolute left-0 top-1/2 -translate-y-1/2 text-primary-gray text-[0.65rem] sm:text-xs min-[1750px]:text-base transition-all duration-300 pointer-events-none peer-focus-within:top-0 peer-focus-within:-left-1 peer-focus-within:-translate-y-full peer-[&:not(:placeholder-shown)]:top-0 peer-[&:not(:placeholder-shown)]:-translate-y-full peer-focus-within:bg-white peer-focus-within:px-1 peer-focus-within:rounded-md peer-[&:not(:placeholder-shown)]:bg-white peer-[&:not(:placeholder-shown)]:px-1 peer-[&:not(:placeholder-shown)]:rounded-md peer-[&:not(:placeholder-shown)]:-left-1 peer-focus-within:[&:not(:placeholder-shown)]:top-0 peer-[:-webkit-autofill]:top-0 peer-[:-webkit-autofill]:-translate-y-full peer-[:-webkit-autofill]:-left-1 peer-[:-webkit-autofill]:bg-white peer-[:-webkit-autofill]:px-1 peer-[:-webkit-autofill]:rounded-md"
             >
               {label}
             </label>

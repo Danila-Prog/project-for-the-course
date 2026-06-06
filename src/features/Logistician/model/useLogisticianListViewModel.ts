@@ -63,7 +63,9 @@ export const useLogisticianListViewModel = (
       .map((driver) => {
         const user = users?.find((u) => u.userId === driver.userId);
         const car = cars?.find((v) => v.carId === driver.carId);
-        const route = routes?.find((r) => r.driverId === driver.driverId);
+        const route = routes?.find(
+          (r) => r.driverId === driver.driverId && r.idStatusRoute !== 2,
+        );
 
         if (!user || !driver || !car || !route) return;
 

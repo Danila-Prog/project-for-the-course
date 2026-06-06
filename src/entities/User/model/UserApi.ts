@@ -24,7 +24,7 @@ export class UserApi implements UserRepository {
 
   updateUser(
     id: number,
-    { payload }: RequestConfig<{ updates: Omit<User, "userId"> }>,
+    { payload }: RequestConfig<{ updates: Omit<User, "userId" | "password"> }>,
   ): ApiResponse<UserDTO> {
     return httpClient.patch<UserDTO>(`${this.ENDPOINT}/${id}`, payload);
   }

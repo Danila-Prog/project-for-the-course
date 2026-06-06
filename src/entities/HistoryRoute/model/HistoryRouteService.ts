@@ -104,18 +104,26 @@ export class HistoryRoutesService {
     return historyRoutes.filter((item) => {
       const driver = item.driver;
       const car = item.car;
+      const user = item.user;
 
       const userExperience = Number(driver.experienceYears);
       const userCapacity = car ? Number(car.weight) : 0;
-      const onlyTypeCar = car.carType?.split(" ")[0] || "";
 
       const {
         experienceFrom,
         experienceBefore,
         capacityFrom,
         capacityBefore,
-        typeCar,
+        search,
       } = filters;
+
+      const matchUser =
+        (user.name &&
+          `${user.name} ${user.surname}`
+            .toLowerCase()
+            .includes(search.toLowerCase())) ||
+        (car?.numberCar &&
+          car.numberCar.toLowerCase().includes(search.toLowerCase()));
 
       const matchesExperience =
         (experienceFrom ? userExperience >= Number(experienceFrom) : true) &&
@@ -125,12 +133,7 @@ export class HistoryRoutesService {
         (capacityFrom ? userCapacity >= Number(capacityFrom) : true) &&
         (capacityBefore ? userCapacity <= Number(capacityBefore) : true);
 
-      const matchesTypeCar =
-        (typeCar === "passenger" && onlyTypeCar === "Легковой") ||
-        (typeCar === "truck" && onlyTypeCar === "Грузовой") ||
-        !typeCar;
-
-      return matchesExperience && matchesTypeCar && matchCapacity;
+      return matchesExperience && matchCapacity && matchUser;
     });
   }
 }

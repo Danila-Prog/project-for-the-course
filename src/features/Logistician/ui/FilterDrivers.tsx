@@ -21,7 +21,7 @@ export const FilterDrivers = ({
         <>
           <fieldset className="max-w-[400px]">
             <legend className="font-medium text-sm min-[1700px]:text-base mb-3">
-              Грузоподъёмность
+              Грузоподъёмность авто
             </legend>
 
             <div className="flex justify-between gap-2.5">

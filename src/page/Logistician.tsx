@@ -15,16 +15,15 @@ export const FILTERS: Filters = {
   capacityFrom: "",
   capacityBefore: "",
   typeCar: "",
-  sortBy: "",
-  sortOrder: "asc",
+  search: "",
 } as const;
 
 export const Logistician = () => {
   const searchParams = useSearchParams();
 
   const [filters, setFilters] = useState(() => ({
-    search: searchParams.get("search") ?? "",
     ...FILTERS,
+    search: searchParams.get("search") ?? "",
   }));
 
   useEffect(() => {

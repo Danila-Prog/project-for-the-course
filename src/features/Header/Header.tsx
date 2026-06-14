@@ -41,7 +41,7 @@ export function Header() {
   };
 
   const NavigationTab = user ? navigationTabsByRole[roles[user?.roleId]] : null;
-  console.log(searchParams.get("tab"));
+
   return (
     <header
       className={clsx(

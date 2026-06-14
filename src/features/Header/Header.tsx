@@ -73,9 +73,14 @@ export function Header() {
           />
         )}
 
-        <button onClick={() => setIsShowBurgerMenu(true)} className="lg:hidden">
-          <RxHamburgerMenu />
-        </button>
+        {!!user && (
+          <button
+            onClick={() => setIsShowBurgerMenu(true)}
+            className="lg:hidden"
+          >
+            <RxHamburgerMenu />
+          </button>
+        )}
 
         {!!user ? (
           <div className="hidden lg:flex gap-2.5 items-center">

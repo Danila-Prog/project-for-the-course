@@ -7,9 +7,9 @@ export function AuthPage() {
       <Image
         className="hidden lg:block w-full lg:w-[45%] lg:h-screen bg-cover bg-center bg-no-repeat rounded-r-3xl shadow-xl aspect-auto object-cover"
         src="/icons/bg-auth.jpeg"
-        width={200}
-        height={300}
-        alt=""
+        width={800}
+        height={1100}
+        alt="background truck"
       />
 
       <div className="w-full h-screen flex items-center justify-center">

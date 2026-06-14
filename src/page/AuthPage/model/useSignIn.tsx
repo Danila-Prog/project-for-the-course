@@ -10,7 +10,7 @@ export const useSignIn = () => {
   const router = useRouter();
 
   const signIn = async () => {
-    const res = await fetch("http://localhost:8080/api/login", {
+    const res = await fetch(`${process.env.BASE_URL}/api/login`, {
       method: "POST",
       credentials: "include",
       headers: {

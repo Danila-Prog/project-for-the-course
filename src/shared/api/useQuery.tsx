@@ -6,7 +6,7 @@ export function useQuery<T>(url: string) {
   const fetchingData = useCallback(
     async (signal: AbortSignal) => {
       try {
-        const res = await fetch(`http://localhost:8080/${url}`, {
+        const res = await fetch(`${process.env.BASE_URL}/${url}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

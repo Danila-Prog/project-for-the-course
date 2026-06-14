@@ -56,7 +56,7 @@ export class RouteService {
           car_id: updateDriver.selectVehicle,
         }),
 
-        fetch("http://localhost:8080/send-email", {
+        fetch(`${process.env.BASE_URL}/send-email`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

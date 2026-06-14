@@ -41,8 +41,14 @@ export class UserController {
     const { id } = req.params;
     const { updates } = req.body;
 
+    const hashPassword = await bcrypt.hash(
+      updates.password,
+      Number(process.env.SALT_ROUNDS) || 10,
+    );
+
     const modifyUpdates = {
       ...updates,
+      ...(hashPassword && { password: hashPassword }),
       role_id: updates.roleId,
     };
 

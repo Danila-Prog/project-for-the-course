@@ -30,6 +30,7 @@ export class UserService {
   ) {
     await this.repository.updateUser(id, { payload: { updates: updates } });
   }
+
   public async deleteUser(id: number) {
     await this.repository.deleteUser(id);
   }

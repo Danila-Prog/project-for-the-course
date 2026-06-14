@@ -41,7 +41,7 @@ export function Header() {
   };
 
   const NavigationTab = user ? navigationTabsByRole[roles[user?.roleId]] : null;
-
+  console.log(searchParams.get("tab"));
   return (
     <header
       className={clsx(
@@ -73,7 +73,7 @@ export function Header() {
           />
         )}
 
-        {!!user && (
+        {!!user && user.roleId !== 1 && (
           <button
             onClick={() => setIsShowBurgerMenu(true)}
             className="lg:hidden"
@@ -83,7 +83,12 @@ export function Header() {
         )}
 
         {!!user ? (
-          <div className="hidden lg:flex gap-2.5 items-center">
+          <div
+            className={clsx(
+              user.roleId === 1 ? "flex" : "hidden",
+              "lg:flex gap-2.5 items-center",
+            )}
+          >
             <UiButton
               textButton="Выйти"
               sizesText="text-xs md:text-sm xl:text-base min-[1750px]:text-xl"
